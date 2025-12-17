@@ -71,26 +71,24 @@ cd pyproct-python3
 
 ### Compile Cython extensions
 
-# DBSCAN
+### DBSCAN
 ```bash
 python pyproct/clustering/algorithms/dbscan/cython/setup.py build_ext --inplace
 ```
-# Spectral
+### Spectral
 ```bash
 python pyproct/clustering/algorithms/spectral/cython/setup.py build_ext --inplace
 ```
-# pyProCT
-```bash
-pip install -e .
-```
-
 Verify:
 
 ```bash
 python -c "import pyproct.clustering.algorithms.dbscan.cython.cythonDbscanTools"
 python -c "import pyproct.clustering.algorithms.spectral.cython.spectralTools"
 ```
-
+### Install the pyProCT and ProDy dependencies
+```bash
+pip install -e .
+```
 ---
 
 ## 4. Quick start
