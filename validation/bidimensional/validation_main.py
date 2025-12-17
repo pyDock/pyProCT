@@ -30,7 +30,7 @@ if __name__ == '__main__':
     # Run pyProCT for each of them
     base_script = "".join(open("base_script.json","r").readlines())
     for dataset_name in ['concentric_circles']: #data.all_datasets: #["spaeth_06"]:#
-        print dataset_name
+        print(dataset_name)
         # Change placeholders
         script_str = base_script%(os.path.abspath("./tmp/%s"%dataset_name),"./matrices/%s"%dataset_name)
         parameters = ProtocolParameters.get_params_from_json(script_str)
@@ -39,7 +39,7 @@ if __name__ == '__main__':
         parameters["clustering"]["evaluation"]["minimum_cluster_size"] = data.minsize[dataset_name]
         parameters["clustering"]["evaluation"]["minimum_clusters"] = data.num_cluster_ranges[dataset_name][0]
         parameters["clustering"]["evaluation"]["maximum_clusters"] = data.num_cluster_ranges[dataset_name][1]
-        print parameters["clustering"]["evaluation"]["minimum_clusters"], parameters["clustering"]["evaluation"]["maximum_clusters"]
+        print(parameters["clustering"]["evaluation"]["minimum_clusters"], parameters["clustering"]["evaluation"]["maximum_clusters"])
         if dataset_name in data.criteria:
             parameters["clustering"]["evaluation"]["evaluation_criteria"] = data.criteria[dataset_name]
         else:
@@ -56,11 +56,11 @@ if __name__ == '__main__':
                                         scale = 20,
                                         margin = 20).save("clustering_images/%s.jpg"%dataset_name,
                                                  "JPEG")
-        print dataset_name,results["selected"][best]["type"],results["selected"][best]["clustering"]["number_of_clusters"], results["selected"][best]["evaluation"]["Noise level"],#results["selected"][best]["parameters"]
+        print(dataset_name,results["selected"][best]["type"],results["selected"][best]["clustering"]["number_of_clusters"], results["selected"][best]["evaluation"]["Noise level"], end=' ')#results["selected"][best]["parameters"]
         # look for the best criteria
         criteria_scores = []
         for criteria in results["scores"]:
             criteria_scores.append((results["scores"][criteria][best],criteria))
-        print criteria_scores
+        print(criteria_scores)
 
-    print "\nDone"
+    print("\nDone")

@@ -4,7 +4,7 @@ Created on 12/12/2012
 @author: victor
 """
 import unittest
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 import numpy
 from pyproct.postprocess.actions.kullbackLiebler import KullbackLeiblerDivergence,\
     smoothed

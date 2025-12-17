@@ -5,7 +5,7 @@ Created on 03/03/2014
 '''
 import unittest
 import numpy
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 import scipy.spatial.distance
 from pyproct.postprocess.actions.confSpaceComparison.tools import calculate_mean_center_differences,\
     calculate_distance_stats, getAllElements, mergeSeparatedClusters
@@ -47,7 +47,7 @@ class TestCompTools(unittest.TestCase):
         self.assertItemsEqual((expected_mean,expected_std,expected_radius),(calc_mean, calc_std, calc_radius))
 
     def test_getAllElements(self):
-        numpy.testing.assert_array_equal( sorted(getAllElements(self.decomposed_cluster)), range(15))
+        numpy.testing.assert_array_equal( sorted(getAllElements(self.decomposed_cluster)), list(range(15)))
 
     def test_mergeSeparatedClusters(self):
         separated_decomposed_clusters = {

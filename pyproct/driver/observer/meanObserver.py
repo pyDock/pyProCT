@@ -9,4 +9,4 @@ class MeanObserver(object):
         pass
     
     def notify(self, actor, action, message):
-        print "I was notified of something by %s, but I'm not going to do anything about it."%actor
+        print("I was notified of something by %s, but I'm not going to do anything about it."%actor)

@@ -232,7 +232,7 @@ class KullbackLeiblerDivergence(object):
             try:
                 kl += dist1[i] * math.log(dist1[i]/dist2[i],2)
             except ArithmeticError:
-                print "dist1[i]", dist1[i],"dist2[i]", dist2[i]
+                print("dist1[i]", dist1[i],"dist2[i]", dist2[i])
         return kl
      
     def get_calculated_KL_values(self):

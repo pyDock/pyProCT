@@ -11,18 +11,56 @@ from pyproct.clustering.algorithms.kmedoids.kMedoidsAlgorithm import KMedoidsAlg
 from pyproct.clustering.algorithms.random.RandomAlgorithm import RandomClusteringAlgorithm
 from pyproct.clustering.algorithms.hierarchical.hierarchicalAlgorithm import HierarchicalClusteringAlgorithm
 
+#def run_algorithm(algorithm, algorithm_kwargs, clustering_id):
+#    """
+#    This function launches an execution of one clustering algorithm with its parameters. Used mainly to be
+#    scheduled.
+#
+#    @param algorithm: Instance of a clustering algorithm.
+#
+#    @param algorithm_kwargs: The parameters needed by the algorithm above to run.
+#
+#    @param clustering_id: An id used to define the resulting clustering.
+#    """
+#    clustering = algorithm.perform_clustering(algorithm_kwargs)
+#    if clustering is None:
+#        print("[DEBUG][DBSCAN] clustering is None")
+#    else:
+#        print("[DEBUG][DBSCAN] clustering returned:",
+#              "clusters =", len(clustering.clusters))
+#        #      "noise =", len(clustering.noise))
+#    return (clustering_id, clustering)
+
 def run_algorithm(algorithm, algorithm_kwargs, clustering_id):
-    """
-    This function launches an execution of one clustering algorithm with its parameters. Used mainly to be
-    scheduled.
-
-    @param algorithm: Instance of a clustering algorithm.
-
-    @param algorithm_kwargs: The parameters needed by the algorithm above to run.
-
-    @param clustering_id: An id used to define the resulting clustering.
-    """
     clustering = algorithm.perform_clustering(algorithm_kwargs)
+
+    # DEBUG robusto: no asume atributos
+    if clustering is None:
+        print(f"[DEBUG][{clustering_id}] perform_clustering -> None")
+        return (clustering_id, None)
+
+    # clusters puede ser lista o dict
+    clusters_obj = getattr(clustering, "clusters", None)
+    if isinstance(clusters_obj, dict):
+        nclusters = len(clusters_obj)
+    elif isinstance(clusters_obj, list):
+        nclusters = len(clusters_obj)
+    else:
+        nclusters = None
+
+    # ruido: a veces se llama noise, outliers, unclustered...
+    noise_obj = None
+    for attr in ("noise", "outliers", "unclustered", "noise_elements"):
+        if hasattr(clustering, attr):
+            noise_obj = getattr(clustering, attr)
+            break
+    nnoise = len(noise_obj) if noise_obj is not None and hasattr(noise_obj, "__len__") else None
+
+#    print(f"[DEBUG][{clustering_id}] clusters={nclusters} noise={nnoise} type={type(clustering).__name__}")
+    print(f"[DEBUG][{clustering_id}] clusters={len(clustering.clusters)} "
+          f"clustered={sum(len(c.all_elements) for c in clustering.clusters)} "
+          f"type={type(clustering).__name__}")
+
     return (clustering_id, clustering)
 
 class ClusteringExplorer(Observable):
@@ -79,12 +117,12 @@ class ClusteringExplorer(Observable):
         @return: A dictionary 'clustering_info' structures indexed by clustering ID. Each of these structures
         contains one generated clustering as well as the algorithm type and parameters used to get it.
         """
-        used_algorithms = self.clustering_parameters["algorithms"].keys()
+        used_algorithms = list(self.clustering_parameters["algorithms"].keys())
 
         # Generate all clustering + info structures
         clusterings_info = {}
         for algorithm_type in used_algorithms:
-            clusterings_info = dict(clusterings_info.items() + self.schedule_algorithm(algorithm_type).items())# append elements to a dict
+            clusterings_info = dict(list(clusterings_info.items()) + list(self.schedule_algorithm(algorithm_type).items()))# append elements to a dict
 
         # Wait until all processes have finished
         clusterings = self.scheduler.run()
@@ -115,7 +153,7 @@ class ClusteringExplorer(Observable):
         auto_parameter_generation = True if not "parameters" in algorithm_data else False
 
         if auto_parameter_generation:
-            print "Generating params for", algorithm_type
+            print("Generating params for", algorithm_type)
             algorithm_run_params, clusterings =  self.parameters_generator.get_parameters_for_type(algorithm_type)
         else:
             # A list with all the parameters for diverse runs
@@ -191,6 +229,6 @@ class ClusteringExplorer(Observable):
         if algorithm_type in ["spectral","dbscan","gromos","kmedoids","random","hierarchical"] :
             return ClusteringExplorer.get_clustering_algorithm_class()[algorithm_type](distance_matrix, **algorithm_execution_parameters)
         else:
-            print "[ERROR][ClusteringExplorer::build_algorithms] Not known algorithm type ( %s )"%(algorithm_type)
+            print("[ERROR][ClusteringExplorer::build_algorithms] Not known algorithm type ( %s )"%(algorithm_type))
             self.notify("SHUTDOWN", "Not known algorithm type ( %s )"%(algorithm_type))
             exit()

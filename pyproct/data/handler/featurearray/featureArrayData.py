@@ -10,8 +10,8 @@ class FeatureArrayData(Data):
 
     def __init__(self, data):
         self.data = data
-        self.labels = data.keys()
-        self.num_elements = len(self.data[self.data.keys()[0]])
+        self.labels = list(data.keys())
+        self.num_elements = len(self.data[list(self.data.keys())[0]])
         
     def get_number_of_elements(self):
         """

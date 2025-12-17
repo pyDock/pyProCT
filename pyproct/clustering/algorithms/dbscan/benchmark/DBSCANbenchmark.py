@@ -1,19 +1,19 @@
 import time
 import numpy.random
 import numpy
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.algorithms.dbscan.cython.cythonDbscanTools import k_dist
 from pyproct.algorithms.dbscan.dbscanAlgorithm import DBSCANAlgorithm
 
 
 if __name__ == "__main__":
-    print "Creating data..."
+    print("Creating data...")
     t0 = time.time()
     row_size = 5000
     matrix_elem_size = row_size*(row_size-1)/2
     contents = numpy.random.sample(matrix_elem_size)
     matrix = CondensedMatrix(contents)
-    print "It took",time.time() - t0, "seconds to create the matrix."
+    print("It took",time.time() - t0, "seconds to create the matrix.")
 
     # times = []
     # buffer = numpy.empty(matrix.row_length)
@@ -48,7 +48,7 @@ if __name__ == "__main__":
         dbscan_alg.perform_clustering(kwargs = {"eps":0.4, "minpts":10})
         times.append(time.time() - t0)
     times = numpy.array(times)
-    print "It took %.3f (%.3f) seconds to calculate dbscan."%(times.mean(),times.std())
+    print("It took %.3f (%.3f) seconds to calculate dbscan."%(times.mean(),times.std()))
 
     # workstation@bsc
     # 12.376 (0.042) -> base

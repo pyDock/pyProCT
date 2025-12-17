@@ -19,7 +19,7 @@ def get_frame_numbers(args):
     for c in cluster_frames_str:
         cluster_frames.append(int(c))
     cluster_frames = numpy.array(cluster_frames)
-    print "Using frames ",cluster_frames
+    print("Using frames ",cluster_frames)
     return cluster_frames
 
 def preprocess_pdb(args):
@@ -32,11 +32,11 @@ def preprocess_pdb(args):
     input_coordsets = numpy.array(pdb.getCoordsets()[cluster_frames])
 
     # Empty pdb
-    pdb.delCoordset(range(pdb.numCoordsets()))
+    pdb.delCoordset(list(range(pdb.numCoordsets())))
 
     # Build another pdb to store it
     input_pdb = prody.parsePDB(pdb_file)
-    input_pdb.delCoordset(range(input_pdb.numCoordsets()))
+    input_pdb.delCoordset(list(range(input_pdb.numCoordsets())))
     # And add the chosen coordsets
     for i in range(len(cluster_frames)):
         input_pdb.addCoordset(input_coordsets[i])

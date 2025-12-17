@@ -57,7 +57,7 @@ def conformational_space_overlap(clustering, trajectoryHandler,  matrixHandler):
     decomposed_clusters = Separator.decompose(clustering.clusters, traj_ranges)
     
     # Get population percents for each cluster
-    all_traj_ids = total_populations.keys()
+    all_traj_ids = list(total_populations.keys())
     relative_populations = []
     for cluster_id in decomposed_clusters:
         dc = decomposed_clusters[cluster_id]

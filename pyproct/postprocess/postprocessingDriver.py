@@ -26,7 +26,7 @@ class PostprocessingDriver(object):
                                               workspace_handler, 
                                               matrix_handler, 
                                               generated_files)
-                except Exception, e:
-                    print "[ERROR][Driver::postprocess] Impossible to perform '%s' postprocessing action."%(postprocessing_action_class.KEYWORD)
-                    print "Message: %s"%str(e)
+                except Exception as e:
+                    print("[ERROR][Driver::postprocess] Impossible to perform '%s' postprocessing action."%(postprocessing_action_class.KEYWORD))
+                    print("Message: %s"%str(e))
                     traceback.print_exc() 

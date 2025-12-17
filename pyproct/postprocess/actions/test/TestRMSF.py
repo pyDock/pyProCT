@@ -10,7 +10,7 @@ import numpy
 from pyproct.clustering.cluster import Cluster
 from pyproct.tools.test.data.amber_short_ca import amber_short_ca_contents,\
     amber_short_ca_2
-import cStringIO
+import io
 from pyproct.postprocess.actions.rmsf import superpose_and_calc_rmsf
 
 class TestRMSF(unittest.TestCase):

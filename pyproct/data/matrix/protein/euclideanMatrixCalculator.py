@@ -3,7 +3,7 @@ Created on 13/02/2013
 
 @author: victor
 """
-from pyRMSD.condensedMatrix import CondensedMatrix
+#from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.data.matrix.protein.cases.euclidean.dihedralsCase import DihedralEuclideanDistanceBuilder
 from pyproct.data.matrix.protein.cases.euclidean.cartesiansCase import euclideanDistanceBuilder
 
@@ -30,11 +30,11 @@ class EuclideanMatrixCalculator(object):
         builder = None
         
         if coords_type == "COORDINATES":
-            print "using coords"
+            print("using coords")
             builder = euclideanDistanceBuilder
             
         elif coords_type == "DIHEDRALS":
-            print "using dihedrals"
+            print("using dihedrals")
             builder = DihedralEuclideanDistanceBuilder
 
         coordinates = builder.build(data_handler,  matrix_parameters)

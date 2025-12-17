@@ -39,6 +39,15 @@ class MPIDriver(Driver):
                                                                             self.workspaceHandler,
                                                                             Driver.timer,
                                                                             self.generatedFiles)
+                # === DEBUG: distance matrix stats ===
+                dm = self.matrix_handler.distance_matrix
+                import numpy as np
+                data = dm.get_data()
+                print("[DEBUG][DM] min =", np.min(data),
+                "median =", np.median(data),
+                "p95 =", np.percentile(data, 95),
+                "max =", np.max(data))
+
                 self.comm.Barrier()
                 
                 if "clustering" in parameters:
@@ -51,10 +60,10 @@ class MPIDriver(Driver):
                         self.show_summary(parameters, clustering_results)
                         return self.get_best_clustering(clustering_results)
                 else:
-                    print "[Warning MPIDriver::run] 'clustering' object was not defined in the control script. pyProCT will now stop."
+                    print("[Warning MPIDriver::run] 'clustering' object was not defined in the control script. pyProCT will now stop.")
                     self.notify("Driver Finished", "\n"+str(Driver.timer))
             else:
-                print "[Warning MPIDriver::run] 'data' object was not defined in the control script. pyProCT will now stop."
+                print("[Warning MPIDriver::run] 'data' object was not defined in the control script. pyProCT will now stop.")
                 self.notify("MPIDriver Finished", "\n"+str(Driver.timer))
 
         if self.rank == 0:

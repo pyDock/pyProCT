@@ -46,7 +46,7 @@ class ParametersGenerator(object):
         run_parameters = []
         max_clusters = self.parameters["clustering"]["evaluation"]["maximum_clusters"]
         min_clusters = self.parameters["clustering"]["evaluation"]["minimum_clusters"]
-        sizes = range(min_clusters,max_clusters+1,self.num_clusters_step)
+        sizes = list(range(min_clusters,max_clusters+1,self.num_clusters_step))
         for one_size in sizes:
             run_parameter = ParametersGenerator.get_base_parameters()
             run_parameter["k"]  = one_size

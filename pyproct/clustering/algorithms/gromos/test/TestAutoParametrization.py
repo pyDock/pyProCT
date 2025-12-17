@@ -4,7 +4,7 @@ Created on 27/05/2013
 @author: victor
 """
 import unittest
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 
 class MatrixHandlerMock:
     def __init__(self, matrix):

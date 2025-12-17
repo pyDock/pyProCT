@@ -5,7 +5,7 @@ Created on 14/01/2013
 """
 import numpy
 import time 
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.algorithms.spectral.spectralClusteringAlgorithm import SpectralClusteringAlgorithm
 
 if __name__ == '__main__':
@@ -20,19 +20,19 @@ if __name__ == '__main__':
     t1 = time.time()
     L_PYTHON = SpectralClusteringAlgorithm.calculate_laplacian(W_tmp, matrix, "PYTHON")[0]
     t2 = time.time()
-    print 'Calculations took %0.3f s' % (t2-t1)
+    print('Calculations took %0.3f s' % (t2-t1))
     
     W_tmp = numpy.array(W)
     t1 = time.time()
     L_NUMPY = SpectralClusteringAlgorithm.calculate_laplacian(W_tmp, matrix, "NUMPY")[0]
     t2 = time.time()
-    print 'Calculations took %0.3f s' % (t2-t1)
+    print('Calculations took %0.3f s' % (t2-t1))
     
     W_tmp = numpy.array(W)
     t1 = time.time()
     L_NUMPY_PURE = SpectralClusteringAlgorithm.calculate_laplacian(W_tmp, matrix, "NUMPY_PURE")[0]
     t2 = time.time()
-    print 'Calculations took %0.3f s' % (t2-t1)
+    print('Calculations took %0.3f s' % (t2-t1))
     
 #     for i in range(len(L_PYTHON.flatten())):
 #         print i

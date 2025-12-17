@@ -39,7 +39,7 @@ def write_distances_file(handler, distances, clustering, distance_descriptors):
             cluster_distances = distances[distance_id][cluster.all_elements]
             if "cutoff" in distance_descriptors[distance_id]:
                 cutoff = float(distance_descriptors[distance_id]["cutoff"])
-                print cluster_distances[cluster_distances < cutoff]
+                print(cluster_distances[cluster_distances < cutoff])
                 handler.write("%s, %s, %.3f, %.3f, %d \n"%(cluster.id,
                                                            distance_id, 
                                                            numpy.mean(cluster_distances), 
@@ -82,16 +82,16 @@ def calculate_selection_distances(distance_selection_objects, data_handler):
             from_selection = ensemble.select(distance_selection_objects[distance_id]["from"]) 
             to_selection = ensemble.select(distance_selection_objects[distance_id]["to"])
         except KeyError:
-            print '[Error calculate_selection_distances ] "from" and "to" properties are mandatory. Skipping %s calculation...'%distance_id
+            print('[Error calculate_selection_distances ] "from" and "to" properties are mandatory. Skipping %s calculation...'%distance_id)
             break
         
         # Check selections were ok
         if from_selection is None:
-            print '"[Error calculate_selection_distances ] Unproductive "from" selection. Skipping %s calculation...'%distance_id
+            print('"[Error calculate_selection_distances ] Unproductive "from" selection. Skipping %s calculation...'%distance_id)
             break
         
         if to_selection is None:
-            print '"[Error calculate_selection_distances ] Unproductive "to" selection. Skipping %s calculation...'%distance_id
+            print('"[Error calculate_selection_distances ] Unproductive "to" selection. Skipping %s calculation...'%distance_id)
             break
         
         distances[distance_id] = calcDistance(calcCenter(from_selection.getCoordsets()), 

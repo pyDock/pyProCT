@@ -4,7 +4,7 @@ Created on 02/04/2012
 @author: victor
 """
 import unittest
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.clustering.clustering import Clustering
 from pyproct.clustering.cluster import Cluster
 from pyproct.clustering.evaluation.metrics.test import matrix
@@ -40,11 +40,11 @@ class TestMetrics(unittest.TestCase):
         
         min_dists, mean = calculator.get_mean_and_min_distances(clusters[0], clusters[1], distances)
         self.assertItemsEqual( [3.0, 6.0, 8.0], min_dists)
-        self.assertAlmostEquals(12.33,mean,2)
+        self.assertAlmostEqual(12.33,mean,2)
         
     def test_get_distances_less_than_mean(self):
         calculator = MeanMinimumDistanceCalculator(10)
-        self.assertItemsEqual(range(51), calculator.get_distances_less_than_mean(range(100),50))
+        self.assertItemsEqual(list(range(51)), calculator.get_distances_less_than_mean(list(range(100)),50))
     
     def test_subsampled_mean_min_dist(self):
         calculator = MeanMinimumDistanceCalculator(10)

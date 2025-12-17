@@ -4,7 +4,7 @@ Created on 13/11/2013
 @author: victor
 """
 import numpy
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 
 def get_submatrix( old_matrix, elements):
     """

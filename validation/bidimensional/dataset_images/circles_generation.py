@@ -76,7 +76,7 @@ def mutual_knn(points, n=10, distance=radial_kernel()):
 def get_distance_matrix(knn):
     n = len(knn)
     W = np.zeros((n, n))
-    for point, nearest_neighbours in knn.iteritems():
+    for point, nearest_neighbours in knn.items():
         for distance, neighbour in nearest_neighbours:
             W[point][neighbour] = distance
     return W
@@ -98,7 +98,7 @@ def cluster_points(L):
     #evals, evcts = eigen(L, k=15, which="SM")
     evals, evcts = eig(L)
     evals, evcts = evals.real, evcts.real
-    edict = dict(zip(evals, evcts.transpose()))
+    edict = dict(list(zip(evals, evcts.transpose())))
     evals = sorted(edict.keys())
     # second and third smallest eigenvalue + vector
     Y = np.array([edict[k] for k in evals[1:6]]).transpose()

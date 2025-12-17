@@ -6,7 +6,7 @@ Created on 23/12/2013
 import unittest
 import scipy.spatial.distance
 import numpy
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.postprocess.actions.confSpaceComparison.comparator import Analyzer
 import json
 

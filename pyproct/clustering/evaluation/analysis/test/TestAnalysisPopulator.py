@@ -24,7 +24,7 @@ class ClusteringMock(object):
     def __init__(self, number_of_clusters, number_of_elements):
         self.number_of_clusters = number_of_clusters
         self.total_number_of_elements = number_of_elements
-        self.clusters = range(number_of_clusters)
+        self.clusters = list(range(number_of_clusters))
         self.details = "ClusteringMock"
     
     def sort_clusters_by_size(self):
@@ -107,11 +107,11 @@ class TestAnalysisPopulator(unittest.TestCase):
     
     def test_num_clusters(self):
         analysisPopulator = AnalysisPopulatorMock("")
-        self.assertEquals(5,analysisPopulator.analysis_function_num_clusters(ClusteringMock(5, 1000)))
+        self.assertEqual(5,analysisPopulator.analysis_function_num_clusters(ClusteringMock(5, 1000)))
      
     def test_total_elems(self):
         analysisPopulator = AnalysisPopulatorMock("")
-        self.assertEquals(1000,analysisPopulator.analysis_function_total_elements(ClusteringMock(5, 1000)))
+        self.assertEqual(1000,analysisPopulator.analysis_function_total_elements(ClusteringMock(5, 1000)))
      
     def test_top_4(self):
         analysisPopulator = AnalysisPopulatorMock("")

@@ -42,12 +42,12 @@ def gen_clusters_from_class_list(group_list,skip_list=[]):
     dic_clusters = {}
     for i in range(len(group_list)):
         if not group_list[i] in skip_list:
-            if group_list[i] in dic_clusters.keys():
+            if group_list[i] in list(dic_clusters.keys()):
                 dic_clusters[group_list[i]].append(i)
             else:
                 dic_clusters[group_list[i]] = [i]
     clusters = []
-    for k in dic_clusters.keys():
+    for k in list(dic_clusters.keys()):
         clusters.append(Cluster(dic_clusters[k][0],dic_clusters[k]))
     return clusters
 
@@ -128,15 +128,15 @@ class Cluster(object):
         # Check that elements_into_account is a subset of all_elements
         elem_inters = all_elems_set.intersection(accountable_set)
         if len(elem_inters) != len(elements_into_account):
-            print "[ERROR Cluster::calculate_biased_medoid] 'elements_into_account' is not a subset of the elements of this cluster."
+            print("[ERROR Cluster::calculate_biased_medoid] 'elements_into_account' is not a subset of the elements of this cluster.")
             exit()
 
         if len(elements_into_account) == 0:
-            print "[ERROR Cluster::calculate_biased_medoid] This cluster is empty."
+            print("[ERROR Cluster::calculate_biased_medoid] This cluster is empty.")
             return -1
 
         #average distance of medoid is maximal
-        min_dist_pair = (sys.maxint, -1)
+        min_dist_pair = (sys.maxsize, -1)
         for ei in elements_into_account:
             # Calculate distances for this vs all the others
             # Note that for comparing, the mean is not required,as
@@ -222,7 +222,7 @@ class Cluster(object):
         for value_part in values_string_parts:
             if ":" in value_part:
                 [ini,end] = value_part.split(":")
-                elements.extend(range(int(ini),int(end)+1))
+                elements.extend(list(range(int(ini),int(end)+1)))
             else:
                 elements.append(int(value_part))
 

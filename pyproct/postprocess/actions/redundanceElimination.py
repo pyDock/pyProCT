@@ -51,7 +51,7 @@ class RedundanceElimination(object):
             representatives = self.__kmedoids_compression(clustering, matrix_handler)
         
         else:
-            print "[ERROR Compressor::compress] The compression type does not exist (%s)"%(self.type)
+            print("[ERROR Compressor::compress] The compression type does not exist (%s)"%(self.type))
             exit() 
         
         ids = self.get_cluster_ids(representatives, clustering.clusters)

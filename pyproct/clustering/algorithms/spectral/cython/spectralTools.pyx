@@ -5,12 +5,13 @@ import math
 import scipy.linalg
 import scipy.sparse.linalg
 import cython
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
+#from pyRMSD.condensedMatrix import CondensedMatrix
 
 DOUBLE = numpy.double
 ctypedef numpy.double_t DOUBLE_t
 
-FLOAT = numpy.float
+FLOAT = numpy.float64
 ctypedef numpy.float_t FLOAT_t
 
 MIN_SIGMA = 0.001
@@ -99,8 +100,8 @@ def calculate_fully_connected_adjacency_matrix_with_sigma_estimation( matrix, si
 
     @return: The adjacency matrix.
     """
-    cdef int N = matrix.row_length
-    cdef numpy.ndarray[FLOAT_t, ndim = 1] W_data = numpy.empty((N*(N-1))/2, dtype=FLOAT)
+    cdef int N = int(matrix.row_length)
+    cdef numpy.ndarray[FLOAT_t, ndim = 1] W_data = numpy.empty((N*(N-1))//2, dtype=FLOAT)
     cdef int accum = 0
 
     for i in range(N-1):
@@ -119,7 +120,7 @@ def force_sparsity(W, sparsity = 0.5):
     # Find the weight that converts at least the 51% of the elements of the matrix to 0s
     # TODO: here we need an extra copy because we are directly working with the matrix memory, is this a bug
     # or a feature?
-    threshold = sorted(data)[int(((N*(N-1))/2) * sparsity)+1]
+    threshold = sorted(data)[int(((N*(N-1))//2) * sparsity)+1]
 
     for i in range(N-1):
         for j in range(i+1,N):
@@ -153,19 +154,27 @@ def calculateUnnormalizedLaplacian(W, D):
             L[j][i] = tmpval
     return L
 
+
 @cython.boundscheck(False)
 def calculateUnnormalizedEigenvectors(L, max_number_of_clusters, is_sparse):
+    N = L.shape[0]
+    k = int(max_number_of_clusters)
+
+    if k < 1:
+        k = 1
     if is_sparse:
-        w, v  = scipy.sparse.linalg.eigsh(  A =L,
-                                            k = max_number_of_clusters,
-                                            which = 'SM',
-                                            return_eigenvectors = True)
+        if k >= N:
+            k = max(1, N-1)
+        w, v = scipy.sparse.linalg.eigsh(A=L, k=k, which='SM', return_eigenvectors=True)
     else:
-        w, v = scipy.linalg.eigh(a = L,
-                                 type = 1,
-                                 eigvals = (0, max_number_of_clusters-1),
-                                 overwrite_a = True,
-                                 check_finite = False)
+        if k > N:
+            k = N
+        try:
+            w, v = scipy.linalg.eigh(a=L, type=1, subset_by_index=(0, k-1),
+                                     overwrite_a=True, check_finite=False)
+        except TypeError:
+            w, v = scipy.linalg.eigh(a=L, type=1, eigvals=(0, k-1),
+                                     overwrite_a=True, check_finite=False)
 
     ordered_eigvectors = order_by_eigenvalues(v, w)
     return v
@@ -173,20 +182,28 @@ def calculateUnnormalizedEigenvectors(L, max_number_of_clusters, is_sparse):
 
 @cython.boundscheck(False)
 def calculateNormalizedEigenvectors(L, D, max_number_of_clusters, is_sparse):
+    N = L.shape[0]
+    k = int(max_number_of_clusters)
+
+    if k < 1:
+        k = 1
     if is_sparse:
-        L_sparse = scipy.sparse.csc_matrix(L)
-        w, v  = scipy.sparse.linalg.eigs(A = L,
-                                         k = max_number_of_clusters,
-                                         M = scipy.sparse.diags([D],[0],format = "csc"),
-                                         which ='SM',
-                                         return_eigenvectors = True)
+        if k >= N:
+            k = max(1, N-1)
+        w, v = scipy.sparse.linalg.eigsh(A=L,
+                                        k=k,
+                                        M=scipy.sparse.diags([D], [0], format="csc"),
+                                        which='SM',
+                                        return_eigenvectors=True)
     else:
-        w, v = scipy.linalg.eigh(a=L,
-                                 b= numpy.diag(D),
-                                 eigvals = (0, max_number_of_clusters-1),
-                                 overwrite_a = True,
-                                 overwrite_b = True,
-                                 check_finite = False)
+        if k > N:
+            k = N
+        try:
+            w, v = scipy.linalg.eigh(a=L, b=numpy.diag(D), subset_by_index=(0, k-1),
+                                     overwrite_a=True, overwrite_b=True, check_finite=False)
+        except TypeError:
+            w, v = scipy.linalg.eigh(a=L, b=numpy.diag(D), eigvals=(0, k-1),
+                                     overwrite_a=True, overwrite_b=True, check_finite=False)
 
     ordered_eigvectors = order_by_eigenvalues(v, w)
     return v

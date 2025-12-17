@@ -5,7 +5,7 @@ Created on 10/02/2014
 """
 import os.path
 import prody
-import cStringIO
+import io
 from pyproct.tools.pdbTools import filter_remarks
 
 class RepresentativesPostAction(object):
@@ -105,11 +105,10 @@ def save_cluster_elements(elements,
                     file_handler_out.write("REMARK 000  cluster population : %s\n"%(cluster_sizes[i]))
             
             file_handler_out.write("MODEL"+str(current_model).rjust(9)+"\n")
-            pdb_handler = cStringIO.StringIO()
+            pdb_handler = io.StringIO()
             prody.writePDBStream(pdb_handler, merged_structure, csets=  element_id)
             # skip the first remark if any
-            lines = filter(lambda line: line[0:6]!="REMARK" and line[0:5]!="MODEL" and line[0:6]!="ENDMDL", 
-                           pdb_handler.getvalue().splitlines(True))
+            lines = [line for line in pdb_handler.getvalue().splitlines(True) if line[0:6]!="REMARK" and line[0:5]!="MODEL" and line[0:6]!="ENDMDL"]
             pdb_handler.close()
             file_handler_out.write("".join(lines))
             file_handler_out.write("ENDMDL\n")

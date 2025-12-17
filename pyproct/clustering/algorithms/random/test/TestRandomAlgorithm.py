@@ -27,7 +27,7 @@ class Test(unittest.TestCase):
             for c in clusterization.clusters:
                 absolutely_all_elements.extend(c.all_elements)
             absolutely_all_elements.sort()
-            self.assertItemsEqual(absolutely_all_elements, range(distances.row_length))
+            self.assertItemsEqual(absolutely_all_elements, list(range(distances.row_length)))
             
     def test_everything_for_rand_distrib(self):
         distances = CondensedDistanceMatrix([0]*int((100*(100-1))/2))

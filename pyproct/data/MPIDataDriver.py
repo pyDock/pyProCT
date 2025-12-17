@@ -5,7 +5,7 @@ Created on 30/9/2014
 """
 from pyproct.data.dataDriver import DataDriver
 from pyproct.data.matrix.matrixHandler import MatrixHandler
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 import os
 
 class MPIDataDriver(DataDriver): 

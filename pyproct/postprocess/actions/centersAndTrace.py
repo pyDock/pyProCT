@@ -73,7 +73,7 @@ def generate_CA_or_P_trace(data_handler, backbone_atoms_selection = "name CA P")
         # Only get first frame of the selection
         coordsets = data_handler.get_data().getSelectionCoordinates(backbone_atoms_selection)[0]
     except:
-        print "[ERROR visualizationTools::generate_CA_or_P_trace] Impossible to get coordinates for trace"
+        print("[ERROR visualizationTools::generate_CA_or_P_trace] Impossible to get coordinates for trace")
     return coordsets.tolist()
 
 def generate_selection_centers_file(clustering, workspaceHandler, data_handler):

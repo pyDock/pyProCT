@@ -4,7 +4,7 @@ Created on 13/08/2012
 @author: victor
 """
 import numpy
-from pyRMSD.RMSDCalculator import RMSDCalculator
+#from pyRMSD.RMSDCalculator import RMSDCalculator
 from pyproct.driver.time.timerHandler import TimerHandler
 import scipy.linalg
 
@@ -42,7 +42,7 @@ class PCAMetric(object):
             # It should use the kmedoids compressor
             if len(c.all_elements) > MAX_ELEMENTS:
                 element_indexes = c.get_random_sample(MAX_ELEMENTS)
-                print "[PCA] Random sampling too big cluster to improve performance (%d elements -> %d elements)."%(len(c.all_elements),MAX_ELEMENTS)
+                print("[PCA] Random sampling too big cluster to improve performance (%d elements -> %d elements)."%(len(c.all_elements),MAX_ELEMENTS))
             ###################
             
             fitting_coordinates_of_this_cluster = self.fitting_coordinates[element_indexes]
@@ -67,7 +67,7 @@ class PCAMetric(object):
             
             # And then the eigenvalue we are interested in
             pca_mean_val += PCAMetric.calculate_biggest_eigenvalue(covariance_matrix)
-        print "PCA finished"
+        print("PCA finished")
         return  pca_mean_val /clustering.total_number_of_elements
     
     @classmethod

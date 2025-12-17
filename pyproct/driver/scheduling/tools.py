@@ -3,8 +3,13 @@ Created on 07/02/2013
 
 @author: victor
 """
-from pyscheduler.serialScheduler import SerialScheduler
-from pyscheduler.processParallelScheduler import ProcessParallelScheduler
+#from pyscheduler.serialScheduler import SerialScheduler
+#from pyproct.driver.scheduling.serial_scheduler import SerialScheduler
+#from pyscheduler.processParallelScheduler import ProcessParallelScheduler
+
+from pyproct.driver.scheduling.serialScheduler import SerialScheduler
+from pyproct.driver.scheduling.processParallelScheduler import ProcessParallelScheduler
+
 import time, datetime
 import multiprocessing
 
@@ -74,5 +79,5 @@ def build_scheduler(scheduling_options, observer):
         return SerialScheduler(external_functions)
 
     else:
-        print "[ERROR][ClusteringExplorator::__init__] Not supported scheduler_type ( %s )"%(scheduler_type)
+        print("[ERROR][ClusteringExplorator::__init__] Not supported scheduler_type ( %s )"%(scheduler_type))
         exit()

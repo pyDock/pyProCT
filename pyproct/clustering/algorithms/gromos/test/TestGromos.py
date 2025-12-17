@@ -4,7 +4,7 @@ Created on 15/02/2012
 @author: victor
 """
 import unittest
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.clustering.cluster import cluster_from_tuple, Cluster
 import numpy
 from pyproct.clustering.algorithms.gromos.gromosAlgorithm import GromosAlgorithm
@@ -46,7 +46,7 @@ class Test(unittest.TestCase):
                                                 0.5,  0.6, 0.7,
                                                       0.9, 0.8,
                                                            0.4])
-        self.assertItemsEqual([0,2], condensed_matrix.get_neighbors_for_node(1,range(5),0.5))
+        self.assertItemsEqual([0,2], condensed_matrix.get_neighbors_for_node(1,list(range(5)),0.5))
 
     def test_gromos(self):
         """
@@ -86,11 +86,11 @@ class Test(unittest.TestCase):
                                                 4.5, 7.8, 6.7, 
                                                      3.6, 2.2, 
                                                           2.0])
-        nodes = range(5)
+        nodes = list(range(5))
         self.assertEqual( condensed_matrix.choose_node_with_higher_cardinality( nodes, 4.),\
                           (2,2))
         
-        nodes = range(1,5)
+        nodes = list(range(1,5))
         self.assertEqual( condensed_matrix.choose_node_with_higher_cardinality( nodes, 4.),\
                           (2,2))
         
@@ -98,7 +98,7 @@ class Test(unittest.TestCase):
         self.assertEqual( condensed_matrix.choose_node_with_higher_cardinality( nodes, 4.),\
                          (2,1))
         
-        nodes = range(5)
+        nodes = list(range(5))
         self.assertEqual( condensed_matrix.choose_node_with_higher_cardinality( nodes, 7.),\
                           (2,4))
          
@@ -112,7 +112,7 @@ class Test(unittest.TestCase):
                                                      3.6, 2.2, 
                                                           2.0])
         row_len = 5
-        nodes_left = range(row_len)
+        nodes_left = list(range(row_len))
         
         self.assertEqual(len(condensed_matrix.get_neighbors_for_node(0, nodes_left, 4.)),1)
         self.assertEqual(len(condensed_matrix.get_neighbors_for_node(1, nodes_left, 4.)),1)
@@ -138,7 +138,7 @@ class Test(unittest.TestCase):
             
     def test_eliminate_cluster(self):
         cluster = cluster_from_tuple((4,[2,3,5,7,9]))
-        nodes = range(15)
+        nodes = list(range(15))
         nodes_left = [0,1,6,8,10,11,12,13,14]
         eliminate_cluster_from_node_list(nodes, cluster)
         nodes_left.sort()

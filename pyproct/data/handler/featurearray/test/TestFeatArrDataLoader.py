@@ -20,7 +20,7 @@ class TestFeatArrDataLoader(unittest.TestCase):
     def compare_loaded_results(self,r1, r2):
         self.assertEqual(r1[1], r2[1])
         d1, d2 = r1[0], r2[0]
-        self.assertItemsEqual(d1.keys(), d2.keys())
+        self.assertItemsEqual(list(d1.keys()), list(d2.keys()))
         for label in d1:
             self.assertItemsEqual(d1[label], d2[label])
     

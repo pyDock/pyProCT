@@ -52,8 +52,8 @@ total_done = 0
 for path in file_paths:
     complete = os.path.join(base_path, path,"results", "compressed_pdb.pdb")
     if not os.path.exists(complete):
-        print complete
+        print(complete)
     else:
         total_done += 1
 
-print "completed ",total_done
+print("completed ",total_done)

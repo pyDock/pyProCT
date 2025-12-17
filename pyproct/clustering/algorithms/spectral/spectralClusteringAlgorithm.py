@@ -9,7 +9,7 @@ from pyproct.clustering.algorithms.kmedoids.kMedoidsAlgorithm import KMedoidsAlg
 import scipy.cluster.vq
 from pyproct.clustering.clustering import Clustering
 from pyproct.clustering.cluster import gen_clusters_from_class_list
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 import pyproct.clustering.algorithms.spectral.cython.spectralTools as SpectralTools
 
 #
@@ -49,41 +49,41 @@ class SpectralClusteringAlgorithm(object):
         """
         self.handle_params(kwargs, max_clusters_default = condensed_matrix.row_length-1)
 
-        print "Initializing Spectral clustering. This may take some time ..."
+        print("Initializing Spectral clustering. This may take some time ...")
 #         self.verbose = True
 
         if self.sigma_sq is not None:
-            if self.verbose: print "Calculating W with sigma = %f estimation..."%self.sigma_sq
+            if self.verbose: print("Calculating W with sigma = %f estimation..."%self.sigma_sq)
             W = SpectralTools.calculate_fully_connected_adjacency_matrix(condensed_matrix, self.sigma_sq)
         else:
-            if self.verbose: print "Calculating W with sigma estimation..."
+            if self.verbose: print("Calculating W with sigma estimation...")
             sigmas = SpectralTools.local_sigma_estimation(condensed_matrix)
             W  = SpectralTools.calculate_fully_connected_adjacency_matrix_with_sigma_estimation(condensed_matrix, sigmas)
             self.sigma_sq = numpy.mean(sigmas)**2
 
-        if self.verbose: print "Sigma^2 estimation (mean of local sigmas): ", self.sigma_sq
+        if self.verbose: print("Sigma^2 estimation (mean of local sigmas): ", self.sigma_sq)
 
         if self.force_sparse:
             SpectralTools.force_sparsity(W)
 
         if self.store_W:
-            if self.verbose: print "Storing W ..."
+            if self.verbose: print("Storing W ...")
             self.W = numpy.copy(W)
 
-        if self.verbose: print "Calculating Degree Matrix ..."
+        if self.verbose: print("Calculating Degree Matrix ...")
         D = SpectralTools.calculate_degree_matrix(W)
 
-        if self.verbose: print "Calculating Laplacian ..."
+        if self.verbose: print("Calculating Laplacian ...")
         L =  SpectralTools.calculateUnnormalizedLaplacian(W, D)
 
-        if self.verbose: print "Calculating Eigenvectors ..."
+        if self.verbose: print("Calculating Eigenvectors ...")
         if self.spectral_type == "UNNORMALIZED":
             v = SpectralTools.calculateUnnormalizedEigenvectors(L, self.max_clusters, self.force_sparse)
         elif self.spectral_type == "NORMALIZED":
             v = SpectralTools.calculateNormalizedEigenvectors(L, D, self.max_clusters, self.force_sparse)
 
         self.eigenvectors = v # eigenvectors in columns. We need the rows of this matrix for the clustering.
-        if self.verbose: print "Spectral initialization finished."
+        if self.verbose: print("Spectral initialization finished.")
 
     def perform_clustering(self, kwargs):
         """
@@ -98,7 +98,7 @@ class SpectralClusteringAlgorithm(object):
         k = int(kwargs["k"])
 
         if k > self.max_clusters:
-            print "[ERROR SpectralClusteringAlgorithm::perform_clustering] this algorithm was defined to generate at most %d clusters."%self.max_clusters,
+            print("[ERROR SpectralClusteringAlgorithm::perform_clustering] this algorithm was defined to generate at most %d clusters."%self.max_clusters, end=' ')
 
         algorithm_details = "Spectral algorithm with k = %d and sigma squared = %.3f" %(int(k), self.sigma_sq)
 
@@ -150,8 +150,8 @@ class SpectralClusteringAlgorithm(object):
         try:
             self.spectral_type = params["type"]
             if not self.spectral_type in SpectralClusteringAlgorithm.spectral_types_enum:
-                print "[ERROR::SpectralClusteringAlgorithm] Type " ,self.spectral_type,\
-                "is not a correct type. Use one of these instead: ", SpectralClusteringAlgorithm.spectral_types_enum
+                print("[ERROR::SpectralClusteringAlgorithm] Type " ,self.spectral_type,\
+                "is not a correct type. Use one of these instead: ", SpectralClusteringAlgorithm.spectral_types_enum)
                 exit()
         except KeyError:
             self.spectral_type = "UNNORMALIZED"

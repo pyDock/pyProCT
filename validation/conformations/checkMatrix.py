@@ -16,8 +16,8 @@ if __name__ == '__main__':
             }
         })
     matrix = handler.create_matrix(None)
-    print matrix.get_number_of_rows()
+    print(matrix.get_number_of_rows())
     data =  list(matrix.get_data())*2+[0.]*9
-    print "Avg. %0.4f"%numpy.mean(data)
-    print "Std. dev. %0.4f"%(numpy.std(data))
+    print("Avg. %0.4f"%numpy.mean(data))
+    print("Std. dev. %0.4f"%(numpy.std(data)))
 

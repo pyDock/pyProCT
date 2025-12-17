@@ -23,7 +23,7 @@ class Test(unittest.TestCase):
                     x_coords.append(int(atom[0]))
             return x_coords
         
-        self.assertItemsEqual(range(1,13), get_x_coords(ped.getCoordinates()))
+        self.assertItemsEqual(list(range(1,13)), get_x_coords(ped.getCoordinates()))
         
         self.assertItemsEqual([3, 4, 9, 10, 11, 12], 
                               get_x_coords(ped.get_elements([1,4,5]).getCoordsets()))

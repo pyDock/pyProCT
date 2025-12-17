@@ -33,7 +33,7 @@ class testPCAMetric(unittest.TestCase):
         try:
             prody.confProDy(verbosity='none')#setVerbosity('none')
         except Exception :
-            print "Impossible to silent prody" 
+            print("Impossible to silent prody") 
         cls.pdb = prody.parsePDB(cls.pdb_path, subset='calpha')
         
         # Save coordsets before superposition
@@ -79,9 +79,9 @@ class testPCAMetric(unittest.TestCase):
         Regression test.
         """
         trajectory_handler = TrajectoryHandlerStub(testPCAMetric.not_iterposed_coordsets,66)
-        clustering = Clustering([Cluster(None,range(6)),Cluster(None,range(6,12))], "a clustering")
+        clustering = Clustering([Cluster(None,list(range(6))),Cluster(None,list(range(6,12)))], "a clustering")
         pcaMetric = PCAMetric(trajectory_handler)
-        self.assertAlmostEquals(pcaMetric.evaluate(clustering), 1.427748687873, 12)
+        self.assertAlmostEqual(pcaMetric.evaluate(clustering), 1.427748687873, 12)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

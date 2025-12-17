@@ -27,7 +27,7 @@ class RandomClusteringAlgorithm(object):
         max_num_of_clusters = 0
         try:
             num_of_clusters = kwargs["num_clusters"]
-            elements_per_cluster = max(1, num_of_nodes / num_of_clusters)
+            elements_per_cluster = max(1, num_of_nodes // num_of_clusters)
         except KeyError:
             try:
                 max_num_of_clusters = kwargs["max_num_of_clusters"]
@@ -39,7 +39,7 @@ class RandomClusteringAlgorithm(object):
         node_class = []
 
         try:
-            elements_per_cluster = max(1, num_of_nodes / num_of_clusters)
+            elements_per_cluster = max(1, num_of_nodes // num_of_clusters)
         except:
             elements_per_cluster = 1
 

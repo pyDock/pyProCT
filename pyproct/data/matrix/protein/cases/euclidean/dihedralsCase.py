@@ -36,7 +36,7 @@ def obtain_dihedral_angles(system_coords, bond_distance):
             if mathTools.sq_distance(ref_selection[i], ref_selection[j]) <= sq_bond_distance:
                 bonds.append(tuple(sorted([i, j])))
                 
-    print "DBG: Found %d bonds"%(len(bonds))
+    print("DBG: Found %d bonds"%(len(bonds)))
     
     # Find angles
     angles = []
@@ -44,7 +44,7 @@ def obtain_dihedral_angles(system_coords, bond_distance):
         for j in range(i+1, len(bonds)):
             if bonds_are_linked(bonds[i], bonds[j]):
                 angles.append(tuple(sorted([bonds[i], bonds[j]])))
-    print "DBG: Found %d angles"%(len(angles))
+    print("DBG: Found %d angles"%(len(angles)))
     
     # Finally, find dihedrals
     dihedrals = []
@@ -52,7 +52,7 @@ def obtain_dihedral_angles(system_coords, bond_distance):
         for j in range(i+1, len(angles)):
             if angles_share_bond(angles[i], angles[j]):
                 dihedrals.append(tuple(sorted([angles[i], angles[j]])))
-    print "DBG: Found %d dihedrals"%(len(dihedrals))
+    print("DBG: Found %d dihedrals"%(len(dihedrals)))
 
     # Now reorganize atoms in dihedrals so that 
     # they are consecutive and we can calculate the

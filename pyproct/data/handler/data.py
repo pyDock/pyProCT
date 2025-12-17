@@ -17,14 +17,14 @@ class Data(object):
         """
         Returns how much elements we have in this data package.
         """
-        print "[ERROR Data::get_number_of_elements] This method must be overriden. Exiting..."
+        print("[ERROR Data::get_number_of_elements] This method must be overriden. Exiting...")
         exit()
     
     def get_element(self, element_id):
         """
         Returns the datum associated to the element id passed as argument.
         """
-        print "[ERROR Data::get_element] This method must be overriden. Exiting..."
+        print("[ERROR Data::get_element] This method must be overriden. Exiting...")
         exit()
         
     def get_elements(self, element_list):
@@ -38,6 +38,6 @@ class Data(object):
         """
         Returns a representation of all the elements.
         """
-        print "[ERROR Data::get_all_elements] This method must be overriden. Exiting..."
+        print("[ERROR Data::get_all_elements] This method must be overriden. Exiting...")
         exit()
     

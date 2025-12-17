@@ -8,7 +8,7 @@ class AccumulativeObserver(object):
         self.messages = {}
     
     def notify(self, actor, action, message):
-        if actor in self.messages.keys():
+        if actor in list(self.messages.keys()):
             self.messages[actor].append( {
                                     "action":action,
                                     "message":message

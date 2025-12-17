@@ -5,7 +5,7 @@ Created on 25/06/2014
 """
 import unittest
 import prody
-import StringIO
+import io
 import numpy
 from pyproct.driver.handlers.matrix.test.data.pdb_data import pdb_data,\
     chain_padding_proto_3
@@ -21,7 +21,7 @@ class Test(unittest.TestCase):
                     {'A': numpy.array([[ 10.,  11.,  12.]]), 'X': numpy.array([[ 32.306,   6.517,  -1.544]])},
                     {'A': numpy.array([[ 13.,  14.,  15.]]), 'X': numpy.array([[ 30.494,  10.39 ,  -3.066]])}]
 
-        input = StringIO.StringIO(pdb_data)
+        input = io.StringIO(pdb_data)
         pdb_structure = prody.parsePDBStream(input)
         result =  ChainMappingRMSDMatrixCalculator.getStructureChains(pdb_structure,"all")
         for i in range(len(expected)):
@@ -35,7 +35,7 @@ class Test(unittest.TestCase):
                                           ChainMappingRMSDMatrixCalculator.reorderCoordinates(chain, ["X","A"]))
 
     def test_reorderAllCoordinatesByChainLen(self):
-        input = StringIO.StringIO(chain_padding_proto_3)
+        input = io.StringIO(chain_padding_proto_3)
         structure = prody.parsePDBStream(input)
         group_lens = {1: ['A'], 2: ['B', 'D'], 3: ['C', 'E']}
         result =  ChainMappingRMSDMatrixCalculator.getReorderedCoordinatesByLenGroups(structure, "all", group_lens)
@@ -64,7 +64,7 @@ class Test(unittest.TestCase):
         numpy.testing.assert_array_equal(expected, result)
 
     def test_getChainLengths(self):
-        input = StringIO.StringIO(chain_padding_proto_3)
+        input = io.StringIO(chain_padding_proto_3)
         structure = prody.parsePDBStream(input)
         self.assertDictEqual({'A': 1, 'C': 3, 'B': 2, 'E': 3, 'D': 2},
                               ChainMappingRMSDMatrixCalculator.getChainLengths(structure, "all"))

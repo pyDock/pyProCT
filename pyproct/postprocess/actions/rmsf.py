@@ -65,5 +65,5 @@ def calc_rmsf_of_cluster(cluster_coordsets, cluster):
             ssqf += (conf - mean_conformation) ** 2
         return (ssqf.sum(1) / cluster_coordsets.shape[0])**0.5
     else:
-        print "[WARNING][calc_rmsf_of_cluster]  No CA atoms found. Aborting operation."
+        print("[WARNING][calc_rmsf_of_cluster]  No CA atoms found. Aborting operation.")
         return

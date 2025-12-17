@@ -4,7 +4,7 @@ Created on 27/02/2014
 @author: victor
 '''
 import unittest
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 import numpy
 from pyproct.postprocess.actions.confSpaceComparison.overlapCalculator import OverlapCalculator
 

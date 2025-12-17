@@ -5,7 +5,7 @@ Created on 14/05/2012
 """
 import unittest
 import numpy
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.tools.distributionTools import get_distances_for_elems
 
 class TestDistributionTools(unittest.TestCase):

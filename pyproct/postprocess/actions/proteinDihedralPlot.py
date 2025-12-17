@@ -39,7 +39,7 @@ class proteinDihedralPlotPostAction(object):
         
         # check values
         if len(x_values[0]) > 1 or len(y_values[0]) > 1:
-            print x_values, y_values
+            print(x_values, y_values)
             raise KeyError("[Error proteinDihedralPlot::run] Selection defined more than one dihedral.")
         
         x_values = x_values.flatten()

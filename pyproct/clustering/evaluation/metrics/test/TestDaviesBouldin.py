@@ -5,7 +5,7 @@ Created on 12/06/2013
 """
 import unittest
 from pyproct.clustering.clustering import Clustering
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.clustering.cluster import Cluster
 import numpy
 from pyproct.clustering.evaluation.metrics.test.data import squared_CH_table1

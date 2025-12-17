@@ -13,7 +13,7 @@ try:
     import pack2.packmodule
     test_pckg_exists = True
 except ImportError:
-    print "In order to run all tests you need to install the test package 'pack' in pyproct.tools.test.data.entry_point_test"
+    print("In order to run all tests you need to install the test package 'pack' in pyproct.tools.test.data.entry_point_test")
     
     
 class TestPlugins(unittest.TestCase):

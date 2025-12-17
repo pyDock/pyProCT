@@ -9,7 +9,7 @@ from pyproct.clustering.clustering import Clustering
 from pyproct.clustering.cluster import Cluster
 
 import pyproct.clustering.evaluation.metrics.test.data.example_clustering_1 as data
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.clustering.evaluation.metrics.cython.silhouette import SilhouetteCoefficientCalculator
 from pyproct.data.matrix.matrixHandler import MatrixHandler
 
@@ -27,7 +27,7 @@ class Test(unittest.TestCase):
         )
         s = SilhouetteCoefficientCalculator()
         matrix =  mh.create_matrix(None)
-        print s.evaluate(clustering, matrix)
+        print(s.evaluate(clustering, matrix))
 
     def test_get_average_distance(self):
         distances =  CondensedMatrix( [ 1., 2., 3., 4.,

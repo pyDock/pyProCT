@@ -4,7 +4,7 @@ Created on 04/05/2012
 @author: victor
 """
 import unittest
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.clustering.clustering import Clustering
 from pyproct.clustering.cluster import Cluster
 from pyproct.clustering.evaluation.metrics.cython.cohesion import CohesionCalculator

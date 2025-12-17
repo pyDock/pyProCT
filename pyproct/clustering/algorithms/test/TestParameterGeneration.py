@@ -5,7 +5,7 @@ Created on 07/02/2013
 """
 import unittest
 from pyproct.driver.parameters import ProtocolParameters
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 import pyproct.algorithms.gromos.parametersGeneration as gromosParametersGeneration
 import pyproct.algorithms.kmedoids.parametersGeneration as kmedoidsParametersGeneration
 import pyproct.algorithms.random.parametersGeneration as randomParametersGeneration

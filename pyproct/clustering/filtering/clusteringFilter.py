@@ -78,7 +78,7 @@ class ClusteringFilter(object):
         @return: The new selected and not selected 'clustering info' arrays
         """
         new_selected = {}
-        selected_ids = selected_clusterings.keys()
+        selected_ids = list(selected_clusterings.keys())
         
         for i in range(len(selected_ids)):
             clustering_id = selected_ids[i]

@@ -25,19 +25,19 @@ class FeatureArrayDataLoader(DataLoader):
         Prepares the merged array
         """
         super(FeatureArrayDataLoader, self).close()
-        self.feature_labels = self.loaded_data[0].keys()
+        self.feature_labels = list(self.loaded_data[0].keys())
         
         merged_data = {}
         for data in self.loaded_data:
             if len(set(self.feature_labels)-set(data.keys())) != 0:
-                print "[ERROR][FeatureArrayDataLoader::close] data sets with different number of labels were loaded."
+                print("[ERROR][FeatureArrayDataLoader::close] data sets with different number of labels were loaded.")
                 exit()
             for label in self.feature_labels:
                 if label in merged_data:
                     merged_data[label].extend(data[label].tolist())
                 else:
                     merged_data[label] = data[label].tolist()
-        print merged_data
+        print(merged_data)
         return FeatureArrayData(merged_data)
 
     def load_data_from_source(self, source):
@@ -53,7 +53,7 @@ class FeatureArrayDataLoader(DataLoader):
             # It can have labels
             data = numpy.loadtxt(source.get_path())
         else:
-            print "[ERROR][FeatureArrayDataLoader::load_data_from_source] file type not supported."%(source.get_path(),ext)
+            print("[ERROR][FeatureArrayDataLoader::load_data_from_source] file type not supported."%(source.get_path(),ext))
             exit()
             
         data_dic = {}
@@ -61,8 +61,8 @@ class FeatureArrayDataLoader(DataLoader):
         if source.has_info("labels"):
             labels = source.get_info("labels")
             if len(labels) != len(data.T):
-                print len(labels), len(data.T)
-                print "[ERROR][FeatureArrayDataLoader::load_data_from_source] the number of labels is no equal to the number of columns."
+                print(len(labels), len(data.T))
+                print("[ERROR][FeatureArrayDataLoader::load_data_from_source] the number of labels is no equal to the number of columns.")
                 exit()
         else:
             labels = ["__feature_%d"%i for i in range(len(data.T))]

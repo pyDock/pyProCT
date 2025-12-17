@@ -5,7 +5,7 @@ Created on 06/06/2012
 """
 import unittest
 import numpy
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from scipy.spatial.distance import pdist
 from pyproct.clustering.algorithms.kmedoids.kMedoidsAlgorithm import KMedoidsAlgorithm
 
@@ -22,7 +22,7 @@ class TestKMedoids(unittest.TestCase):
         for i in range(100): #@UnusedVariable
             medoids = self.kmed_alg.random_seeding(3)
             med_set = set(medoids)
-            self.assertEquals(len(medoids),len(med_set))
+            self.assertEqual(len(medoids),len(med_set))
             self.assertLessEqual(max(medoids),4)
      
     def test_convergence(self):
@@ -34,8 +34,8 @@ class TestKMedoids(unittest.TestCase):
      
     def test_get_closer_medoid(self):
         medoids = [2,4]
-        self.assertEquals(2, self.kmed_alg.get_closer_medoid(0, medoids, self.condensed_matrix))
-        self.assertEquals(4, self.kmed_alg.get_closer_medoid(3, medoids, self.condensed_matrix))
+        self.assertEqual(2, self.kmed_alg.get_closer_medoid(0, medoids, self.condensed_matrix))
+        self.assertEqual(4, self.kmed_alg.get_closer_medoid(3, medoids, self.condensed_matrix))
      
     def test_cluster_update(self):
         medoids = [2,4]

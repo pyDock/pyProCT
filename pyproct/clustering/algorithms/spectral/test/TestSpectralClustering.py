@@ -5,7 +5,7 @@ Created on 09/01/2013
 """
 import unittest
 import numpy
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.algorithms.spectral.spectralClusteringAlgorithm import SpectralClusteringAlgorithm
 from scipy.spatial.distance import pdist
 

@@ -193,7 +193,7 @@ class KMedoidsAlgorithm(object):
         @return: The initial medoids.
         """
         if not seeding_type in self.seeding_types():
-            print "[ERROR::SpectralClusteringAlgorithm] Seeding type " ,seeding_type, "is not a correct type. Use one of these instead: ", self.seeding_types()
+            print("[ERROR::SpectralClusteringAlgorithm] Seeding type " ,seeding_type, "is not a correct type. Use one of these instead: ", self.seeding_types())
             exit()
 
         if seeding_type == "RANDOM":
@@ -213,7 +213,7 @@ class KMedoidsAlgorithm(object):
 
         @return: The medoid list.
         """
-        random_medoids = random.sample(range(self.condensed_matrix.row_length),k)
+        random_medoids = random.sample(list(range(self.condensed_matrix.row_length)),k)
         return random_medoids
 
     def equidistant_seeding(self, k, number_of_elements):
@@ -253,7 +253,7 @@ class KMedoidsAlgorithm(object):
                 if
             else:
             """
-            print "Trying gromos with cutoff =", current_cutoff,"for seeding"
+            print("Trying gromos with cutoff =", current_cutoff,"for seeding")
             gromos_algorithm = GromosAlgorithm(self.condensed_matrix)
             clusters = gromos_algorithm.perform_clustering({"cutoff":current_cutoff, "max_clusters":k}).clusters
 #             self.gromos_clusters_bookkeeping[current_cutoff] = len(clusters)
@@ -261,10 +261,10 @@ class KMedoidsAlgorithm(object):
 
         # If it was impossible, do a random seeding
         if(current_cutoff<=0.):
-            print "Returning a random sampling."
+            print("Returning a random sampling.")
             return self.random_seeding(k)
         else:
-            print "Returning the medoids."
+            print("Returning the medoids.")
             medoids = []
             for c in clusters[0:k]:
                 medoids.append(c.prototype)

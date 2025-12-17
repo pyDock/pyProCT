@@ -54,7 +54,7 @@ class OverlapCalculator():
         and returns the minimum distance for each of these elements.
         Some distances will be counted twice. This is OK.
         """
-        allIds = decomposed_cluster.keys()
+        allIds = list(decomposed_cluster.keys())
         min_distances = []
 
         if len(allIds)>1: # if the cluster is pure, we do not calculate min or max (it does not have sense)

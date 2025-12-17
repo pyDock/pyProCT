@@ -18,10 +18,10 @@ def merge_files(file_handler_list, merged_handler, verbose = True):
     total_files = len(file_handler_list)
     current_file = 1
     if verbose:
-        print ""
+        print("")
     for f in file_handler_list:
         if verbose:
-            print "Processing file",current_file,"of",total_files
+            print("Processing file",current_file,"of",total_files)
         for line in f:
             merged_handler.write(line)
         current_file = current_file +1
@@ -36,7 +36,7 @@ def gen_consecutive_ranges(num_elems_1,num_elems_2):
 
     @return: The two ranges
     """
-    return range(num_elems_1),range(num_elems_1,num_elems_1+num_elems_2)
+    return list(range(num_elems_1)),list(range(num_elems_1,num_elems_1+num_elems_2))
 
 def print_and_flush(this_string, handler = sys.stdout):
     """
@@ -48,22 +48,22 @@ def print_and_flush(this_string, handler = sys.stdout):
     handler.write(this_string)
     handler.flush()
 
-def convert_to_utf8(my_input):
-    """
-    Recursively encodes all strings of an input dictionary as UTF-8. Useful to eliminate unicode strings.
-
-    @param my_input: A dictionary object.
-
-    @return: Encoded dictionary.
-    """
-    if isinstance(my_input, dict):
-        return {convert_to_utf8(key): convert_to_utf8(value) for key, value in my_input.iteritems()}
-    elif isinstance(my_input, list):
-        return [convert_to_utf8(element) for element in my_input]
-    elif isinstance(my_input, unicode):
-        return my_input.encode('utf-8')
-    else:
-        return my_input
+#def convert_to_utf8(my_input):
+#    """
+#    Recursively encodes all strings of an input dictionary as UTF-8. Useful to eliminate unicode strings.
+#
+#    @param my_input: A dictionary object.
+#
+#    @return: Encoded dictionary.
+#    """
+#    if isinstance(my_input, dict):
+#        return {convert_to_utf8(key): convert_to_utf8(value) for key, value in my_input.items()}
+#    elif isinstance(my_input, list):
+#        return [convert_to_utf8(element) for element in my_input]
+#    elif isinstance(my_input, str):
+#        return my_input.encode('utf-8')
+#    else:
+#        return my_input
 
 def get_parameter_value(key_description, param_dict, default_value):
     """

@@ -70,41 +70,41 @@ if __name__ == '__main__': # Compatibility with sphynx
 
           include_dirs = [numpy.get_include(),
                           distutils.sysconfig.get_python_inc()],
-          ext_modules=[
-                       # Graph metrics
-                       Extension('pyproct.clustering.evaluation.metrics.cython.graph.nCut',[
-                                    'pyproct/clustering/evaluation/metrics/cython/graph/nCut.c'
-                       ], extra_compile_args=["-O3","-ffast-math"]),
-                       Extension('pyproct.clustering.evaluation.metrics.cython.graph.ratioCut',[
-                                    'pyproct/clustering/evaluation/metrics/cython/graph/ratioCut.c'
-                       ], extra_compile_args=["-O3","-ffast-math"]),
-                       Extension('pyproct.clustering.evaluation.metrics.cython.graph.minMaxCut',[
-                                    'pyproct/clustering/evaluation/metrics/cython/graph/minMaxCut.c'
-                       ], extra_compile_args=["-O3","-ffast-math"]),
-                       Extension('pyproct.clustering.evaluation.metrics.cython.graph.tools',[
-                                    'pyproct/clustering/evaluation/metrics/cython/graph/tools.c'
-                       ], extra_compile_args=["-O3","-ffast-math"]),
-                       
-                       # Other metrics
-                       Extension('pyproct.clustering.evaluation.metrics.cython.cohesion', [
-                                    'pyproct/clustering/evaluation/metrics/cython/cohesion.c'
-                       ], extra_compile_args=["-O3","-ffast-math"]),
-                       Extension('pyproct.clustering.evaluation.metrics.cython.silhouette',[
-                                    'pyproct/clustering/evaluation/metrics/cython/silhouette.c'
-                       ], extra_compile_args=["-O3","-ffast-math"]),
-                       
-                       # Algorithm tools
-                       Extension("pyproct.clustering.algorithms.dbscan.cython.cythonDbscanTools", [
-                                    'pyproct/clustering/algorithms/dbscan/cython/cythonDbscanTools.c'
-                       ],extra_compile_args=["-O3","-ffast-math"]),
-                       Extension("pyproct.clustering.algorithms.spectral.cython.spectralTools", [
-                                    'pyproct/clustering/algorithms/spectral/cython/spectralTools.c'
-                       ],extra_compile_args=["-O3","-ffast-math"])
-          ],
+         # ext_modules=[
+         #              # Graph metrics
+         #              Extension('pyproct.clustering.evaluation.metrics.cython.graph.nCut',[
+         #                           'pyproct/clustering/evaluation/metrics/cython/graph/nCut.c'
+         #              ], extra_compile_args=["-O3","-ffast-math"]),
+         #              Extension('pyproct.clustering.evaluation.metrics.cython.graph.ratioCut',[
+         #                           'pyproct/clustering/evaluation/metrics/cython/graph/ratioCut.c'
+         #              ], extra_compile_args=["-O3","-ffast-math"]),
+         #              Extension('pyproct.clustering.evaluation.metrics.cython.graph.minMaxCut',[
+         #                           'pyproct/clustering/evaluation/metrics/cython/graph/minMaxCut.c'
+         #              ], extra_compile_args=["-O3","-ffast-math"]),
+         #              Extension('pyproct.clustering.evaluation.metrics.cython.graph.tools',[
+         #                           'pyproct/clustering/evaluation/metrics/cython/graph/tools.c'
+         #              ], extra_compile_args=["-O3","-ffast-math"]),
+         #              
+         #              # Other metrics
+         #              Extension('pyproct.clustering.evaluation.metrics.cython.cohesion', [
+         #                           'pyproct/clustering/evaluation/metrics/cython/cohesion.c'
+         #              ], extra_compile_args=["-O3","-ffast-math"]),
+         #              Extension('pyproct.clustering.evaluation.metrics.cython.silhouette',[
+         #                           'pyproct/clustering/evaluation/metrics/cython/silhouette.c'
+         #              ], extra_compile_args=["-O3","-ffast-math"]),
+         #              
+         #              # Algorithm tools
+         #              Extension("pyproct.clustering.algorithms.dbscan.cython.cythonDbscanTools", [
+         #                           'pyproct/clustering/algorithms/dbscan/cython/cythonDbscanTools.c'
+         #              ],extra_compile_args=["-O3","-ffast-math"]),
+         #              Extension("pyproct.clustering.algorithms.spectral.cython.spectralTools", [
+         #                           'pyproct/clustering/algorithms/spectral/cython/spectralTools.c'
+         #              ],extra_compile_args=["-O3","-ffast-math"])
+         # ],
 
           install_requires=[
-            "pyRMSD>=4.0.0",
-            "pyScheduler>=0.1.0",
+            #"pyRMSD>=4.0.0",
+            #"pyScheduler>=0.1.0",
             "fastcluster>=1.1.6",
             "ProDy>=1.4.2",
             "numpy>=1.6.1",

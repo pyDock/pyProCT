@@ -25,13 +25,13 @@ def create_matrices(data, verbose = False):
         condensed_matrix = CondensedMatrix(condensed_matrix_data)
         condensed_matrices[dataset_name] = condensed_matrix
         if verbose:
-            print "Matrix for %s:"%dataset_name
-            print "-----------------------"
-            print "Max dist. = ",condensed_matrix.calculateMax()
-            print "Min dist. = ",condensed_matrix.calculateMin()
-            print "Mean dist. = ",condensed_matrix.calculateMean()
-            print "Variance = ",condensed_matrix.calculateVariance()
-            print "-----------------------\n"
+            print("Matrix for %s:"%dataset_name)
+            print("-----------------------")
+            print("Max dist. = ",condensed_matrix.calculateMax())
+            print("Min dist. = ",condensed_matrix.calculateMin())
+            print("Mean dist. = ",condensed_matrix.calculateMean())
+            print("Variance = ",condensed_matrix.calculateVariance())
+            print("-----------------------\n")
     return condensed_matrices, all_observations
 
 def params_to_string(params):
@@ -46,7 +46,7 @@ def params_to_string(params):
     for k in params:
         try:
             value = params[k]
-            if isinstance( value, ( int, long ) ):
+            if isinstance( value, int ):
                 s += "%s_%d_"%(k, value)
             else:
                 s += "%s_%.3f_"%(k, value)
@@ -67,7 +67,7 @@ def dataset_loading_2D(dataset_string, scale_factor = 1):
         except IndexError:
             pass
         except:
-            print "[Error dataset_loading_2D] Impossible to parse line. Exiting..."
+            print("[Error dataset_loading_2D] Impossible to parse line. Exiting...")
             exit()
     return observations
 

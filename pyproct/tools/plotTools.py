@@ -9,7 +9,7 @@ import PIL.ImageDraw as ImageDraw
 import matplotlib.pyplot as plt
 import pylab
 import PIL.ImageFont as ImageFont
-from pyRMSD.condensedMatrix import CondensedMatrix
+#from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 import math
 
 def shrink_matrix(this_matrix, to_have_this_size):
@@ -31,8 +31,8 @@ def shrink_matrix(this_matrix, to_have_this_size):
     box_mid = int(math.ceil(box_size/2.))
     max_dim = number_of_boxes * box_size
     
-    print "* Producing reduced matrix image (from %d pixels to %d pixels)."%(row_dim, to_have_this_size)
-    print "* Box_size: %d pixels"%box_size
+    print("* Producing reduced matrix image (from %d pixels to %d pixels)."%(row_dim, to_have_this_size))
+    print("* Box_size: %d pixels"%box_size)
 
     tmp_condensed = CondensedMatrix(numpy.zeros(int((number_of_boxes*(number_of_boxes-1))/2.), dtype=numpy.float))
 
@@ -159,7 +159,7 @@ def barGraphCreation(A_sizes, B_sizes, cluster_sizes, types, total_size, colors,
         if types[i]=='B':
             B_values[i] = cluster_sizes[i]*100./total_size
 
-    x = numpy.array(range(len(A_values)))
+    x = numpy.array(list(range(len(A_values))))
     ax.bar(left = x,width = 1.0, height = A_values, color = colors['A'])
     ax.bar(left = x, width = 1.0, bottom = A_values, height = B_values, color = colors['B'])
     ax.set_ylabel('%')
@@ -317,7 +317,7 @@ def writeTagPlusValue(canvas, position, string_tag, value):
     @param value: The value we want to write.
     """
     string_value = ""
-    if isinstance(value,(int,long)) :
+    if isinstance(value,int) :
         string_value = " %d"%value
     else:
         string_value = " %.3f"%value

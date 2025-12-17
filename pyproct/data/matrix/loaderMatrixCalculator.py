@@ -3,7 +3,7 @@ Created on 2/9/2014
 
 @author: victor
 """
-from pyRMSD.matrixHandler import MatrixHandler as pyRMSD_MatrixHandler
+#from pyRMSD.matrixHandler import MatrixHandler as pyRMSD_MatrixHandler
 
 class LoaderMatrixCalculator(object):
     

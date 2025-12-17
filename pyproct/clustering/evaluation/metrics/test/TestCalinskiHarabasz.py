@@ -8,7 +8,7 @@ from pyproct.clustering.evaluation.metrics.test.data import CH_table1
 from pyproct.clustering.evaluation.metrics.calinskiHarabasz import CalinskiHarabaszCalculator
 from pyproct.clustering.clustering import Clustering
 from pyproct.clustering.cluster import Cluster
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 
 class TestCalinskiHarabasz(unittest.TestCase):
 

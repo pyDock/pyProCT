@@ -7,7 +7,7 @@ import glob
 import os
 from pyproct.data.handler.dataSource import DataSource
 import json
-from pyproct.tools.commonTools import convert_to_utf8
+#from pyproct.tools.commonTools import convert_to_utf8
 import copy
 
 class SourceGenerator(object):
@@ -22,7 +22,7 @@ class SourceGenerator(object):
         inflated_list = []
         for source in source_list:
             
-            if isinstance(source, basestring):
+            if isinstance(source, str):
                 # is string-like
                 _, ext = os.path.splitext(source)
                 if ext == ".lst": #pyProCT file list
@@ -31,9 +31,9 @@ class SourceGenerator(object):
                         # Infinite recursivity (circular references for instance) is not
                         # checked.
                         inflated_list.extend(cls.inflate_source_list(cls.get_sources_from_file_list(source)))
-                    except Exception, e:
-                        print "[ERROR SourceGenerator::init] Impossible to read list file %s"%source
-                        print e.message
+                    except Exception as e:
+                        print("[ERROR SourceGenerator::init] Impossible to read list file %s"%source)
+                        print(e.message)
                         exit()
                 else:
                     # Is a normal string
@@ -49,7 +49,7 @@ class SourceGenerator(object):
         if len(paths) > 0:
             return paths
         else:
-            print "[ERROR SourceGenerator::init] Impossible to find one or all of this files: %s"%path
+            print("[ERROR SourceGenerator::init] Impossible to find one or all of this files: %s"%path)
             exit()
     
     @classmethod                
@@ -63,7 +63,7 @@ class SourceGenerator(object):
         
         :return: An array with the contents of the file (strings and dictionaries) 
         """
-        return [convert_to_utf8(json.loads(line)) for line in open(list_file,"r")]
+        return [json.loads(line) for line in open(list_file,"r")]
     
     @classmethod
     def get_sources_from_dictionary(cls, info_dict):

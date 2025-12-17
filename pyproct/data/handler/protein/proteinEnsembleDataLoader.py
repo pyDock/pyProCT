@@ -35,8 +35,8 @@ class ProteinEnsembleDataLoader(DataLoader):
         # Free some memory
         del self.loaded_data
         
-        print "%d conformations of %d atoms were read."% (structure_ensemble.numCoordsets(),
-                                                          structure_ensemble.numAtoms())
+        print("%d conformations of %d atoms were read."% (structure_ensemble.numCoordsets(),
+                                                          structure_ensemble.numAtoms()))
         
         return ProteinEnsembleData(structure_ensemble,
                                    self.model_numbers,
@@ -65,8 +65,8 @@ class ProteinEnsembleDataLoader(DataLoader):
                     # Free some memory
                     del structure
                 except ValueError as e:
-                    print "[EROR] It was impossible to add the coodinates"
-                    print e
+                    print("[EROR] It was impossible to add the coodinates")
+                    print(e)
                     exit()
         return merged_ensemble
 
@@ -119,7 +119,7 @@ class ProteinEnsembleDataLoader(DataLoader):
         elif ext == ".pdb":
             structure = prody.parsePDB(source.get_path())
         else:
-            print "[ERROR][ProteinStructureEnsembleData::get_structure] pyProCT does not know how to load the file %s (unknown extension '%s')"%(source.get_path(),ext)
+            print("[ERROR][ProteinStructureEnsembleData::get_structure] pyProCT does not know how to load the file %s (unknown extension '%s')"%(source.get_path(),ext))
             exit()
         
         if source.has_info("base_selection"):
@@ -128,9 +128,9 @@ class ProteinEnsembleDataLoader(DataLoader):
                 common.print_and_flush("[ERROR ProteinStructureEnsembleData::get_structure] Improductive base selection (%s). Exiting...\n"%source.get_info("base_selection"))
                 exit()
         
-        print "Loaded %d conformations with %d atoms from %s."%(structure.numCoordsets(), 
+        print("Loaded %d conformations with %d atoms from %s."%(structure.numCoordsets(), 
                                                                 structure.numAtoms(),
-                                                                source.get_path())
+                                                                source.get_path()))
 #         prody.writePDB("%s_test"%source.get_path(), structure, csets= [1])
 
         source.add_info("number_of_conformations", structure.numCoordsets())
@@ -149,12 +149,12 @@ class ProteinEnsembleDataLoader(DataLoader):
         _, ext = os.path.splitext(source.get_path())
         
         if ext == ".dcd":
-            return range(1, number_of_conformations+1)
+            return list(range(1, number_of_conformations+1))
         else:
             model_lines = pdb_tools.get_model_tags(source.get_path())
             if len(model_lines) != number_of_conformations:
                 # by default
-                return range(1, number_of_conformations+1)
+                return list(range(1, number_of_conformations+1))
             else:
                 return [int(model.split()[1]) for model in model_lines]
             

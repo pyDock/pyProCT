@@ -44,7 +44,7 @@ class ClusteringProtocol(Observable):
         selected_clusterings, not_selected_clusterings = ClusteringFilter(clustering_parameters["clustering"]["evaluation"],
                                                                           matrix_handler).filter(clusterings)
 
-        self.notify("Filter", {"selected":len(selected_clusterings.keys()),"not_selected":len(not_selected_clusterings.keys())})
+        self.notify("Filter", {"selected":len(list(selected_clusterings.keys())),"not_selected":len(list(not_selected_clusterings.keys()))})
         self.timer.stop("Clustering Filtering")
 
         if selected_clusterings == {}:

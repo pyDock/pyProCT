@@ -5,8 +5,8 @@ Created on 23/03/2012
 """
 import unittest
 from scipy.spatial.distance import pdist
-from pyRMSD.condensedMatrix import CondensedMatrix
-import cStringIO
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
+import io
 import math
 from pyproct.clustering.algorithms.hierarchical.hierarchicalAlgorithm import HierarchicalClusteringAlgorithm
 from pyproct.clustering.algorithms.hierarchical.hierarchicalTools import get_cutoff_range
@@ -42,7 +42,7 @@ class Test(unittest.TestCase):
         algorithm = HierarchicalClusteringAlgorithm(condensed)
         clusterization = algorithm.perform_clustering(kwargs = {"cutoff":0.5, "method":'single'})
         clusters_string = """[0[0, 1]][3[3, 5]][4[4]][2[2]]"""
-        out = cStringIO.StringIO()
+        out = io.StringIO()
         for c in clusterization.clusters:
             out.write(str(c))
         self.assertEqual(out.getvalue(), clusters_string)

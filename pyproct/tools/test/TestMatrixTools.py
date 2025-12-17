@@ -4,7 +4,7 @@ Created on 13/11/2013
 @author: victor
 """
 import unittest
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.tools.matrixTools import get_submatrix
 import numpy
 

@@ -4,7 +4,7 @@ Created on 16/03/2012
 @author: victor
 """
 import unittest
-import cStringIO
+import io
 from pyproct.tools.commonTools import merge_files, gen_consecutive_ranges,print_and_flush,\
     get_parameter_value
 
@@ -52,11 +52,11 @@ Donec id arcu odio, in porttitor eros.
 Ut ac nibh eu nisi facilisis rhoncus.
 Nulla pulvinar mattis lectus, non eleifend libero commodo ut.
 """
-        input1 = cStringIO.StringIO(file_text1)
-        input2 = cStringIO.StringIO(file_text2)
-        input3 = cStringIO.StringIO(file_text3)
-        input4 = cStringIO.StringIO(file_text4)
-        output = cStringIO.StringIO()
+        input1 = io.StringIO(file_text1)
+        input2 = io.StringIO(file_text2)
+        input3 = io.StringIO(file_text3)
+        input4 = io.StringIO(file_text4)
+        output = io.StringIO()
 
         merge_files([input1,input2,input3,input4], output, verbose = False)
         self.assertEqual(output_text,output.getvalue())
@@ -69,7 +69,7 @@ Nulla pulvinar mattis lectus, non eleifend libero commodo ut.
         self.assertItemsEqual(expected_range_2, range_2)
 
     def test_print_and_flush(self):
-        handler = cStringIO.StringIO()
+        handler = io.StringIO()
         print_and_flush("Hello", handler)
         self.assertEqual(handler.getvalue(), "Hello")
 

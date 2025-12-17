@@ -8,13 +8,13 @@ import copy
 class DataSource(object):
     
     def __init__(self, source):
-        if isinstance(source, basestring):
+        if isinstance(source, str):
             self.source = {"source": source}
         else:
             self.source = source
     
     def __cmp__(self, other):
-        if isinstance(other, basestring):
+        if isinstance(other, str):
             cmp_string = other
         else:
             cmp_string = other.source["source"]

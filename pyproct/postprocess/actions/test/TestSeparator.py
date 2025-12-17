@@ -49,7 +49,7 @@ class TestSeparator(unittest.TestCase):
                           'traj_B': [9, 11, 12, 13, 7]
                           }
                     }
-        self.assertItemsEqual(range(16),sorted(all_elements))
+        self.assertItemsEqual(list(range(16)),sorted(all_elements))
         self.assertDictEqual(expected, decomposed )
 
     def test_classify(self):

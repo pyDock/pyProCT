@@ -88,13 +88,30 @@ class AnalysisRunner():
                     
     def evaluate(self):
         """
-        Runs all analysis for all clusterings in the clustering_info structure and recovers the results of this
-        analsis to attach them into the clustering_info structure.
+        Runs all analysis for all clusterings in the clustering_info structure and
+        attaches the results into the clustering_info dict.
         """
         self.run_analysis_for_all_clusterings(self.clustering_info)
-        
-        results = self.scheduler.run()
-        
-        for (clustering_id, analysis_results) in results:
+    
+        results = self.scheduler.run()   # dict: { task_name: analysis_results }
+    
+        for eval_key, analysis_results in results:
+            # Convert "Evaluation of clustering_0000" → "clustering_0000"
+            clustering_id = eval_key.replace("Evaluation of ", "")
+    
+            if analysis_results is None:
+                analysis_results = {}
+
             self.clustering_info[clustering_id]["evaluation"] = analysis_results
+   # def evaluate(self):
+   #     """
+   #     Runs all analysis for all clusterings in the clustering_info structure and recovers the results of this
+   #     analsis to attach them into the clustering_info structure.
+   #     """
+   #     self.run_analysis_for_all_clusterings(self.clustering_info)
+   #     
+   #     results = self.scheduler.run()
+   #     
+   #     for (clustering_id, analysis_results) in results:
+   #         self.clustering_info[clustering_id]["evaluation"] = analysis_results
     

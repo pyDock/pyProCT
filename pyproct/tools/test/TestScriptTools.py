@@ -16,8 +16,8 @@ class testScriptTools(unittest.TestCase):
         existing_file = os.path.join(path, "pdb_data.py")
         re_existing_file = os.path.join(path, "_pdb_data.py")
         non_existing_file = os.path.join(path, "nonexisting.txt")
-        self.assertEquals(non_existing_file, get_not_repeated_file_name(non_existing_file))
-        self.assertEquals(re_existing_file, get_not_repeated_file_name(existing_file))
+        self.assertEqual(non_existing_file, get_not_repeated_file_name(non_existing_file))
+        self.assertEqual(re_existing_file, get_not_repeated_file_name(existing_file))
     
     def test_create_directory(self):
         create_directory("tmp_test/test")

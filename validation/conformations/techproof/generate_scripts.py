@@ -15,7 +15,7 @@ tools.create_directory("scripts/level1")
 tools.create_directory("scripts/level0")
 
 all_initial_files = open(sys.argv[2])
-print "Working with filelist: %s"%sys.argv[2]
+print("Working with filelist: %s"%sys.argv[2])
 
 BASE_TRAJ_FOLDER = "/gpfs/scratch/bsc72/bsc72476/Victor/2JOF"
 BASE_SCRIPT_FOLDER = "scripts"

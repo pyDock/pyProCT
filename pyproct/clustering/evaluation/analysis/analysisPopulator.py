@@ -6,18 +6,48 @@ Created on 06/06/2012
 import numpy
 from pyproct.clustering.cluster import get_cluster_sizes
 from pyproct.clustering.evaluation.analysis.analysis import Analysis
-from pyproct.clustering.evaluation.metrics.pcaMetrics import PCAMetric
-from pyproct.clustering.evaluation.metrics.cython.cohesion import CohesionCalculator
-from pyproct.clustering.evaluation.metrics.compactness import CompactnessCalculator
-from pyproct.clustering.evaluation.metrics.separation import SeparationCalculator
-from pyproct.clustering.evaluation.metrics.dunn import DunnCalculator
-from pyproct.clustering.evaluation.metrics.daviesBouldin import DaviesBouldinCalculator
-from pyproct.clustering.evaluation.metrics.calinskiHarabasz import CalinskiHarabaszCalculator
-from pyproct.clustering.evaluation.metrics.gaussianSeparation import GaussianSeparationCalculator
-from pyproct.clustering.evaluation.metrics.cython.silhouette import SilhouetteCoefficientCalculator
-from pyproct.clustering.evaluation.metrics.cython.graph.nCut import NCut
-from pyproct.clustering.evaluation.metrics.cython.graph.ratioCut import RatioCut
-from pyproct.clustering.evaluation.metrics.cython.graph.minMaxCut import MinMaxCut
+
+# Graph metrics (Python puro)
+from pyproct.clustering.evaluation.analysis.ncutCalculator import NCut
+from pyproct.clustering.evaluation.analysis.ratioCutCalculator import RatioCut
+from pyproct.clustering.evaluation.analysis.minMaxCutCalculator import MinMaxCut
+
+# Basic metrics (Python puro)
+from pyproct.clustering.evaluation.metrics.basic_calculators import (
+    CohesionCalculator,
+    CompactnessCalculator,
+    SeparationCalculator,
+    SilhouetteCoefficientCalculator,
+)
+
+#from pyproct.clustering.cluster import get_cluster_sizes
+#from pyproct.clustering.evaluation.analysis.analysis import Analysis
+#from pyproct.clustering.evaluation.metrics.pcaMetrics import PCAMetric
+#from pyproct.clustering.evaluation.metrics.cython.cohesion import CohesionCalculator
+#from pyproct.clustering.evaluation.analysis.cohesionCalculator import CohesionCalculator
+#from pyproct.clustering.evaluation.metrics.compactness import CompactnessCalculator
+#from pyproct.clustering.evaluation.metrics.separation import SeparationCalculator
+#from pyproct.clustering.evaluation.metrics.dunn import DunnCalculator
+#from pyproct.clustering.evaluation.metrics.daviesBouldin import DaviesBouldinCalculator
+#from pyproct.clustering.evaluation.metrics.calinskiHarabasz import CalinskiHarabaszCalculator
+#from pyproct.clustering.evaluation.metrics.gaussianSeparation import GaussianSeparationCalculator
+#from pyproct.clustering.evaluation.metrics.cython.silhouette import SilhouetteCoefficientCalculator
+#from pyproct.clustering.evaluation.analysis.silhouetteCoefficientCalculator import SilhouetteCoefficientCalculator
+#from pyproct.clustering.evaluation.metrics.cython.graph.nCut import NCut
+#from pyproct.clustering.evaluation.analysis.ncutCalculator import NCut
+#from pyproct.clustering.evaluation.metrics.cython.graph.ratioCut import RatioCut
+#from pyproct.clustering.evaluation.analysis.ratioCutCalculator import RatioCut
+#from pyproct.clustering.evaluation.metrics.cython.graph.minMaxCut import MinMaxCut
+#from pyproct.clustering.evaluation.analysis.minMaxCutCalculator import MinMaxCut
+#
+#from pyproct.clustering.evaluation.metrics.basic_calculators import (
+#    CohesionCalculator,
+#    CompactnessCalculator,
+#    SeparationCalculator,
+#    RadiiCalculator,
+#    SilhouetteCoefficientCalculator
+#)
+
 
 class AnalysisPopulator(object):
 
@@ -58,40 +88,40 @@ class AnalysisPopulator(object):
 
         # Evaluators
 
-        self.all_possible_analysis["Cohesion"] = Analysis("Cohesion", self.evaluate_with_calculator,
+        self.all_possible_analysis["Cohesion"] = Analysis("Cohesion", evaluate_with_calculator,
                                                                       {"class":CohesionCalculator,"matrix":distance_matrix})
 
-        self.all_possible_analysis["Compactness"] = Analysis("Compactness", self.evaluate_with_calculator,
+        self.all_possible_analysis["Compactness"] = Analysis("Compactness", evaluate_with_calculator,
                                                                     {"class":CompactnessCalculator,"matrix":distance_matrix})
         
-        self.all_possible_analysis["Separation"] = Analysis("Separation", self.evaluate_with_calculator,
+        self.all_possible_analysis["Separation"] = Analysis("Separation", evaluate_with_calculator,
                                                             {"class":SeparationCalculator,"matrix":distance_matrix})
 
-        self.all_possible_analysis["Silhouette"] = Analysis("Silhouette", self.evaluate_with_calculator,
+        self.all_possible_analysis["Silhouette"] = Analysis("Silhouette", evaluate_with_calculator,
                                                         {"class":SilhouetteCoefficientCalculator,"matrix":distance_matrix})
 
-        self.all_possible_analysis["GaussianSeparation"] = Analysis("GaussianSeparation", self.evaluate_with_calculator,
-                                                                    {"class":GaussianSeparationCalculator,"matrix":distance_matrix})
+        #self.all_possible_analysis["GaussianSeparation"] = Analysis("GaussianSeparation", evaluate_with_calculator,
+        #                                                            {"class":GaussianSeparationCalculator,"matrix":distance_matrix})
 
-        self.all_possible_analysis["Calinski-Harabasz"] = Analysis("Calinski-Harabasz", self.evaluate_with_calculator,
-                                                                   {"class":CalinskiHarabaszCalculator,"matrix":distance_matrix})
+        #self.all_possible_analysis["Calinski-Harabasz"] = Analysis("Calinski-Harabasz", evaluate_with_calculator,
+        #                                                           {"class":CalinskiHarabaszCalculator,"matrix":distance_matrix})
         
-        self.all_possible_analysis["Dunn"] = Analysis("Dunn", self.evaluate_with_calculator,
-                                                      {"class":DunnCalculator,"matrix":distance_matrix})
+        #self.all_possible_analysis["Dunn"] = Analysis("Dunn", evaluate_with_calculator,
+        #                                              {"class":DunnCalculator,"matrix":distance_matrix})
         
-        self.all_possible_analysis["Davies-Bouldin"] = Analysis("Davies-Bouldin", self.evaluate_with_calculator,
-                                                                {"class":DaviesBouldinCalculator,"matrix":distance_matrix})
+        #self.all_possible_analysis["Davies-Bouldin"] = Analysis("Davies-Bouldin", evaluate_with_calculator,
+        #                                                        {"class":DaviesBouldinCalculator,"matrix":distance_matrix})
 
         # Graph
-        self.all_possible_analysis["RatioCut"] = Analysis("RatioCut", self.evaluate_with_calculator,
+        self.all_possible_analysis["RatioCut"] = Analysis("RatioCut", evaluate_with_calculator,
                                                           {"class":RatioCut,"matrix":distance_matrix})
-        self.all_possible_analysis["NCut"] = Analysis("NCut", self.evaluate_with_calculator,
+        self.all_possible_analysis["NCut"] = Analysis("NCut", evaluate_with_calculator,
                                                       {"class":NCut,"matrix":distance_matrix})
-        self.all_possible_analysis["MinMaxCut"] = Analysis("MinMaxCut", self.evaluate_with_calculator,
+        self.all_possible_analysis["MinMaxCut"] = Analysis("MinMaxCut", evaluate_with_calculator,
                                                            {"class":MinMaxCut,"matrix":distance_matrix})
 
         # PCA
-        self.all_possible_analysis["PCAanalysis"] = Analysis("PCAanalysis", self.analysis_function_pca, data_handler)
+        #self.all_possible_analysis["PCAanalysis"] = Analysis("PCAanalysis", self.analysis_function_pca, data_handler)
 
     def get_analysis_list(self):
         """
@@ -105,7 +135,7 @@ class AnalysisPopulator(object):
             if analysis_type in self.all_possible_analysis:
                 analysys_list.append(self.all_possible_analysis[analysis_type])
             else:
-                print "[WARNING]", analysis_type, "is not an allowed analysis type"
+                print("[WARNING]", analysis_type, "is not an allowed analysis type")
 
         return analysys_list
 
@@ -131,7 +161,7 @@ class AnalysisPopulator(object):
         for evaluation_criteria_id in parameters["clustering"]["evaluation"]["evaluation_criteria"]:
 #             for subcriteria in parameters["clustering"]["evaluation"]["evaluation_criteria"][evaluation_criteria_id]:
 #                 eval_types.append(subcriteria)
-            eval_types.extend(parameters["clustering"]["evaluation"]["evaluation_criteria"][evaluation_criteria_id].keys())
+            eval_types.extend(list(parameters["clustering"]["evaluation"]["evaluation_criteria"][evaluation_criteria_id].keys()))
         return list(set(eval_types))
 
     ################################################################################
@@ -196,19 +226,66 @@ class AnalysisPopulator(object):
         sizes = get_cluster_sizes(clustering.clusters)[1]
         return numpy.mean(sizes)
 
-    def evaluate_with_calculator(self, clustering, key_args):
-        """
-        Creates a calculator using a class.
-        @param clustering: Clustering to be evaluated.
-        @param key_args: A dictionary containing two mandatory keys: 'class' with the class of the calculator to be use and
-        'matrix', which contains the distance matrix
-        @return: The valua of the evaluation.
-        """
-        calculator = key_args['class']()
-        return calculator.evaluate(clustering, key_args['matrix'])
+    
+   # def evaluate_with_calculator(self, clustering, key_args):
+   #     """
+   #     Creates a calculator using a class.
+   #     @param clustering: Clustering to be evaluated.
+   #     @param key_args: A dictionary containing two mandatory keys: 'class' with the class of the calculator to be use and
+   #     'matrix', which contains the distance matrix
+   #     @return: The valua of the evaluation.
+   #     """
+   #     calculator = key_args['class'](key_args["matrix"])
+   #     #calculator = key_args['class']()
+   #     return calculator.evaluate(clustering, key_args['matrix'])
 
     def analysis_function_pca(self,clustering, data_handler):
         """
         """
         calculator = PCAMetric(data_handler)
         return calculator.evaluate(clustering)
+
+def evaluate_with_calculator(clustering, key_args):
+    # key_args: {"class": <CalculatorClass>, "matrix": distance_matrix, ...}
+
+    calc_cls = key_args["class"]
+    matrix = key_args.get("matrix", None)
+
+    # Soporta calculadoras que necesiten matrix en __init__ o no
+    try:
+        calculator = calc_cls(matrix)
+    except TypeError:
+        calculator = calc_cls()
+
+    # Soporta calculadoras con evaluate() o calculate()
+    if hasattr(calculator, "evaluate"):
+        result = calculator.evaluate(clustering, matrix)
+    elif hasattr(calculator, "calculate"):
+        result = calculator.calculate(clustering)
+    else:
+        raise AttributeError(f"{calc_cls.__name__} has no evaluate() or calculate()")
+
+    # Normaliza dict -> número (para BestClusteringSelector)
+    if isinstance(result, dict):
+        nums = [v for v in result.values() if isinstance(v, (int, float))]
+        return float(sum(nums) / len(nums)) if nums else 0.0
+
+    return result
+
+#def evaluate_with_calculator(clustering, key_args):
+#    calculator = key_args['class']()
+#
+#    result = calculator.evaluate(clustering, key_args['matrix'])
+#
+#    # NORMALIZACIÓN: si devuelve dict por cluster → convertir en un número
+#    if isinstance(result, dict):
+#        # Tomar SOLO valores numéricos
+#        numeric_vals = [v for v in result.values() if isinstance(v, (int, float))]
+#
+#        if len(numeric_vals) == 0:
+#            return 0.0
+#
+#        # Por defecto: MEDIA
+#        return float(sum(numeric_vals) / len(numeric_vals))
+#
+#    return result

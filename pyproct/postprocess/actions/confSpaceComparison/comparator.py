@@ -34,7 +34,7 @@ class Separator(object):
         for cluster_id in decomposed_clusters:
             decomposed_cluster = decomposed_clusters[cluster_id]
 
-            if len(decomposed_cluster.keys())>1:
+            if len(list(decomposed_cluster.keys()))>1:
                 classification["mixed"][cluster_id] = decomposed_cluster
             else:
                 classification["pure"][cluster_id] = decomposed_cluster
@@ -141,7 +141,7 @@ class Analyzer(object):
         for cluster_type in separated_decomposed_clusters:
             for cluster_id in separated_decomposed_clusters[cluster_type]:
                 decomposed_cluster = separated_decomposed_clusters[cluster_type][cluster_id]
-                analysis[cluster_id] = {"components":decomposed_cluster.keys(),"global":{}}
+                analysis[cluster_id] = {"components":list(decomposed_cluster.keys()),"global":{}}
                 analysis[cluster_id]["global"]["mean"], analysis[cluster_id]["global"]["std"], analysis[cluster_id]["global"]["max"] = calculate_distance_stats(getAllElements(decomposed_cluster), distance_matrix)
                 analysis[cluster_id]["global"]["num_elements"] = len(getAllElements(decomposed_cluster))
 

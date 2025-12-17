@@ -148,7 +148,7 @@ class TestClustering(unittest.TestCase):
                   Cluster(9,[9,10,11,12,13,14,15])
                   )
         clustering = Clustering(clusters)
-        self.assertItemsEqual(sorted( clustering.get_all_clustered_elements()), range(17))
+        self.assertItemsEqual(sorted( clustering.get_all_clustered_elements()), list(range(17)))
 
     def test_load_and_save_to_disk(self):
         clusters =(Cluster(16,[16]),
@@ -190,8 +190,8 @@ class TestClustering(unittest.TestCase):
         for filename in filenames:
             os.system("rm "+filename)
 
-        numpy.testing.assert_equal(sorted(elements), range(17))
-        numpy.testing.assert_equal(sorted(elements_batch), range(17))
+        numpy.testing.assert_equal(sorted(elements), list(range(17)))
+        numpy.testing.assert_equal(sorted(elements_batch), list(range(17)))
 
     def test_classify(self):
         tags = ["A","B","C"]
@@ -204,12 +204,12 @@ class TestClustering(unittest.TestCase):
         self.assertEqual(counter['C'], 2)
 
     def test_get_medoids(self):
-        clusters = [ClusterMock(range(0,10)),ClusterMock(range(10,50)),ClusterMock(range(50,80)),ClusterMock(range(80,200))]
+        clusters = [ClusterMock(list(range(0,10))),ClusterMock(list(range(10,50))),ClusterMock(list(range(50,80))),ClusterMock(list(range(80,200)))]
         clustering = Clustering(clusters)
         self.assertItemsEqual(clustering.get_medoids("distance_matrix"),[0, 10, 50, 80])
 
     def test_get_proportional_size_representatives(self):
-        clusters = [ClusterMock(range(0,10)),ClusterMock(range(10,50)),ClusterMock(range(50,80)),ClusterMock(range(80,200))]
+        clusters = [ClusterMock(list(range(0,10))),ClusterMock(list(range(10,50))),ClusterMock(list(range(50,80))),ClusterMock(list(range(80,200)))]
         clustering = Clustering(clusters)
         rep =  clustering.get_proportional_size_representatives(30, "distance_matrix" )
         self.assertItemsEqual(rep, [0, 0, 10, 10, 11, 12, 13, 14, 50, 50, 51, 52, 53, 80, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96])

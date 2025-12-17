@@ -7,7 +7,7 @@ import unittest
 from pyproct.clustering.evaluation.metrics.common import get_intra_cluster_distances,\
     get_inter_cluster_distances, get_distances_of_elements_to, update_medoids,\
     get_inter_cluster_prototype_distances
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.clustering.evaluation.metrics.test.data import CH_table1, squared_CH_table1
 from pyproct.clustering.cluster import Cluster
 import numpy
@@ -26,7 +26,7 @@ class Test(unittest.TestCase):
                                0.0]
         matrix = CondensedMatrix(data)
         expected_distance = 4
-        self.assertEqual(expected_distance, numpy.sum(get_intra_cluster_distances(Cluster(None, range(5)), matrix)))
+        self.assertEqual(expected_distance, numpy.sum(get_intra_cluster_distances(Cluster(None, list(range(5))), matrix)))
 
     def test_get_inter_cluster_distances(self):
         matrix = CondensedMatrix(squared_CH_table1)

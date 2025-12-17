@@ -73,7 +73,7 @@ def filter_remarks(remarks_list, subset="NONE"):
     """
     available =  ["NONE","ALL","STANDARD", "NOT STANDARD"]
     if not subset in available:
-        print "[WARNING proteinEnsembleDataLoader::filter_remarks] %s subset is not an available option %s."%(subset, str(available))
+        print("[WARNING proteinEnsembleDataLoader::filter_remarks] %s subset is not an available option %s."%(subset, str(available)))
         return []
     
     filtered_groups = []
@@ -123,7 +123,7 @@ def read_to_TAG(file_input_handler, TAG):
     """
     lines = []  
     for l in file_input_handler:
-        if isinstance(TAG, basestring):
+        if isinstance(TAG, str):
             if l[:len(TAG)]==TAG:
                 return lines
             else:
@@ -133,7 +133,7 @@ def read_to_TAG(file_input_handler, TAG):
                 if l[:len(tag)]==TAG:
                     return lines
                 lines.append(l)
-    raise Exception, "The end of the file was reached and the tag "+TAG+" was not found." 
+    raise Exception("The end of the file was reached and the tag "+TAG+" was not found.") 
 
 def advance_to_TAG(file_input_handler, TAG):
     """

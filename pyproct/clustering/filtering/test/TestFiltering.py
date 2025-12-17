@@ -10,7 +10,7 @@ class ClusteringMock(object):
     def __init__(self, number_of_clusters, number_of_elements):
         self.number_of_clusters = number_of_clusters
         self.total_number_of_elements = number_of_elements
-        self.clusters = range(number_of_clusters)
+        self.clusters = list(range(number_of_clusters))
     
     def eliminate_noise(self, max_noise):
         pass
@@ -127,8 +127,8 @@ class TestFiltering(unittest.TestCase):
 
         myFilter = ClusteringFilter({},MatrixHandlerMock(1000))
         sel, not_sel = myFilter.filter_repeated(clustering_info,{})
-        self.assertItemsEqual(sel.keys(),["clustering 1","clustering 3"])
-        self.assertItemsEqual(not_sel.keys(),["clustering 2"])
+        self.assertItemsEqual(list(sel.keys()),["clustering 1","clustering 3"])
+        self.assertItemsEqual(list(not_sel.keys()),["clustering 2"])
         self.assertDictEqual(not_sel["clustering 2"]["reasons"][0],
                              {'reason': 'EQUAL_TO_OTHER_CLUSTERING', 'data': {'id': 'clustering 3'}})
         
@@ -156,9 +156,9 @@ class TestFiltering(unittest.TestCase):
                           }
         
         selected, not_selected =  myFilter.filter(clustering_info)
-        self.assert_(len(selected) == 1 and len(not_selected) == 3)
-        self.assertItemsEqual(selected.keys() ,      [ "clustering 3"])
-        self.assertItemsEqual(not_selected.keys() ,  ["clustering 1","clustering 2","clustering 4",])
+        self.assertTrue(len(selected) == 1 and len(not_selected) == 3)
+        self.assertItemsEqual(list(selected.keys()) ,      [ "clustering 3"])
+        self.assertItemsEqual(list(not_selected.keys()) ,  ["clustering 1","clustering 2","clustering 4",])
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

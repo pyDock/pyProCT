@@ -19,7 +19,7 @@ def create_directory(directory_path, ensure_writability = False):
     try:
         os.makedirs(directory_path)
         return True
-    except OSError, e:
+    except OSError as e:
         if e.errno != errno.EEXIST:
             raise
     

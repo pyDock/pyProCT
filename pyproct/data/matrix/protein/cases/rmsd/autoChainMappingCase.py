@@ -5,8 +5,8 @@ Created on 27/06/2014
 """
 import numpy
 import itertools
-import pyRMSD.RMSDCalculator
-import pyRMSD.condensedMatrix
+#import pyRMSD.RMSDCalculator
+#import pyRMSD.condensedMatrix
 
 
 def combopermutations( elements_list, prefix = []):

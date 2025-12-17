@@ -3,9 +3,12 @@ Created on 13/02/2013
 
 @author: victor
 """
-from pyRMSD.RMSDCalculator import RMSDCalculator
-from pyRMSD.condensedMatrix import CondensedMatrix
+#from pyRMSD.RMSDCalculator import RMSDCalculator
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.driver.parameters import ProtocolParameters
+
+import numpy as np
+from prody.measure import calcRMSD
 
 class RMSDMatrixBuilder(object):
 
@@ -34,43 +37,73 @@ class RMSDMatrixBuilder(object):
         structure = data_handler.get_data()
         fit_selection_coordsets = structure.getFittingCoordinates()
         calc_selection_coordsets = structure.getCalculationCoordinates()
-        
+                # ---------------------------------------------------------------------
+        # Python 3 replacement of pyRMSD RMSDCalculator using ProDy calcRMSD
+        # ---------------------------------------------------------------------
+
+        # fitting coordinates: shape (n_conformations, n_atoms_fit, 3)
+        fit_coords = np.array(fit_selection_coordsets)
+
+        # calculation coordinates: shape (n_conformations, n_atoms_calc, 3)
         if calc_selection_coordsets is None:
-            calculator = RMSDCalculator(calculatorType = calculator_type,
-                                        fittingCoordsets  = fit_selection_coordsets)
+            calc_coords = fit_coords
         else:
-            symm_groups = []
-            if "symmetries" in matrix_creation_parameters:
-                # Then prepare it to handle calculation symmetries
-                # Description of equivalences must have the same number of atoms
-                symm_groups = cls.process_symm_groups(matrix_creation_parameters,
-                                                      structure,
-                                                      calc_selection_coordsets)
-                print "Using symmetries", symm_groups
-            
-            
-            
-            calculator = RMSDCalculator(calculatorType = calculator_type,
-                                        fittingCoordsets  = fit_selection_coordsets,
-                                        calculationCoordsets = calc_selection_coordsets,
-                                        calcSymmetryGroups = symm_groups)
-        
-        try:
-            calculator.setNumberOfOpenMPThreads(calculator_options.get_value("number_of_threads",
-                                            default_value = 8))
-        except KeyError:
-            pass
-        
-        try:
-            calculator.setCUDAKernelThreadsPerBlock(calculator_options.get_value("threads_per_block",
-                                                                             default_value = 32), 
-                                                calculator_options.get_value("blocks_per_grid",
-                                                                             default_value = 8))
-        except KeyError:
-            pass
-        
-        rmsds = calculator.pairwiseRMSDMatrix()
-        return CondensedMatrix(rmsds)
+            calc_coords = np.array(calc_selection_coordsets)
+
+        n = calc_coords.shape[0]
+
+        # Allocate condensed RMSD matrix (size n*(n-1)/2)
+        condensed_size = n * (n - 1) // 2
+        condensed = np.zeros(condensed_size, dtype=float)
+
+        # Fill matrix
+        k = 0
+        for i in range(n - 1):
+            for j in range(i + 1, n):
+                # ProDy RMSD between conformations i and j
+                rmsd = calcRMSD(calc_coords[i], calc_coords[j])
+                condensed[k] = rmsd
+                k += 1
+
+        # Return condensed matrix as numpy array
+        return CondensedMatrix(condensed)
+
+#        if calc_selection_coordsets is None:
+#            calculator = RMSDCalculator(calculatorType = calculator_type,
+#                                        fittingCoordsets  = fit_selection_coordsets)
+#        else:
+#            symm_groups = []
+#            if "symmetries" in matrix_creation_parameters:
+#                # Then prepare it to handle calculation symmetries
+#                # Description of equivalences must have the same number of atoms
+#                symm_groups = cls.process_symm_groups(matrix_creation_parameters,
+#                                                      structure,
+#                                                      calc_selection_coordsets)
+#                print("Using symmetries", symm_groups)
+#            
+#            
+#            
+#            calculator = RMSDCalculator(calculatorType = calculator_type,
+#                                        fittingCoordsets  = fit_selection_coordsets,
+#                                        calculationCoordsets = calc_selection_coordsets,
+#                                        calcSymmetryGroups = symm_groups)
+#        
+#        try:
+#            calculator.setNumberOfOpenMPThreads(calculator_options.get_value("number_of_threads",
+#                                            default_value = 8))
+#        except KeyError:
+#            pass
+#        
+#        try:
+#            calculator.setCUDAKernelThreadsPerBlock(calculator_options.get_value("threads_per_block",
+#                                                                             default_value = 32), 
+#                                                calculator_options.get_value("blocks_per_grid",
+#                                                                             default_value = 8))
+#        except KeyError:
+#            pass
+#        
+#        rmsds = calculator.pairwiseRMSDMatrix()
+#        return CondensedMatrix(rmsds)
 
     @classmethod
     def process_symm_groups(cls, matrix_parameters, structure, calc_selection_coordsets):
@@ -93,7 +126,7 @@ class RMSDMatrixBuilder(object):
         
         # This one is mandatory
         if not "equivalences" in matrix_parameters["symmetries"][equivalence_id]:
-            print "[ERROR RMSDMatrixBuilder:process_group] It is mandatory to define the atom equivalences of a symmetry group (%s)."%equivalence_id
+            print("[ERROR RMSDMatrixBuilder:process_group] It is mandatory to define the atom equivalences of a symmetry group (%s)."%equivalence_id)
             exit(-1)
             
         atom_selections = matrix_parameters["symmetries"][equivalence_id]["equivalences"]
@@ -125,11 +158,11 @@ class RMSDMatrixBuilder(object):
         coordsets =  structure.getSelectionCoordinates(selection)[0]
 
         if len(coordsets) == 0:
-            print "[ERROR RMSDMatrixBuilder:select_one_atom] Selection returned 0 atoms (%s)."%selection
+            print("[ERROR RMSDMatrixBuilder:select_one_atom] Selection returned 0 atoms (%s)."%selection)
             exit(-1)
 
         if len(coordsets) > 1:
-            print "[ERROR RMSDMatrixBuilder:select_one_atom] Selection returned more than one atom (%s)."%selection
+            print("[ERROR RMSDMatrixBuilder:select_one_atom] Selection returned more than one atom (%s)."%selection)
             exit(-1)
 
         return coordsets[0]

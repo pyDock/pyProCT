@@ -6,13 +6,13 @@ Created on 13/08/2012
 import unittest
 from pyproct.clustering.clustering import Clustering
 from pyproct.clustering.cluster import Cluster
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.clustering.evaluation.metrics.cython.graph.tools import get_cluster_and_complementary
 
 class TestGraphMetrics(unittest.TestCase):
 
     def test_getClusterAndComplementary(self):
-        clustering = Clustering([Cluster(1,range(5)),Cluster(5,range(5,10)),Cluster(10,range(10,20))])
+        clustering = Clustering([Cluster(1,list(range(5))),Cluster(5,list(range(5,10))),Cluster(10,list(range(10,20)))])
         A,Acomp = get_cluster_and_complementary(1, clustering.clusters)
         A.sort() 
         Acomp.sort()

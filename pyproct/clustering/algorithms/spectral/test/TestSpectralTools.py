@@ -7,7 +7,7 @@ import unittest
 import numpy
 
 import pyproct.clustering.algorithms.spectral.cython.spectralTools as SpectralTools
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 
 class Test(unittest.TestCase):
 

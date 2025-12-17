@@ -3,7 +3,7 @@ Created on 27/11/2014
 
 @author: victor
 '''
-from pyRMSD.RMSDCalculator import RMSDCalculator
+#from pyRMSD.RMSDCalculator import RMSDCalculator
 import scipy.spatial.distance
 
 class euclideanDistanceBuilder(object):

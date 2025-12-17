@@ -18,7 +18,7 @@ class ElementRange(object):
     
     def __iter__(self):
         def xrange_generator(start, end):
-            for i in xrange(self.start, self.end+1):
+            for i in range(self.start, self.end+1):
                 yield i
         return xrange_generator(self.start, self.end)
             

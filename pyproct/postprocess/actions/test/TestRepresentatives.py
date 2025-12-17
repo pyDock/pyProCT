@@ -40,7 +40,7 @@ class Test(unittest.TestCase):
                                          ["data/prototypes.pdb"],
                                          do_merged_files_have_correlative_models = False,
                                          write_frame_number_instead_of_correlative_model_number = True)
-        print "".join(open(file_path,"r").readlines())
+        print("".join(open(file_path,"r").readlines()))
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

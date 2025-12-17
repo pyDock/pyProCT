@@ -14,8 +14,8 @@ import math
 DOUBLE = numpy.double
 ctypedef numpy.double_t DOUBLE_t
 
-INT = numpy.double
-ctypedef numpy.int_t INT_t
+INT = numpy.int64
+ctypedef numpy.int64_t INT_t
 
 def kth_elements_distance(int element,
                           numpy.ndarray[INT_t] klist,

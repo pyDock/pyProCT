@@ -28,14 +28,14 @@ class BestClusteringSelector(object):
         @return: The id of the best clustering with the criteria_id with higher score and the score itself.
         """
         if len(clustering_info) == 0:
-            print "[WARNING BestClusteringSelector::choose_best] clustering_info is empty."
+            print("[WARNING BestClusteringSelector::choose_best] clustering_info is empty.")
             return None
 
         evaluation_types = AnalysisPopulator.get_evaluation_analysis_types(self.parameters)
 
         # If there were no criteria defined, then the clustering is randomly selected
         if evaluation_types == []:
-            return clustering_info[clustering_info.keys()[random.randint(0,len(clustering_info.keys())-1)]]
+            return clustering_info[list(clustering_info.keys())[random.randint(0,len(list(clustering_info.keys()))-1)]]
 
         for evaluation_type in evaluation_types:
             BestClusteringSelector.normalize_one_evaluation_type(evaluation_type, clustering_info)
@@ -120,7 +120,7 @@ class BestClusteringSelector(object):
                 #Minimize metric
                 score += (1. - value) * weight
             else:
-                print "[ERROR]Criteria action is not valid ( %s )"%action
+                print("[ERROR]Criteria action is not valid ( %s )"%action)
                 exit()
         return score / accum_weight
 

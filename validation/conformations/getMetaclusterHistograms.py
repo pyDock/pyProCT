@@ -60,7 +60,7 @@ def generate_index_interpolation_map(original_frame_number, number_of_interpolat
             for k in range(number_of_interpolated_frames):
                 index_to_interpolation[acc] = (i,j)
                 acc += 1
-    print acc
+    print(acc)
     return index_to_interpolation
 
 if __name__ == '__main__':
@@ -82,12 +82,12 @@ if __name__ == '__main__':
         for datum in data:
             all_data.append(data[datum])
 
-        labels = [str(d) for d in data.keys()]
-        print data
-        print all_data
-        colors = cm.rainbow(np.linspace(0, 1, number_of_original_file_frames))[0:len(data.keys())]
-        print len(data)
-        print len(colors)
+        labels = [str(d) for d in list(data.keys())]
+        print(data)
+        print(all_data)
+        colors = cm.rainbow(np.linspace(0, 1, number_of_original_file_frames))[0:len(list(data.keys()))]
+        print(len(data))
+        print(len(colors))
         counts, bins, patches = plt.hist(all_data, bins = number_of_original_file_frames, range = [0,number_of_original_file_frames],\
                    normed = True, histtype='bar', align='mid', rwidth = 0.50, label = labels)
         #plt.ylim(0, 1. )

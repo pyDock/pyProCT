@@ -5,7 +5,7 @@ Created on 12/06/2012
 """
 import unittest
 import numpy
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 import scipy.spatial.distance
 from pyproct.postprocess.actions.confSpaceComparison.tools import calculate_mean_center_differences,\
     calculate_distance_stats

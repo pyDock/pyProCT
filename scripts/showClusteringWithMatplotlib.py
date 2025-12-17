@@ -15,11 +15,11 @@ import optparse
 import matplotlib.cm as cm
 
 def print_cluster_info(selection_class,clustering_id, results):
-    print clustering_id, results[selection_class][clustering_id]["clustering"]["number_of_clusters"], results[selection_class][clustering_id]["type"],
+    print(clustering_id, results[selection_class][clustering_id]["clustering"]["number_of_clusters"], results[selection_class][clustering_id]["type"], end=' ')
     if selection_class == "selected":
-        print "".join([ (str(results["scores"][criteria][clustering_id])+", ") for criteria in results["scores"].keys()]),
+        print("".join([ (str(results["scores"][criteria][clustering_id])+", ") for criteria in list(results["scores"].keys())]), end=' ')
 
-    print results[selection_class][clustering_id]["parameters"]
+    print(results[selection_class][clustering_id]["parameters"])
 
 if __name__ == '__main__':
     parser = optparse.OptionParser(usage='%prog -m <arg> -c <arglist> [-o <arg>]', version='1.0')
@@ -37,16 +37,16 @@ if __name__ == '__main__':
     if params["data"]["matrix"]["method"] == "distance":
         results = convert_to_utf8(json.loads(open(options.results_file).read()))
     else:
-        print "ERROR: Only 'distance' clusterings can be plotted."
+        print("ERROR: Only 'distance' clusterings can be plotted.")
 
     if options.print_list:
-        print "SELECTED"
-        print "========"
+        print("SELECTED")
+        print("========")
         for selected_cluster in results["selected"]:
             print_cluster_info("selected",selected_cluster,results)
         if options.all_clusterings:
-            print "NOT SELECTED"
-            print "============"
+            print("NOT SELECTED")
+            print("============")
             for not_selected_cluster in results["not_selected"]:
                 print_cluster_info("not_selected",not_selected_cluster,results)
         exit()

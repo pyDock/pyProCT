@@ -5,7 +5,7 @@ Created on 27/11/2014
 '''
 import numpy
 import unittest
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.data.matrix.combination.combinationMatrixCalculator import combine
 
 class TestCombinations(unittest.TestCase):
@@ -44,13 +44,13 @@ class TestCombinations(unittest.TestCase):
         
         # Test error conditions
         operation = ["mult",2,2]
-        print "Error means OK-> ",
+        print("Error means OK-> ", end=' ')
         self.assertRaises(SystemExit, combine, operation, matrices)
         operation = ["mult","a","a"]
-        print "Error means OK-> ",
+        print("Error means OK-> ", end=' ')
         self.assertRaises(SystemExit, combine, operation, matrices)
         operation = ["mult","dummy","a"]
-        print "Error means OK-> ",
+        print("Error means OK-> ", end=' ')
         self.assertRaises(SystemExit, combine, operation, matrices)
 
         # Test recursivity

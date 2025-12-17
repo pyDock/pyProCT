@@ -46,10 +46,10 @@ class Clustering(object):
                 data_in_this_cluster = self.clusters[i].get_size()
                 return data_in_this_cluster * 100. / self.total_number_of_elements
             else:
-                print "[WARNING Clustering::get_population_percent_of_cluster] you want the percentage of a non existing cluster."
+                print("[WARNING Clustering::get_population_percent_of_cluster] you want the percentage of a non existing cluster.")
                 return 0
         else:
-            print "[WARNING Clustering::get_population_percent_of_cluster] No clusters in this clusterization."
+            print("[WARNING Clustering::get_population_percent_of_cluster] No clusters in this clusterization.")
             return 0.
 
     def get_population_percent_of_n_bigger_clusters(self, n):
@@ -59,7 +59,7 @@ class Clustering(object):
         """
         percents = []
         if n > len(self.clusters):
-            print "[WARNING get_population_percent_of_n_bigger_clusters] Can't get more percentages than clusters we have. N defaulted to",len(self.clusters)
+            print("[WARNING get_population_percent_of_n_bigger_clusters] Can't get more percentages than clusters we have. N defaulted to",len(self.clusters))
             n = len(self.clusters)
 
         # Precondition: clusters are sorted

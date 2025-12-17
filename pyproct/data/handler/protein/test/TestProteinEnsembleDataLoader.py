@@ -78,7 +78,7 @@ class TestProteinEnsembleDataLoader(unittest.TestCase):
         coordinates = data.getCoordinates()
         x_coords = self.get_x_coords(coordinates)
                 
-        self.assertSequenceEqual( range(1,9), x_coords)
+        self.assertSequenceEqual( list(range(1,9)), x_coords)
     
     def test_close_with_model_remark(self):
         """

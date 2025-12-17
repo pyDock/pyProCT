@@ -11,6 +11,11 @@ from pyproct.driver.parameters import ProtocolParameters
 from pyproct.driver.observer.observer import Observer
 from pyproct.driver.driver import Driver
 import pyproct.tools.commonTools as tools
+import multiprocessing
+try:
+    multiprocessing.set_start_method("fork")
+except RuntimeError:
+    pass
 
 class CmdLinePrinter(threading.Thread):
 
@@ -29,7 +34,7 @@ class CmdLinePrinter(threading.Thread):
     def run(self):
         while not self.stopped():
             self.data_source.wait()
-            print self.data_source.get_data()
+            print(self.data_source.get_data())
             self.data_source.clear()
 
 if __name__ == '__main__':
@@ -47,14 +52,18 @@ if __name__ == '__main__':
 
     parameters = None
     try:
-        parameters = ProtocolParameters.get_params_from_json(tools.remove_comments(open(json_script).read()))
+        print(">>> Loading JSON from:", json_script)
+        #parameters = ProtocolParameters.get_params_from_json(tools.remove_comments(open(json_script).read()))        
+        json_text = open(json_script).read()
+        parameters = ProtocolParameters.get_params_from_json(json_text)
+
         parameters["global"]["workspace"]["base"] = os.path.abspath(parameters["global"]["workspace"]["base"])
-    except ValueError, e:
-        print "Malformed json script."
-        print e.message
+    except ValueError as e:
+        print("Malformed json script.")
+        print(e.message)
         exit()
 
-    print "pyProCT v.%s"%(pyproct.__version__)
+    print("pyProCT v.%s"%(pyproct.__version__))
 
     observer = None
     cmd_thread = None

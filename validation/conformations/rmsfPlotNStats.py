@@ -35,7 +35,7 @@ if __name__ == '__main__':
     fig.subplots_adjust(wspace = 0.25, hspace = 0.20, top = 0.85, bottom = 0.05)
 
     for i, file_id in enumerate(ordered_keys):
-        print i, file_id
+        print(i, file_id)
         displacements = convert_to_utf8(json.loads(open(displacement_files[file_id]).read()))
         ax = fig.add_subplot(len(displacement_files), 1, i)
         ax.set_ylim(-1,max(displacements["global"])+5)

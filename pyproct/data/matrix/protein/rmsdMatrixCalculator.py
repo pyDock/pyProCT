@@ -77,7 +77,7 @@ class RMSDMatrixCalculator(object):
             if not mapping:
                 return  RMSDMatrixBuilder.build(data_handler, matrix_params)
             else:
-                print "Performing Chain Mapping. This may take some time ..."
+                print("Performing Chain Mapping. This may take some time ...")
                 return ChainMappingBuilder.calcRMSDMatrix(data_handler.get_data(),
                                 matrix_params.get_value("calculator_type", default_value="QCP_SERIAL_CALCULATOR"),
                                 matrix_params.get_value("fit_selection", default_value="name CA"))

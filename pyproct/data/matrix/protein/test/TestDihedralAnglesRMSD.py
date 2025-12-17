@@ -6,7 +6,7 @@ Created on 08/07/2014
 import unittest
 from pyproct.driver.handlers.matrix.test.data.dihedral_angles_pdb_data import pdb1, expected_dihedrals
 import prody
-import StringIO
+import io
 from pyproct.driver.handlers.matrix.dihedralRMSDMatrixCalculator import DihedralRMSDMatrixCalculator,\
     rmsd
 import numpy
@@ -15,7 +15,7 @@ import numpy
 class Test(unittest.TestCase):
 
     def test_get_dihedrals(self):
-        input = StringIO.StringIO(pdb1)
+        input = io.StringIO(pdb1)
         pdb_structure = prody.parsePDBStream(input)
         dihedrals =   DihedralRMSDMatrixCalculator.calculateDihedralsForCoordset(pdb_structure,pdb_structure.getCoordsets()[0])
         # We have to get rid off the unknown values!

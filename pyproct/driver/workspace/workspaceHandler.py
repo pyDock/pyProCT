@@ -39,7 +39,7 @@ class WorkspaceHandler(Observable):
         """
         self.notify("MSG","Creating workspace...")
         if self.parameters.get_value("overwrite", default_value = True)  :
-            self.clear_directories(self.data.keys())
+            self.clear_directories(list(self.data.keys()))
 
         for folder_key in self.data:
             scripts_common.create_directory(self.data[folder_key])

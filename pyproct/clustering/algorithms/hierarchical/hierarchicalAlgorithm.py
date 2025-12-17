@@ -67,10 +67,13 @@ class HierarchicalClusteringAlgorithm(object):
         if cutoff != None:
             # Then apply the cutoff, this doesn't work much as expected
 #            print "[HIERARCHICAL] getting clustering."+algorithm_details
-            group_list = hcluster.fcluster(self.hie_mat,cutoff)
+            group_list = hcluster.fcluster(self.hie_mat,cutoff, criterion="distance")
+            import numpy as np
+            print("[DEBUG][HIER] unique groups =", len(set(group_list)), "min/max =", min(group_list), max(group_list))
 #            print "[HIERARCHICAL] Clustering done."+algorithm_details
             # Then let's generate the clusters
             clusters = gen_clusters_from_class_list(group_list)
+            print("[DEBUG][HIER] clusters built =", len(clusters))
             return Clustering(clusters,details = algorithm_details)
         else:
             return None

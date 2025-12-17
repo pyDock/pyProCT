@@ -43,7 +43,7 @@ class TestClusteringExplorator(unittest.TestCase):
                     'clustering_0019': {'clustering': 9, 'type': 'my_algorithm', 'parameters': {'lol': 9}}
                     }
 
-        clustering_info = explorator.generate_clustering_info("my_algorithm", run_parameters, range(10))
+        clustering_info = explorator.generate_clustering_info("my_algorithm", run_parameters, list(range(10)))
         self.assertEqual(clustering_info, expected)
 
     def test_build_algorithm(self):

@@ -7,7 +7,7 @@ import unittest
 import pyproct.clustering.test.data as test_data
 from pyproct.clustering.cluster import Cluster, cluster_from_tuple, get_cluster_sizes, gen_clusters_from_class_list
 import numpy
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 import os
 
 
@@ -83,7 +83,7 @@ class Test(unittest.TestCase):
         cluster_tuple = (1,[16,17,18])
         expected_cluster = Cluster(1,[1,16,17,18])
         cluster = cluster_from_tuple(cluster_tuple)
-        self.assertEquals(expected_cluster,cluster)
+        self.assertEqual(expected_cluster,cluster)
          
     def test_creation(self):
         try:
@@ -102,7 +102,7 @@ class Test(unittest.TestCase):
          
         # A modification in this list modifies the cluster
         obtained[2] = -1
-        self.assertNotEquals(cluster,cluster_copy)
+        self.assertNotEqual(cluster,cluster_copy)
      
     def test_calculate_biased_medoid(self):
         condensed_matrix = CondensedMatrix([1.0, 4.5, 7.2, 6.7, 
@@ -111,9 +111,9 @@ class Test(unittest.TestCase):
                                                            2.0]) 
         c = Cluster(None,[0,2,3,4])
         interesting_elements = [3,4,0]
-        self.assertEquals(4, c.calculate_biased_medoid(condensed_matrix,interesting_elements))
+        self.assertEqual(4, c.calculate_biased_medoid(condensed_matrix,interesting_elements))
         interesting_elements = [4,2,3]
-        self.assertEquals(4,c.calculate_biased_medoid(condensed_matrix,interesting_elements))
+        self.assertEqual(4,c.calculate_biased_medoid(condensed_matrix,interesting_elements))
      
     def test_calculate_biased_medoid_scenario(self):
         cluster = Cluster.from_dic({
@@ -139,7 +139,7 @@ class Test(unittest.TestCase):
         self.assertEqual(cluster.prototype, cluster.calculate_medoid(matrix))
         
     def test_random_sample(self):
-        cluster = Cluster(None, range(0,100))
+        cluster = Cluster(None, list(range(0,100)))
          
         self.assertItemsEqual(cluster.get_random_sample(10, 123), [45, 66, 89, 62, 67, 51, 65, 56, 22, 77])
          

@@ -34,6 +34,14 @@ class Driver(Observable):
                                                                         Driver.timer,
                                                                         self.generatedFiles)
 
+                # === DEBUG: distance matrix stats ===
+                dm = self.matrix_handler.distance_matrix
+                import numpy as np
+                data = dm.get_data()
+                print("[DEBUG][DM] min =", np.min(data),
+                "median =", np.median(data),
+                "p95 =", np.percentile(data, 95),
+                "max =", np.max(data))
                 if "clustering" in parameters:
                     clustering_results = self.clustering_section(parameters)
                     self.postprocess(parameters, clustering_results)
@@ -42,10 +50,10 @@ class Driver(Observable):
                     return self.get_best_clustering(clustering_results)
 
                 else:
-                    print "[Warning driver::run] 'clustering' object was not defined in the control script. pyProCT will now stop."
+                    print("[Warning driver::run] 'clustering' object was not defined in the control script. pyProCT will now stop.")
                     self.notify("Driver Finished", "\n"+str(Driver.timer))
             else:
-                print "[Warning driver::run] 'data' object was not defined in the control script. pyProCT will now stop."
+                print("[Warning driver::run] 'data' object was not defined in the control script. pyProCT will now stop.")
                 self.notify("Driver Finished", "\n"+str(Driver.timer))
 
         self.notify("Driver Finished", "\n"+str(Driver.timer))
@@ -84,7 +92,7 @@ class Driver(Observable):
 
         if clustering_results is None or best_clustering is None:
             self.notify("SHUTDOWN", "Improductive clustering search. Relax evaluation constraints.")
-            print "[FATAL Driver:get_best_clustering] Improductive clustering search. Exiting..."
+            print("[FATAL Driver:get_best_clustering] Improductive clustering search. Exiting...")
             exit()
         else:
             return clustering_results
@@ -137,25 +145,25 @@ class Driver(Observable):
         not_selected = clustering_results[2]
         best_clustering = self.get_best_clustering(clustering_results)
 
-        print "======================="
-        print "Summary:"
-        print "--------"
-        print "- %d clusterings were generated."%(len(selected.keys())+len(not_selected.keys()))
+        print("=======================")
+        print("Summary:")
+        print("--------")
+        print("- %d clusterings were generated."%(len(list(selected.keys()))+len(list(not_selected.keys()))))
         if parameters["clustering"]["generation"]["method"] != "load":
-            print "- Chosen cluster:"
-            print "\t- Used algorithm: ", best_clustering['type']
+            print("- Chosen cluster:")
+            print("\t- Used algorithm: ", best_clustering['type'])
             
             if 'Number of clusters' in best_clustering['evaluation']:
-                print "\t- Number of clusters: ", best_clustering['evaluation']['Number of clusters']
+                print("\t- Number of clusters: ", best_clustering['evaluation']['Number of clusters'])
             
             if 'Mean cluster size' in best_clustering['evaluation']:
-                print "\t- Mean cluster size: ", best_clustering['evaluation']['Mean cluster size']
+                print("\t- Mean cluster size: ", best_clustering['evaluation']['Mean cluster size'])
             
             if 'Noise level' in best_clustering['evaluation']:
-                print "\t- Noise: %.2f %%"%best_clustering['evaluation']['Noise level']
+                print("\t- Noise: %.2f %%"%best_clustering['evaluation']['Noise level'])
             
-            print "\t- Quality function results: "
+            print("\t- Quality function results: ")
             for qual_func in best_clustering['evaluation']:
                 if not qual_func in ['Number of clusters','Noise level', 'Mean cluster size'] and not "Normalized_" in qual_func:
-                    print "\t\t- {0}: {1}".format(qual_func, best_clustering['evaluation'][qual_func])
-        print "======================="
+                    print("\t\t- {0}: {1}".format(qual_func, best_clustering['evaluation'][qual_func]))
+        print("=======================")

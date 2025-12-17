@@ -52,7 +52,7 @@ class ParametersGenerator(object):
         run_parameters = []
         max_clusters = self.parameters["clustering"]["evaluation"]["maximum_clusters"]
         min_clusters = self.parameters["clustering"]["evaluation"]["minimum_clusters"]
-        sizes = range(min_clusters,max_clusters+1,self.num_clusters_step)
+        sizes = list(range(min_clusters,max_clusters+1,self.num_clusters_step))
 
         # Defaults
         if not "seeding_type" in self.parameters["clustering"]["algorithms"]["kmedoids"]:

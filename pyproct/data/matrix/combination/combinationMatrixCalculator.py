@@ -3,7 +3,7 @@ Created on 27/11/2014
  
 @author: victor
 """
-from pyRMSD.condensedMatrix import CondensedMatrix
+#from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.data.matrix.matrixCalculator import MatrixCalculator
  
 class combinationMatrixCalculator(object):
@@ -57,7 +57,7 @@ class combinationMatrixCalculator(object):
         matrices = {}
         operations = matrix_params.get_value("combination", default_value="")
          
-        number_of_matrix_ids = len(matrices_descr.keys()) 
+        number_of_matrix_ids = len(list(matrices_descr.keys())) 
         if number_of_matrix_ids == 0:
             #raise 
             pass
@@ -69,7 +69,7 @@ class combinationMatrixCalculator(object):
          
         # Load the matrices
         for matrix_id in matrices_descr:
-            print "Calculating %s"%(matrix_id)
+            print("Calculating %s"%(matrix_id))
             matrices[matrix_id] = MatrixCalculator.calculate(data_handler, 
                                                              matrices_descr[matrix_id])
              
@@ -104,7 +104,7 @@ def combine(operation, matrices):
         try:
             return float(operator)
         except:
-            print "[Error combinationMatrixCalculator:combine] Unexpected operator or id (%s)."%operator
+            print("[Error combinationMatrixCalculator:combine] Unexpected operator or id (%s)."%operator)
             exit()
  
 def add_matrices(matrix1, matrix2):
@@ -123,7 +123,7 @@ def multiply_by_scalar(op1, op2):
         scalar = op2
         matrix = op1
     else:
-        print "[Error combinationMatrixCalculator:multiply_by_scalar] One (and only one) operand must be ."
+        print("[Error combinationMatrixCalculator:multiply_by_scalar] One (and only one) operand must be .")
         exit()
          
     return CondensedMatrix(scalar*matrix.get_data())

@@ -4,7 +4,7 @@ Created on 17/04/2012
 @author: victor
 """
 import unittest
-from pyRMSD.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 import numpy
 from pyproct.clustering.algorithms.dbscan.dbscanAlgorithm import DBSCANAlgorithm,\
     PointClassType

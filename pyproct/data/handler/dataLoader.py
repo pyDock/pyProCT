@@ -38,7 +38,7 @@ class DataLoader(object):
         """
         Must return the data object and the number of loaded elements.
         """
-        print "[ERROR DataLoader::load_data_from_source] This method must be overriden. Exiting..."
+        print("[ERROR DataLoader::load_data_from_source] This method must be overriden. Exiting...")
         exit()
     
     def close(self):
