@@ -59,7 +59,7 @@ The goal of this fork is **functionality and reproducibility**, not feature expa
 ```bash
 conda create -n pyproct python=3.10
 conda activate pyproct
-pip install psutil numpy scipy cython matplotlib
+pip install psutil numpy pandas scipy cython matplotlib ProDy ipython pyyaml nbconvert plotly scikit-learn fastcluster mpi4py
 ```
 
 Clone the repository:
