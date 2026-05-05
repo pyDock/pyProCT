@@ -63,47 +63,22 @@ class DataHandler(object):
                 return source
         return None
     
-#    def get_loader(self, data_type):
-#        """
-#        Chooses the best loader for the type of data we have.
-#        """
-#        # Get all available loaders
-#        available_loaders = PluginHandler.get_classes('pyproct.data.handler', 
-#                                                          selection_keyword = "DataLoader", 
-#                                                          skip_list = ["test"],
-#                                                          plugin_name = "data_loader")
-#        
-#        loaders = [x for x in available_loaders if x.LOADER_TYPE == data_type]
-#        
-#        if len(loaders) == 0:
-#            print("[ERROR][DataHandler::get_loader] There is not a registered data loader for %s data type."%(data_type))
-#            exit()
-#        else:
-#            return loaders[0]
-#    def get_loader(self, data_type):
-#        # Static loader registry for Python 3
-#        from pyproct.data.handler.protein.proteinEnsembleHandler import ProteinEnsembleDataHandler
-#        
-#        registry = {
-#            "protein::ensemble": ProteinEnsembleDataHandler
-#        }
-#
-#        if data_type not in registry:
-#            raise ValueError(f"Unknown data handler type: {data_type}")
-#
-#        return registry[data_type]
     def get_loader(self, data_type):
-        # STATIC REGISTRY for Python 3 (no plugin system)
-        from pyproct.data.handler.protein.proteinEnsembleDataLoader import ProteinEnsembleDataLoader
-    
-        registry = {
-            "protein::ensemble": ProteinEnsembleDataLoader,
-        }
-    
-        if data_type not in registry:
-            raise ValueError(f"Unknown data handler type: {data_type}")
-    
-        return registry[data_type]
+        """
+        Chooses the best loader for the type of data we have.
+        """
+        available_loaders = PluginHandler.get_classes('pyproct.data.handler',
+                                                      selection_keyword="DataLoader",
+                                                      skip_list=["test"],
+                                                      plugin_name="data_loader")
+
+        loaders = [x for x in available_loaders if x.LOADER_TYPE == data_type]
+
+        if len(loaders) == 0:
+            print("[ERROR][DataHandler::get_loader] There is not a registered data loader for %s data type." % data_type)
+            exit()
+        else:
+            return loaders[0]
         
     def __getstate__(self):
         """
