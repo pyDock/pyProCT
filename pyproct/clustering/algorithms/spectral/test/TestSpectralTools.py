@@ -9,8 +9,22 @@ import numpy
 import pyproct.clustering.algorithms.spectral.cython.spectralTools as SpectralTools
 from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 
-@unittest.skip("Spectral tools belong to a pending dedicated block.")
 class Test(unittest.TestCase):
+
+    def assert_eigen_residuals(self, operator, eigenvectors, mass=None):
+        eigenvectors = numpy.asarray(eigenvectors)
+        operator = numpy.asarray(operator)
+        if mass is None:
+            mass = numpy.eye(operator.shape[0])
+        else:
+            mass = numpy.diag(numpy.asarray(mass))
+
+        for i in range(eigenvectors.shape[1]):
+            vector = eigenvectors[:, i]
+            denominator = numpy.dot(vector.conjugate(), numpy.dot(mass, vector))
+            eigenvalue = numpy.dot(vector.conjugate(), numpy.dot(operator, vector)) / denominator
+            residual = numpy.dot(operator, vector) - eigenvalue * numpy.dot(mass, vector)
+            self.assertLess(numpy.linalg.norm(residual), 1.0e-8)
 
     def test_order_by_eigenvalue(self):
         vectors = numpy.array([[ 1, 2, 3],
@@ -115,12 +129,18 @@ class Test(unittest.TestCase):
                           [ 0, -4.,  0.,  1.]])
         max_clusters = 2
         v  = SpectralTools.calculateUnnormalizedEigenvectors(L, max_clusters, False)
+        expected = numpy.array([[0., 0.],
+                                [0.7071067811865475, 0.],
+                                [0., 1.],
+                                [0.7071067811865475, 0.]])
+        numpy.testing.assert_allclose(numpy.abs(v), expected, atol=1.0e-12, rtol=1.0e-12)
 
         L = numpy.array([  [1., 0., 0.,  0.],
                           [ 0,  1.,  0., -4.],
                           [ 0,  0.,  1., 0.],
                           [ 0, -4.,  0.,  1.]])
         v  = SpectralTools.calculateUnnormalizedEigenvectors(L, max_clusters, True)
+        self.assert_eigen_residuals(L, v)
 
         D = [1.,2.,3.,4.]
 
@@ -129,13 +149,18 @@ class Test(unittest.TestCase):
                           [ 0,  0.,  1., 0.],
                           [ 0, -4.,  0.,  1.]])
         v  = SpectralTools.calculateNormalizedEigenvectors(L, D, max_clusters, False)
+        expected = numpy.array([[0., 0.],
+                                [0.47748165131433007, 0.],
+                                [0., 0.5773502691896258],
+                                [0.3687894200340762, 0.]])
+        numpy.testing.assert_allclose(numpy.abs(v), expected, atol=1.0e-12, rtol=1.0e-12)
 
         L = numpy.array([  [1., 0., 0.,  0.],
                           [ 0,  1.,  0., -4.],
                           [ 0,  0.,  1., 0.],
                           [ 0, -4.,  0.,  1.]])
         v  = SpectralTools.calculateNormalizedEigenvectors(L, D, max_clusters, True)
-        self.fail("CHECK EIGENCALCULATIONS AGAIN, VALUES FOR THIS METHODS ARE DIFFERENT")
+        self.assert_eigen_residuals(L, v, D)
         
     def test_calculate_degree_matrix_2(self):
         """
@@ -160,7 +185,7 @@ class Test(unittest.TestCase):
         
         W = CondensedMatrix(data)
         
-        self.assertListEqual([ 3., 1., 2., 1., 1.], SpectralTools.calculate_degree_matrix(W))
+        numpy.testing.assert_array_equal([ 3., 1., 2., 1., 1.], SpectralTools.calculate_degree_matrix(W))
         
         
 
