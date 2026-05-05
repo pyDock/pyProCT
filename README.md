@@ -4,6 +4,8 @@
 
 This repository is a **Python 3 compatible fork** of the original pyProCT project, preserving its original philosophy while updating the codebase to work with modern Python, NumPy, SciPy, and Cython.
 
+Migration and validation details are tracked in [`docs/PYTHON3_MIGRATION.md`](docs/PYTHON3_MIGRATION.md).
+
 ---
 
 ## 1. What is pyProCT?
