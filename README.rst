@@ -9,6 +9,9 @@ This repository is a **Python 3 compatible fork** of the original
 pyProCT project, preserving its original philosophy while updating the
 codebase to work with modern Python, NumPy, SciPy, and Cython.
 
+Migration and validation details are tracked in
+`docs/PYTHON3_MIGRATION.md <docs/PYTHON3_MIGRATION.md>`_.
+
 --------------
 
 1. What is pyProCT?
@@ -85,8 +88,8 @@ Clone the repository:
 
 .. code:: bash
 
-   git clone https://github.com/<your-user>/pyproct-python3.git
-   cd pyproct-python3
+   git clone https://github.com/pyDock/pyProCT.git
+   cd pyProCT
 
 Compile Cython extensions
 ~~~~~~~~~~~~~~~~~~~~~~~~~

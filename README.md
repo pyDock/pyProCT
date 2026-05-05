@@ -67,8 +67,8 @@ pip install psutil numpy pandas scipy cython matplotlib ProDy ipython pyyaml nbc
 Clone the repository:
 
 ```bash
-git clone https://github.com/<your-user>/pyproct-python3.git
-cd pyproct-python3
+git clone https://github.com/pyDock/pyProCT.git
+cd pyProCT
 ```
 
 ### Compile Cython extensions
