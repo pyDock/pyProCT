@@ -9,8 +9,19 @@ from pyproct.postprocess.actions.confSpaceComparison.tools import getAllElements
 from pyproct.postprocess.actions.confSpaceComparison.comparator import Separator
 
 
-@unittest.skip("Conformational-space separation belongs to a pending postprocess block.")
 class TestSeparator(unittest.TestCase):
+
+    def assert_decomposed_equal(self, expected, observed):
+        self.assertCountEqual(expected.keys(), observed.keys())
+        for cluster_id in expected:
+            self.assertCountEqual(expected[cluster_id].keys(), observed[cluster_id].keys())
+            for traj_id in expected[cluster_id]:
+                self.assertCountEqual(expected[cluster_id][traj_id], observed[cluster_id][traj_id])
+
+    def assert_separated_equal(self, expected, observed):
+        self.assertCountEqual(expected.keys(), observed.keys())
+        for cluster_type in expected:
+            self.assert_decomposed_equal(expected[cluster_type], observed[cluster_type])
 
     def test_decompose(self):
         traj_ranges = {"traj_A":(0,6),"traj_B":(7,15)}
@@ -51,7 +62,7 @@ class TestSeparator(unittest.TestCase):
                           }
                     }
         self.assertCountEqual(list(range(16)),sorted(all_elements))
-        self.assertDictEqual(expected, decomposed )
+        self.assert_decomposed_equal(expected, decomposed)
 
     def test_classify(self):
         decomposed = {
@@ -97,7 +108,7 @@ class TestSeparator(unittest.TestCase):
                                    }
                              }
                     }
-        self.assertDictEqual(expected, Separator.classify(decomposed))
+        self.assert_separated_equal(expected, Separator.classify(decomposed))
 
     def test_separate(self):
         traj_ranges = {"traj_A":(0,6),"traj_B":(7,15)}
@@ -135,7 +146,7 @@ class TestSeparator(unittest.TestCase):
                                    }
                              }
                     }
-        self.assertDictEqual(expected,Separator.separate(clusters, traj_ranges))
+        self.assert_separated_equal(expected, Separator.separate(clusters, traj_ranges))
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test_decompose']

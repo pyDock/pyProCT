@@ -10,7 +10,6 @@ import scipy.spatial.distance
 from pyproct.postprocess.actions.confSpaceComparison.tools import calculate_mean_center_differences,\
     calculate_distance_stats
 
-@unittest.skip("Conformational-space comparator belongs to a pending postprocess block.")
 class Test(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

@@ -130,7 +130,7 @@ class Analyzer(object):
         for cluster_type in separated_decomposed_clusters:
             analysis["num_" + cluster_type] = len(separated_decomposed_clusters[cluster_type])
             analysis["total_num_clusters"] += analysis["num_" + cluster_type]
-            analysis["num_" + cluster_type + "_elements"] = numpy.sum([len(getAllElements(separated_decomposed_clusters[cluster_type][dc_id])) for dc_id in separated_decomposed_clusters[cluster_type]])
+            analysis["num_" + cluster_type + "_elements"] = int(numpy.sum([len(getAllElements(separated_decomposed_clusters[cluster_type][dc_id])) for dc_id in separated_decomposed_clusters[cluster_type]]))
             analysis["total_num_elements"] += analysis["num_" + cluster_type + "_elements"]
 
     @classmethod
@@ -155,4 +155,3 @@ class Analyzer(object):
                     # The overlap ranges between 0 and 1, being 0 the best value. We invert it in order to
                     # to get a more understandable range (1 is the best value and 0 the worst). 
                     analysis[cluster_id]["global"]["overlap"] = 1 - OverlapCalculator.calculate_cluster_overlap( decomposed_cluster, distance_matrix)
-

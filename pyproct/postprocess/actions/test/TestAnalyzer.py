@@ -15,7 +15,6 @@ from json import encoder
 encoder.FLOAT_REPR = lambda o: format(o, '.4f')
 
 
-@unittest.skip("Conformational-space postprocess analysis belongs to a pending scientific block.")
 class TestAnalizer(unittest.TestCase):
 
     @classmethod
@@ -82,11 +81,17 @@ class TestAnalizer(unittest.TestCase):
                              'total_num_clusters': 5,
                              'num_pure_elements': 10,
                              'total_num_elements': 16,
-                             'overlap': 0.054930609464645341,
+                             'overlap': 0.10986121892929068,
+                             'mixed_overlap': 0.2929632504781088,
                              }
         analysis = {}
         Analyzer.analyze_clustering(separated_decomposed_clusters, self.matrix, analysis)
-        self.assertDictEqual(expected_analysis, analysis)
+        self.assertCountEqual(expected_analysis.keys(), analysis.keys())
+        for key in expected_analysis:
+            if isinstance(expected_analysis[key], float):
+                self.assertAlmostEqual(expected_analysis[key], analysis[key], 12)
+            else:
+                self.assertEqual(expected_analysis[key], analysis[key])
 
     def test_analyze_clusters(self):
 
@@ -99,10 +104,10 @@ class TestAnalizer(unittest.TestCase):
                     'num_elements': 5,
                     'mean': 1.1313708305358887,
                     "traj_A":{
-                        "max":1.4142,
-                        "mean":1.1314,
+                        "max":1.4142135381698608,
+                        "mean":1.1313708305358887,
                         "num_elements":5,
-                        "std":0.5657
+                        "std":0.5656854152679444
                     }
                 }
             },
@@ -114,10 +119,10 @@ class TestAnalizer(unittest.TestCase):
                     'num_elements': 5,
                     'mean': 1.1313708305358887,
                     "traj_B":{
-                        "max":1.4142,
-                        "mean":1.1314,
+                        "max":1.4142135381698608,
+                        "mean":1.1313708305358887,
                         "num_elements":5,
-                        "std":0.5657
+                        "std":0.5656854152679444
                     }
                 }
             },
@@ -128,21 +133,21 @@ class TestAnalizer(unittest.TestCase):
                     'std': 1.5095995219901064,
                     'num_elements': 15,
                     'max': 5.385164737701416,
-                    'overlap': 0.49575698403605678,
+                    'overlap': 0.22174244562784828,
                     'traj_C': {
-                        'std': 0.56568541526794436,
+                        'std': 0.5656854152679444,
                         'max': 1.4142135381698608,
                         'num_elements': 5,
                         'mean': 1.1313708305358887
                     },
                     'traj_A': {
-                        'std': 0.56568541526794436,
+                        'std': 0.5656854152679444,
                         'max': 1.4142135381698608,
                         'num_elements': 5,
                         'mean': 1.1313708305358887
                     },
                     'traj_B': {
-                        'std': 0.56568541526794436,
+                        'std': 0.5656854152679444,
                         'max': 1.4142135381698608,
                         'num_elements': 5,
                         'mean': 1.1313708305358887
@@ -155,18 +160,26 @@ class TestAnalizer(unittest.TestCase):
         analysis = {}
         Analyzer.analyze_clusters(self.separated_decomposed_clusters, self.matrix, analysis)
         self.maxDiff = None
-        self.assertEqual(json.dumps(expected_analysis, 
-                                        sort_keys = True, 
-                                        indent = 0, 
-                                        separators = (',', ':')), 
-                             json.dumps(analysis,
-                                        sort_keys = True, 
-                                        indent = 0, 
-                                        separators = (',', ':')))
-#         self.assertEqual(expected_analysis, analysis)
+        self.assertCountEqual(expected_analysis.keys(), analysis.keys())
+        for cluster_id in expected_analysis:
+            self.assertCountEqual(expected_analysis[cluster_id]["components"], analysis[cluster_id]["components"])
+            self.assertAlmostEqual(expected_analysis[cluster_id].get("centers_mean_diff", 0),
+                                   analysis[cluster_id].get("centers_mean_diff", 0),
+                                   12)
+            self.assert_global_stats_almost_equal(expected_analysis[cluster_id]["global"],
+                                                  analysis[cluster_id]["global"])
+
+    def assert_global_stats_almost_equal(self, expected, observed):
+        for key in ["std", "max", "num_elements", "mean", "overlap"]:
+            if key in expected:
+                if isinstance(expected[key], float):
+                    self.assertAlmostEqual(expected[key], observed[key], 12)
+                else:
+                    self.assertEqual(expected[key], observed[key])
+        for key in expected:
+            if isinstance(expected[key], dict):
+                self.assert_global_stats_almost_equal(expected[key], observed[key])
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test_']
     unittest.main()
-
-

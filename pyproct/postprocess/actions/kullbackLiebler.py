@@ -208,7 +208,7 @@ class KullbackLeiblerDivergence(object):
          
         @return: A 1D numpy.array containing the submatrix data. 
         """
-        traj_data = numpy.empty(number_of_elements*(number_of_elements-1)/2)
+        traj_data = numpy.empty(number_of_elements*(number_of_elements-1)//2)
         final_element = initial_element+number_of_elements
         m_i = 0
         for i in range(initial_element, final_element):

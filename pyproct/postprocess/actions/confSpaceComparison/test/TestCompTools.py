@@ -11,7 +11,6 @@ from pyproct.postprocess.actions.confSpaceComparison.tools import calculate_mean
     calculate_distance_stats, getAllElements, mergeSeparatedClusters
 
 
-@unittest.skip("Conformational-space comparison tools belong to a pending postprocess block.")
 class TestCompTools(unittest.TestCase):
 
 

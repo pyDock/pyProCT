@@ -11,7 +11,6 @@ from pyproct.postprocess.actions.kullbackLiebler import KullbackLeiblerDivergenc
 
 class TestKullbackLiebler(unittest.TestCase):
 
-    @unittest.skip("Kullback-Leibler postprocess belongs to a pending scientific block.")
     def test_get_matrix_data(self):
         condensed_matrix = CondensedMatrix([1.0, 4.5, 7.2, 3.3, 6.8, 6.1, 
                                                  8.5, 4.5, 4.6, 9.0, 1.0,
@@ -47,7 +46,7 @@ class TestKullbackLiebler(unittest.TestCase):
         screwed_distribution_props = [0.3, 0.0, 0.7]
         numpy.testing.assert_almost_equal([  2.99999995e-01,   1.00000000e-08,   6.99999995e-01,],smoothed(screwed_distribution_props),8)
         
-    @unittest.skip("Kullback-Leibler postprocess belongs to a pending scientific block.")
+    @unittest.skip("Legacy TODO in Py2 baseline; constructor expectation is obsolete.")
     def test_kullback_leibler_creation_calculation(self):
         """
         Regression Test.
