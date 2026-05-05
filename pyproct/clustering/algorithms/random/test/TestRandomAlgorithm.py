@@ -4,16 +4,16 @@ Created on 20/04/2012
 @author: victor
 """
 import unittest
-from pyproct.algorithms.random.RandomAlgorithm import RandomClusteringAlgorithm
-from pyproct.matrix.condensedMatrix import CondensedDistanceMatrix
-from pyproct.algorithms.random.FakeDistributionRandomAlgorithm import FakeDistributionRandomClusteringAlgorithm
+from pyproct.clustering.algorithms.random.RandomAlgorithm import RandomClusteringAlgorithm
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
+from pyproct.clustering.algorithms.random.FakeDistributionRandomAlgorithm import FakeDistributionRandomClusteringAlgorithm
 
 
 class Test(unittest.TestCase):
 
 
     def test_everything(self):
-        distances = CondensedDistanceMatrix([ 12.36931688,   5.83095189,   9.43398113,  12.52996409,  15.65247584,
+        distances = CondensedMatrix([ 12.36931688,   5.83095189,   9.43398113,  12.52996409,  15.65247584,
                                              17.4642492,    9.21954446,   4.47213595,   3.16227766,   4.47213595,
                                              5.65685425,   5.,           8.06225775,  11.18033989,  13.15294644,
                                              3.16227766,   6.32455532,   8.24621125,   3.16227766,   5.09901951,   2.  ])
@@ -27,10 +27,10 @@ class Test(unittest.TestCase):
             for c in clusterization.clusters:
                 absolutely_all_elements.extend(c.all_elements)
             absolutely_all_elements.sort()
-            self.assertItemsEqual(absolutely_all_elements, list(range(distances.row_length)))
+            self.assertCountEqual(absolutely_all_elements, list(range(distances.row_length)))
             
     def test_everything_for_rand_distrib(self):
-        distances = CondensedDistanceMatrix([0]*int((100*(100-1))/2))
+        distances = CondensedMatrix([0]*int((100*(100-1))/2))
         distribution = [60,33,7]
         rand_alg = FakeDistributionRandomClusteringAlgorithm(distances)
         clusterization  = rand_alg.perform_clustering(kwargs = {"distribution":distribution})

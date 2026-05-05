@@ -4,9 +4,11 @@ Created on 15/02/2012
 @author: victor
 """
 import unittest
+import os
 from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.clustering.cluster import cluster_from_tuple, Cluster
 import numpy
+import pyproct.clustering.algorithms.gromos.test.data as test_data
 from pyproct.clustering.algorithms.gromos.gromosAlgorithm import GromosAlgorithm
 from pyproct.clustering.algorithms.gromos.gromosAlgorithmTools import eliminate_cluster_from_node_list
 
@@ -46,7 +48,7 @@ class Test(unittest.TestCase):
                                                 0.5,  0.6, 0.7,
                                                       0.9, 0.8,
                                                            0.4])
-        self.assertItemsEqual([0,2], condensed_matrix.get_neighbors_for_node(1,list(range(5)),0.5))
+        self.assertCountEqual([0,2], condensed_matrix.get_neighbors_for_node(1,list(range(5)),0.5))
 
     def test_gromos(self):
         """
@@ -146,7 +148,8 @@ class Test(unittest.TestCase):
             self.assertEqual(nodes[i],nodes_left[i])
     
     def test_specific_case(self):
-        condensed_matrix = CondensedMatrix(list(numpy.asfarray(numpy.load("data/matrix.npy"))))
+        matrix_path = os.path.join(test_data.__path__[0], "matrix.npy")
+        condensed_matrix = CondensedMatrix(list(numpy.asarray(numpy.load(matrix_path), dtype=float)))
         gromos_alg = GromosAlgorithm(condensed_matrix)
         # If we cut below the minimum (1.16 here) You obtain all single element clusters 
         clustering = gromos_alg.perform_clustering({"cutoff": 1})

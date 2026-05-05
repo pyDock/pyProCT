@@ -5,6 +5,7 @@ Created on 12/03/2012
 """
 import sys
 import random
+from pyproct.clustering.randomTools import py2_shuffle
 
 def cluster_from_tuple(mytuple):
     """
@@ -47,7 +48,7 @@ def gen_clusters_from_class_list(group_list,skip_list=[]):
             else:
                 dic_clusters[group_list[i]] = [i]
     clusters = []
-    for k in list(dic_clusters.keys()):
+    for k in sorted(dic_clusters.keys()):
         clusters.append(Cluster(dic_clusters[k][0],dic_clusters[k]))
     return clusters
 
@@ -169,7 +170,7 @@ class Cluster(object):
         if not rand_seed is None:
             random.seed(rand_seed)
         temporary_list = list(self.all_elements)
-        random.shuffle(temporary_list)
+        py2_shuffle(random, temporary_list)
         return temporary_list[0:n]
 
     def to_dic(self):

@@ -8,6 +8,7 @@ import random
 from pyproct.clustering.algorithms.gromos.gromosAlgorithm import GromosAlgorithm
 from pyproct.clustering.cluster import gen_clusters_from_class_list
 from pyproct.clustering.clustering import Clustering
+from pyproct.clustering.randomTools import py2_sample
 
 
 
@@ -213,7 +214,7 @@ class KMedoidsAlgorithm(object):
 
         @return: The medoid list.
         """
-        random_medoids = random.sample(list(range(self.condensed_matrix.row_length)),k)
+        random_medoids = py2_sample(random, list(range(self.condensed_matrix.row_length)), k)
         return random_medoids
 
     def equidistant_seeding(self, k, number_of_elements):
@@ -225,10 +226,10 @@ class KMedoidsAlgorithm(object):
 
         @return: The medoid list.
         """
-        step = number_of_elements / k
+        step = number_of_elements // k
         medoids = []
         for i in range(k):
-            medoids.append((step/2) + (i*step))
+            medoids.append((step//2) + (i*step))
 
         return medoids
 
@@ -269,4 +270,3 @@ class KMedoidsAlgorithm(object):
             for c in clusters[0:k]:
                 medoids.append(c.prototype)
             return medoids
-

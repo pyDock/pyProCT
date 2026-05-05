@@ -11,56 +11,18 @@ from pyproct.clustering.algorithms.kmedoids.kMedoidsAlgorithm import KMedoidsAlg
 from pyproct.clustering.algorithms.random.RandomAlgorithm import RandomClusteringAlgorithm
 from pyproct.clustering.algorithms.hierarchical.hierarchicalAlgorithm import HierarchicalClusteringAlgorithm
 
-#def run_algorithm(algorithm, algorithm_kwargs, clustering_id):
-#    """
-#    This function launches an execution of one clustering algorithm with its parameters. Used mainly to be
-#    scheduled.
-#
-#    @param algorithm: Instance of a clustering algorithm.
-#
-#    @param algorithm_kwargs: The parameters needed by the algorithm above to run.
-#
-#    @param clustering_id: An id used to define the resulting clustering.
-#    """
-#    clustering = algorithm.perform_clustering(algorithm_kwargs)
-#    if clustering is None:
-#        print("[DEBUG][DBSCAN] clustering is None")
-#    else:
-#        print("[DEBUG][DBSCAN] clustering returned:",
-#              "clusters =", len(clustering.clusters))
-#        #      "noise =", len(clustering.noise))
-#    return (clustering_id, clustering)
-
 def run_algorithm(algorithm, algorithm_kwargs, clustering_id):
+    """
+    This function launches an execution of one clustering algorithm with its parameters. Used mainly to be
+    scheduled.
+
+    @param algorithm: Instance of a clustering algorithm.
+
+    @param algorithm_kwargs: The parameters needed by the algorithm above to run.
+
+    @param clustering_id: An id used to define the resulting clustering.
+    """
     clustering = algorithm.perform_clustering(algorithm_kwargs)
-
-    # DEBUG robusto: no asume atributos
-    if clustering is None:
-        print(f"[DEBUG][{clustering_id}] perform_clustering -> None")
-        return (clustering_id, None)
-
-    # clusters puede ser lista o dict
-    clusters_obj = getattr(clustering, "clusters", None)
-    if isinstance(clusters_obj, dict):
-        nclusters = len(clusters_obj)
-    elif isinstance(clusters_obj, list):
-        nclusters = len(clusters_obj)
-    else:
-        nclusters = None
-
-    # ruido: a veces se llama noise, outliers, unclustered...
-    noise_obj = None
-    for attr in ("noise", "outliers", "unclustered", "noise_elements"):
-        if hasattr(clustering, attr):
-            noise_obj = getattr(clustering, attr)
-            break
-    nnoise = len(noise_obj) if noise_obj is not None and hasattr(noise_obj, "__len__") else None
-
-#    print(f"[DEBUG][{clustering_id}] clusters={nclusters} noise={nnoise} type={type(clustering).__name__}")
-    print(f"[DEBUG][{clustering_id}] clusters={len(clustering.clusters)} "
-          f"clustered={sum(len(c.all_elements) for c in clustering.clusters)} "
-          f"type={type(clustering).__name__}")
-
     return (clustering_id, clustering)
 
 class ClusteringExplorer(Observable):

@@ -10,6 +10,10 @@ import os
 import pyproct.clustering.test.data as test_data
 import numpy
 
+def remove_if_exists(path):
+    if os.path.exists(path):
+        os.remove(path)
+
 class ClusterMock():
     def __init__(self, elements):
         self.elements = elements
@@ -129,7 +133,7 @@ class TestClustering(unittest.TestCase):
         clustering = Clustering(clusters)
         class_list = clustering.gen_class_list()
         expected_class_list = [2, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 3]
-        self.assertItemsEqual(class_list, expected_class_list)
+        self.assertCountEqual(class_list, expected_class_list)
 
         clusters =(
                   Cluster(0,[0,1,2,3]),
@@ -138,7 +142,7 @@ class TestClustering(unittest.TestCase):
         clustering = Clustering(clusters)
         class_list = clustering.gen_class_list()
         expected_class_list = [1, 1, 1, 1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0]
-        self.assertItemsEqual(class_list, expected_class_list)
+        self.assertCountEqual(class_list, expected_class_list)
 
     def test_get_all_clustered_elements(self):
         clusters =(
@@ -148,7 +152,7 @@ class TestClustering(unittest.TestCase):
                   Cluster(9,[9,10,11,12,13,14,15])
                   )
         clustering = Clustering(clusters)
-        self.assertItemsEqual(sorted( clustering.get_all_clustered_elements()), list(range(17)))
+        self.assertCountEqual(sorted( clustering.get_all_clustered_elements()), list(range(17)))
 
     def test_load_and_save_to_disk(self):
         clusters =(Cluster(16,[16]),
@@ -158,11 +162,13 @@ class TestClustering(unittest.TestCase):
 
         clustering = Clustering(clusters)
         before_saving_elements = clustering.get_all_clustered_elements()
-        clustering.save_to_disk(os.path.join(test_data.__path__[0],"saved_clustering_for_test"))
-        loaded_clustering = Clustering.load_from_disk(os.path.join(test_data.__path__[0],"saved_clustering_for_test"))
+        filename = os.path.join(test_data.__path__[0],"saved_clustering_for_test")
+        remove_if_exists(filename)
+        clustering.save_to_disk(filename)
+        loaded_clustering = Clustering.load_from_disk(filename)
         after_saving_elements = loaded_clustering.get_all_clustered_elements()
-        self.assertItemsEqual(before_saving_elements, after_saving_elements)
-        os.system("rm data/saved_clustering_for_test")
+        self.assertCountEqual(before_saving_elements, after_saving_elements)
+        os.remove(filename)
 
     def test_batch_load(self):
         clusters =((Cluster(16,[16]), os.path.join(test_data.__path__[0],"training_clustering_1.bin")),
@@ -173,6 +179,7 @@ class TestClustering(unittest.TestCase):
         # Creates 4 clusterings of 1 cluster
         filenames = []
         for cluster, filename in clusters:
+            remove_if_exists(filename)
             Clustering([cluster]).save_to_disk(filename)
             filenames.append(filename)
 
@@ -182,7 +189,7 @@ class TestClustering(unittest.TestCase):
             elements.extend(Clustering.load_from_disk(filename).get_all_clustered_elements())
 
         elements_batch = []
-        clusterings_batch = Clustering.load_all_from_directory("data/")
+        clusterings_batch = Clustering.load_all_from_directory(test_data.__path__[0])
         for clustering, filename in clusterings_batch:
             elements_batch.extend(clustering.get_all_clustered_elements())
 
@@ -206,13 +213,13 @@ class TestClustering(unittest.TestCase):
     def test_get_medoids(self):
         clusters = [ClusterMock(list(range(0,10))),ClusterMock(list(range(10,50))),ClusterMock(list(range(50,80))),ClusterMock(list(range(80,200)))]
         clustering = Clustering(clusters)
-        self.assertItemsEqual(clustering.get_medoids("distance_matrix"),[0, 10, 50, 80])
+        self.assertCountEqual(clustering.get_medoids("distance_matrix"),[0, 10, 50, 80])
 
     def test_get_proportional_size_representatives(self):
         clusters = [ClusterMock(list(range(0,10))),ClusterMock(list(range(10,50))),ClusterMock(list(range(50,80))),ClusterMock(list(range(80,200)))]
         clustering = Clustering(clusters)
         rep =  clustering.get_proportional_size_representatives(30, "distance_matrix" )
-        self.assertItemsEqual(rep, [0, 0, 10, 10, 11, 12, 13, 14, 50, 50, 51, 52, 53, 80, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96])
+        self.assertCountEqual(rep, [0, 0, 10, 10, 11, 12, 13, 14, 50, 50, 51, 52, 53, 80, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96])
 
     def test_to_dic(self):
         clustering =Clustering([Cluster(16,[16]),

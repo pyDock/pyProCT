@@ -164,9 +164,8 @@ class Clustering(object):
         @param filename: complete path with name of the file
         """
         not_repeated_path_with_file_name = scriptTools.get_not_repeated_file_name(path_with_file_name)
-        file_handler = open(not_repeated_path_with_file_name,'w')
-        pickle.dump(self,file_handler)
-        file_handler.close()
+        with open(not_repeated_path_with_file_name,'wb') as file_handler:
+            pickle.dump(self,file_handler)
 
     @classmethod
     def load_from_disk(cls, path_with_file_name):
@@ -177,9 +176,8 @@ class Clustering(object):
 
         @return: The clustering stored in this file.
         """
-        file_handler = open(path_with_file_name,'r')
-        clustering = pickle.load(file_handler)
-        file_handler.close()
+        with open(path_with_file_name,'rb') as file_handler:
+            clustering = pickle.load(file_handler)
         return clustering
 
     @classmethod

@@ -5,7 +5,8 @@ Created on 19/04/2012
 """
 import random
 from pyproct.clustering.cluster import gen_clusters_from_class_list
-from pyproct.clustering.clusterization import Clustering
+from pyproct.clustering.clustering import Clustering
+from pyproct.clustering.randomTools import py2_shuffle
 
 class FakeDistributionRandomClusteringAlgorithm(object):
 
@@ -27,6 +28,6 @@ class FakeDistributionRandomClusteringAlgorithm(object):
         for d in distribution:
             node_class.extend([next_class]*int((d/100.)*num_of_nodes))
             next_class = next_class + 1
-        random.shuffle(node_class)
+        py2_shuffle(random, node_class)
         clusters = gen_clusters_from_class_list(node_class[0:num_of_nodes])
         return Clustering(clusters, details = "Fake Distribution Random (distribution = "+str(distribution)+")")

@@ -6,6 +6,7 @@ Created on 19/04/2012
 import random
 from pyproct.clustering.cluster import gen_clusters_from_class_list
 from pyproct.clustering.clustering import Clustering
+from pyproct.clustering.randomTools import py2_randint, py2_shuffle
 
 class RandomClusteringAlgorithm(object):
 
@@ -31,7 +32,7 @@ class RandomClusteringAlgorithm(object):
         except KeyError:
             try:
                 max_num_of_clusters = kwargs["max_num_of_clusters"]
-                num_of_clusters = random.randint(1, max_num_of_clusters)
+                num_of_clusters = py2_randint(random, 1, max_num_of_clusters)
             except KeyError:
                 num_of_clusters = 2
                 elements_per_cluster = 1
@@ -50,7 +51,7 @@ class RandomClusteringAlgorithm(object):
             node_class.append(0)
 
         random.seed()
-        random.shuffle(node_class)
+        py2_shuffle(random, node_class)
 
         clusters = gen_clusters_from_class_list(node_class)
 

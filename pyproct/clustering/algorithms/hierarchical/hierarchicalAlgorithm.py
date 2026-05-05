@@ -50,11 +50,11 @@ class HierarchicalClusteringAlgorithm(object):
         except KeyError:
             method = 'complete'
 
-        if hie_mat != None:
+        if hie_mat is not None:
             self.hie_mat = hie_mat
 #            print "[HIERARCHICAL] Matrix provided."
         else:
-            if self.hie_mat == None:
+            if self.hie_mat is None:
                 #self.hie_mat = fast_hcluster.linkage(condensed_matrix, method='centroid', metric='euclidean', preserve_input=False)
 #                print "[HIERARCHICAL] Calculating Matrix"
                 #self.hie_mat = fastclust.linkage(self.condensed_matrix.get_data(), method = method)
@@ -64,16 +64,13 @@ class HierarchicalClusteringAlgorithm(object):
 
         algorithm_details = "Hierarchical with "+method+" method (cutoff = " +str(cutoff)+")"
 
-        if cutoff != None:
+        if cutoff is not None:
             # Then apply the cutoff, this doesn't work much as expected
 #            print "[HIERARCHICAL] getting clustering."+algorithm_details
-            group_list = hcluster.fcluster(self.hie_mat,cutoff, criterion="distance")
-            import numpy as np
-            print("[DEBUG][HIER] unique groups =", len(set(group_list)), "min/max =", min(group_list), max(group_list))
+            group_list = hcluster.fcluster(self.hie_mat,cutoff)
 #            print "[HIERARCHICAL] Clustering done."+algorithm_details
             # Then let's generate the clusters
             clusters = gen_clusters_from_class_list(group_list)
-            print("[DEBUG][HIER] clusters built =", len(clusters))
             return Clustering(clusters,details = algorithm_details)
         else:
             return None

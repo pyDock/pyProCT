@@ -121,7 +121,7 @@ class Test(unittest.TestCase):
                                     "elements": "0:46, 49, 51, 53, 57:58, 62:67",
                                     "id": "cluster_0"
         })
-        matrix = CondensedMatrix(list(numpy.asfarray(numpy.load(os.path.join(test_data.__path__[0],"matrix.npy")))))
+        matrix = CondensedMatrix(list(numpy.asarray(numpy.load(os.path.join(test_data.__path__[0],"matrix.npy")), dtype=float)))
         self.assertEqual(cluster.prototype, cluster.calculate_medoid(matrix))
         
         cluster = Cluster.from_dic({
@@ -141,7 +141,7 @@ class Test(unittest.TestCase):
     def test_random_sample(self):
         cluster = Cluster(None, list(range(0,100)))
          
-        self.assertItemsEqual(cluster.get_random_sample(10, 123), [45, 66, 89, 62, 67, 51, 65, 56, 22, 77])
+        self.assertCountEqual(cluster.get_random_sample(10, 123), [45, 66, 89, 62, 67, 51, 65, 56, 22, 77])
          
     def test_to_dic(self):
         true_clusters = [Cluster(0,[0,4,5,7,13]),
