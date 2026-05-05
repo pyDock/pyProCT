@@ -176,7 +176,7 @@ class Test(unittest.TestCase):
                                  }
                   }
         bclust, bcrit, scores = BestClusteringSelector.get_best_clustering(scores)
-        self.assertItemsEqual( (bclust, bcrit, scores[bcrit][bclust]),  ('Clustering 4', 'criteria 1', 1.4))
+        self.assertCountEqual( (bclust, bcrit, scores[bcrit][bclust]),  ('Clustering 4', 'criteria 1', 1.4))
     
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

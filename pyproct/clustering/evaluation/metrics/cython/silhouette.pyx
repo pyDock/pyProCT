@@ -44,7 +44,7 @@ cdef class SilhouetteCoefficientCalculator(object):
                 i = i + 1
 
         if self.warn_misclustered_elements:
-            print "[WARNING SilhouetteCoefficientCalculator:evaluate] Some elements may be misclassified and Silhouette was going to return NaN."
+            print("[WARNING SilhouetteCoefficientCalculator:evaluate] Some elements may be misclassified and Silhouette was going to return NaN.")
 
         return numpy.mean(cluster_silhouettes)
 

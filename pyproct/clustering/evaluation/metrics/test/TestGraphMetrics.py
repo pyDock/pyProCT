@@ -16,8 +16,8 @@ class TestGraphMetrics(unittest.TestCase):
         A,Acomp = get_cluster_and_complementary(1, clustering.clusters)
         A.sort() 
         Acomp.sort()
-        self.assertItemsEqual(A, [0, 1, 2, 3, 4] )
-        self.assertItemsEqual(Acomp,[5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19])
+        self.assertCountEqual(A, [0, 1, 2, 3, 4] )
+        self.assertCountEqual(Acomp,[5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19])
     
 #     def test_W(self):
 #         matrix_data = [1., 4., 6., 2., 5.,

@@ -6,6 +6,7 @@ Created on 06/06/2012
 import unittest
 from pyproct.clustering.cluster import Cluster
 from pyproct.clustering.clustering import Clustering
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.clustering.evaluation.analysis.analysisPopulator import AnalysisPopulator
         
 class AnalysisPopulatorMock(AnalysisPopulator):
@@ -35,6 +36,10 @@ class ClusteringMock(object):
     
     def get_population_percent_of_n_bigger_clusters(self, n):
         return [60,20,10,5]
+
+class MatrixHandlerMock(object):
+    def __init__(self, distance_matrix):
+        self.distance_matrix = distance_matrix
     
    
 class TestAnalysisPopulator(unittest.TestCase):
@@ -68,10 +73,10 @@ class TestAnalysisPopulator(unittest.TestCase):
                             }
                       }
         
-        self.assertItemsEqual( AnalysisPopulator.get_evaluation_analysis_types(parameters),
+        self.assertCountEqual( AnalysisPopulator.get_evaluation_analysis_types(parameters),
             ['CythonMinimumMeanSeparation', 'CythonMirrorCohesion', 'CythonSilhouette'])
 
-        self.assertItemsEqual( AnalysisPopulator.get_query_and_evaluation_analysis_types(parameters),
+        self.assertCountEqual( AnalysisPopulator.get_query_and_evaluation_analysis_types(parameters),
             ['CythonMinimumMeanSeparation', 'NumClusters',  'CythonMirrorCohesion', 'NoiseLevel', 'CythonSilhouette'])
 
     def test_populate_analyzer(self):
@@ -103,7 +108,35 @@ class TestAnalysisPopulator(unittest.TestCase):
             }
         }).get_analysis_list()
         
-        self.assertItemsEqual(queue, ["Analysis Object 1", "Analysis Object 2", "Analysis Object 3", "Analysis Object 4"])
+        self.assertCountEqual(queue, ["Analysis Object 1", "Analysis Object 2", "Analysis Object 3", "Analysis Object 4"])
+
+    def test_validation_aliases(self):
+        parameters = {
+            "clustering":{
+                "evaluation": {
+                    "evaluation_criteria": {
+                        "criteria_0": {
+                            "CythonSilhouette":{"action": ">","weight": 3},
+                            "CythonMirrorCohesion":{"action": ">","weight": 2},
+                            "CythonNormNCut":{"action": "<","weight": 1}
+                        }
+                    },
+                    "query_types": []
+                }
+            }
+        }
+        matrix = CondensedMatrix([1.,2.,3.,4.,5.,6.,7.,8.,9.,10.])
+        clustering = Clustering([Cluster(None,[0,1]), Cluster(None,[2]), Cluster(None,[3,4])])
+        analysis_by_name = dict(
+            (analysis.name, analysis)
+            for analysis in AnalysisPopulator(MatrixHandlerMock(matrix), None, parameters).get_analysis_list()
+        )
+
+        self.assertCountEqual(analysis_by_name.keys(),
+                              ["CythonSilhouette", "CythonMirrorCohesion", "CythonNormNCut"])
+        self.assertAlmostEqual(analysis_by_name["CythonSilhouette"].run(clustering), 0.20285714285714285)
+        self.assertAlmostEqual(analysis_by_name["CythonMirrorCohesion"].run(clustering), 0.5)
+        self.assertAlmostEqual(analysis_by_name["CythonNormNCut"].run(clustering), 0.6220176075572392)
     
     def test_num_clusters(self):
         analysisPopulator = AnalysisPopulatorMock("")

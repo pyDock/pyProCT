@@ -52,7 +52,7 @@ class Test(unittest.TestCase):
         for c in clusters:
             self.assertNotEqual(c.prototype, None)
         
-        self.assertItemsEqual([c.prototype for c in clusters], [1,3,5])
+        self.assertCountEqual([c.prototype for c in clusters], [1,3,5])
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test_get_intra_cluster_distances']

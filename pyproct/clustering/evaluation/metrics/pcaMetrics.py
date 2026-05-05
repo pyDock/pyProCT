@@ -106,10 +106,17 @@ class PCAMetric(object):
         """
         timer = TimerHandler()
         timer.start("eigen2")
-        eigvals = scipy.linalg.eigh(covariance_matrix, 
-                                   eigvals_only = True, 
-                                   eigvals = (covariance_matrix.shape[0] -1,covariance_matrix.shape[0]-1), 
-                                   overwrite_a = True)
+        eigval_index = covariance_matrix.shape[0] - 1
+        try:
+            eigvals = scipy.linalg.eigh(covariance_matrix,
+                                       eigvals_only=True,
+                                       subset_by_index=(eigval_index, eigval_index),
+                                       overwrite_a=True)
+        except TypeError:
+            eigvals = scipy.linalg.eigh(covariance_matrix,
+                                       eigvals_only=True,
+                                       eigvals=(eigval_index, eigval_index),
+                                       overwrite_a=True)
         return  eigvals[0]
 #         THIS IS THE MOST COSTLY OPERATION
 #         values, vectors = numpy.linalg.eigh(covariance_matrix)

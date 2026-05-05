@@ -24,7 +24,7 @@ class TestDaviesBouldin(unittest.TestCase):
         
     def test_calculate_average_distances(self):
         
-        self.assertItemsEqual(DaviesBouldinCalculator.calc_average_distances(self.clusterings[0], self.matrix),
+        self.assertCountEqual(DaviesBouldinCalculator.calc_average_distances(self.clusterings[0], self.matrix),
                               [7,6])
        
     def test_max_db_term(self):

@@ -110,6 +110,8 @@ class Cluster(object):
                     return False
             return True
 
+    __hash__ = object.__hash__
+
     def __str__(self):
         return "["+str(self.prototype)+str(self.all_elements)+"]"
 
