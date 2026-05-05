@@ -29,7 +29,8 @@ Originally designed for docking decoy analysis, it is still very well suited for
 Key differences:
 
 * ✅ **Python 3.9+ compatible**
-* ❌ `pyRMSD` is no longer a mandatory dependency
+* ❌ External `pyRMSD` is no longer a mandatory dependency; this fork includes a
+  local compatibility wrapper for the API used by pyProCT
 * 🔧 Scheduler, analysis pipeline and postprocessing loader were fixed
 * 🧠 Cython extensions were updated and recompiled:
 

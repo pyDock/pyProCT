@@ -31,7 +31,18 @@ Python 3 source:
 /home/luis/Programs/pyProCT/pyProCT/pyproct
 ```
 
-## Migration Commits
+## Current Python 3 Status
+
+The migrated code is validated in the `pyproct` conda environment shown above.
+It should be treated as a conservative functional port of the original Python
+2.7 behavior for the modules, tests, and validation workflows documented here,
+not as a redesign or a guarantee that every legacy/HPC workflow is directly
+reproducible without local data or schema conversion.
+
+## Technical Migration Commits
+
+The core technical migration blocks were closed in these commits. Later
+documentation-only commits may exist on top of this list.
 
 ```text
 6fc6aaf Restore Python 3 matrix compatibility with pyProCT original
@@ -177,9 +188,11 @@ pyProCT:
 - `pyRMSD.matrixHandler`
 - `pyRMSD.symmTools`
 
-It is not a full replacement for the original pyRMSD C extension. RMSD fitting
-and condensed matrix behavior have been validated on small deterministic cases,
-but advanced symmetry and accelerator-specific behavior remain residual risks.
+The external pyRMSD package is not required for the migrated Python 3 validation
+path. This wrapper is not a full replacement for the original pyRMSD C
+extension. RMSD fitting and condensed matrix behavior have been validated on
+small deterministic cases, but advanced symmetry and accelerator-specific
+behavior remain residual risks.
 
 ## Generated Artifacts
 

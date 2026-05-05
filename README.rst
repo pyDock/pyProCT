@@ -41,7 +41,8 @@ Key differences:
 
 -  ✅ **Python 3.9+ compatible**
 
--  ❌ ``pyRMSD`` is no longer a mandatory dependency
+-  ❌ External ``pyRMSD`` is no longer a mandatory dependency; this fork
+   includes a local compatibility wrapper for the API used by pyProCT
 
 -  🔧 Scheduler, analysis pipeline and postprocessing loader were fixed
 
