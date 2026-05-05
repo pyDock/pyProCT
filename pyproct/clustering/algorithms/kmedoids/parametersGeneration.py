@@ -67,7 +67,8 @@ class ParametersGenerator(object):
                     run_parameter = ParametersGenerator.get_base_parameters()
                     run_parameter["k"]  = one_size
                     run_parameter["seeding_type"] = "RANDOM"
-                    run_parameter["rand_seed"] = int(hashlib.sha256(str({"dic":self.parameters,"iter":i})).hexdigest(),base=16)
+                    seed_data = str({"dic":self.parameters,"iter":i}).encode("utf-8")
+                    run_parameter["rand_seed"] = int(hashlib.sha256(seed_data).hexdigest(),base=16)
                     run_parameters.append(run_parameter)
         else:
             for one_size in sizes:

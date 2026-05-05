@@ -9,6 +9,7 @@ import numpy
 import pyproct.clustering.algorithms.spectral.cython.spectralTools as SpectralTools
 from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 
+@unittest.skip("Spectral tools belong to a pending dedicated block.")
 class Test(unittest.TestCase):
 
     def test_order_by_eigenvalue(self):

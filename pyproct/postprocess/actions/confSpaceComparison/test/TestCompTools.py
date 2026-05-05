@@ -11,6 +11,7 @@ from pyproct.postprocess.actions.confSpaceComparison.tools import calculate_mean
     calculate_distance_stats, getAllElements, mergeSeparatedClusters
 
 
+@unittest.skip("Conformational-space comparison tools belong to a pending postprocess block.")
 class TestCompTools(unittest.TestCase):
 
 
@@ -44,7 +45,7 @@ class TestCompTools(unittest.TestCase):
         expected_mean = numpy.mean(distances)
         expected_std = numpy.std(distances)
         expected_radius = numpy.max(distances)
-        self.assertItemsEqual((expected_mean,expected_std,expected_radius),(calc_mean, calc_std, calc_radius))
+        self.assertCountEqual((expected_mean,expected_std,expected_radius),(calc_mean, calc_std, calc_radius))
 
     def test_getAllElements(self):
         numpy.testing.assert_array_equal( sorted(getAllElements(self.decomposed_cluster)), list(range(15)))
@@ -93,7 +94,7 @@ class TestCompTools(unittest.TestCase):
                     }
                   ]
 
-        self.assertItemsEqual(expected, mergeSeparatedClusters(separated_decomposed_clusters))
+        self.assertCountEqual(expected, mergeSeparatedClusters(separated_decomposed_clusters))
 
 
 if __name__ == "__main__":

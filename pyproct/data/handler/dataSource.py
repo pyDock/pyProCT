@@ -14,11 +14,8 @@ class DataSource(object):
             self.source = source
     
     def __cmp__(self, other):
-        if isinstance(other, str):
-            cmp_string = other
-        else:
-            cmp_string = other.source["source"]
-        
+        cmp_string = self.__get_cmp_string(other)
+
         # lexicographical ordering
         if self.source["source"] > cmp_string:
             return 1
@@ -26,7 +23,28 @@ class DataSource(object):
             return -1
         else:
             return 0
-    
+
+    def __get_cmp_string(self, other):
+        if isinstance(other, str):
+            return other
+        else:
+            return other.source["source"]
+
+    def __eq__(self, other):
+        try:
+            return self.source["source"] == self.__get_cmp_string(other)
+        except Exception:
+            return False
+
+    def __lt__(self, other):
+        return self.source["source"] < self.__get_cmp_string(other)
+
+    def __gt__(self, other):
+        return self.source["source"] > self.__get_cmp_string(other)
+
+    def __hash__(self):
+        return hash(self.source["source"])
+
     def get_path(self):
         return self.source["source"]
     

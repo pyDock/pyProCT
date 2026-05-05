@@ -65,8 +65,8 @@ Nulla pulvinar mattis lectus, non eleifend libero commodo ut.
         expected_range_1 = [0,1,2,3,4]
         expected_range_2 = [5,6,7]
         range_1,range_2 = gen_consecutive_ranges(5,3)
-        self.assertItemsEqual(expected_range_1, range_1)
-        self.assertItemsEqual(expected_range_2, range_2)
+        self.assertCountEqual(expected_range_1, range_1)
+        self.assertCountEqual(expected_range_2, range_2)
 
     def test_print_and_flush(self):
         handler = io.StringIO()

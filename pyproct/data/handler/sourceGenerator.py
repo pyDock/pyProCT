@@ -63,7 +63,8 @@ class SourceGenerator(object):
         
         :return: An array with the contents of the file (strings and dictionaries) 
         """
-        return [json.loads(line) for line in open(list_file,"r")]
+        with open(list_file, "r") as handler:
+            return [json.loads(line) for line in handler]
     
     @classmethod
     def get_sources_from_dictionary(cls, info_dict):

@@ -21,7 +21,7 @@ class TestPlugins(unittest.TestCase):
     @unittest.skipUnless(test_pckg_exists, "Please install 'pack' in pyproct.tools.test.data.entry_point_test")
     def test_plugin_entry_points(self):
         classes =  PluginHandler.get_classes_from_plugins("testplugin1","pyproct.test.plugin")
-        self.assertItemsEqual([x.__name__ for x in classes], ["MatrixTestClass", "AnotherMatrixTestClass"])
+        self.assertCountEqual([x.__name__ for x in classes], ["MatrixTestClass", "AnotherMatrixTestClass"])
         classes =  PluginHandler.get_classes_from_plugins("testplugin2","pyproct.test.plugin")
         self.assertEqual(classes[0].__name__, "AnalysisTestClass")
     

@@ -16,11 +16,11 @@ class Test(unittest.TestCase):
                                                  "kmedoids":{
                                                              "max": 20
                                                              }
-                                                 }
-                                   },
-                     "evaluation":{
-                                   "maximum_clusters": 30,
-                                   "minimum_clusters":2
+                                                 },
+                                   "evaluation":{
+                                                 "maximum_clusters": 30,
+                                                 "minimum_clusters":2
+                                                }
                                    }
                      }
         generator  = ParametersGenerator(parameters,{})
@@ -41,11 +41,11 @@ class Test(unittest.TestCase):
                                                                  "max": 20,
                                                                  "seeding_type":"RANDOM"
                                                                  }
-                                                     }
-                                       },
-                         "evaluation":{
-                                       "maximum_clusters": 2,
-                                       "minimum_clusters":2
+                                                     },
+                                       "evaluation":{
+                                                     "maximum_clusters": 2,
+                                                     "minimum_clusters":2
+                                                    }
                                        }
                      }
 
@@ -57,11 +57,11 @@ class Test(unittest.TestCase):
                                                                  "seeding_type":"RANDOM",
                                                                  "tries":2
                                                                  }
-                                                     }
-                                       },
-                         "evaluation":{
-                                       "maximum_clusters":2,
-                                       "minimum_clusters":2
+                                                     },
+                                       "evaluation":{
+                                                     "maximum_clusters":2,
+                                                     "minimum_clusters":2
+                                                    }
                                        }
                      }
 

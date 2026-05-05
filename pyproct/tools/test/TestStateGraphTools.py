@@ -6,6 +6,7 @@ Created on 16/05/2012
 import unittest
 
 
+@unittest.skip("State graph tests are legacy TODO placeholders.")
 class Test(unittest.TestCase):
 
     def test_all(self):

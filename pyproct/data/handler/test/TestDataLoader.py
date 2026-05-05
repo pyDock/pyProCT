@@ -8,6 +8,11 @@ from pyproct.data.handler.elementRange import ElementRange
 from pyproct.data.handler.dataLoader import DataLoader
 
 
+class FakeLoadedData(list):
+    def get_number_of_elements(self):
+        return len(self)
+
+
 class FakeFileLoader(DataLoader):
     LOADER_TYPE = "test::stuff"
     
@@ -19,7 +24,7 @@ class FakeFileLoader(DataLoader):
         super(FakeFileLoader,self).close()
         inflated_list = []
         [inflated_list.extend(list(e_range)) for e_range in self.loaded_data]
-        return inflated_list
+        return FakeLoadedData(inflated_list)
 
 
 class Test(unittest.TestCase):

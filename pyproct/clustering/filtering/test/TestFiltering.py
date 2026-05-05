@@ -38,9 +38,9 @@ class TestFiltering(unittest.TestCase):
                                      },
                                     MatrixHandlerMock(1000))
         
-        self.assertItemsEqual(myFilter.check_num_clusters_in_range(ClusteringMock(number_of_clusters = 10, number_of_elements = 1000)), [])
+        self.assertCountEqual(myFilter.check_num_clusters_in_range(ClusteringMock(number_of_clusters = 10, number_of_elements = 1000)), [])
                               
-        self.assertItemsEqual( myFilter.check_num_clusters_in_range(ClusteringMock(number_of_clusters = 2, number_of_elements = 1000)),
+        self.assertCountEqual( myFilter.check_num_clusters_in_range(ClusteringMock(number_of_clusters = 2, number_of_elements = 1000)),
                                [
                                 {
                                  'reason': 'TOO_FEW_CLUSTERS', 
@@ -49,7 +49,7 @@ class TestFiltering(unittest.TestCase):
                                  }
                                 ]
                                )
-        self.assertItemsEqual( myFilter.check_num_clusters_in_range(ClusteringMock(number_of_clusters = 35, number_of_elements = 1000)),
+        self.assertCountEqual( myFilter.check_num_clusters_in_range(ClusteringMock(number_of_clusters = 35, number_of_elements = 1000)),
                                [
                                 {
                                  'reason': 'TOO_MUCH_CLUSTERS', 
@@ -66,13 +66,13 @@ class TestFiltering(unittest.TestCase):
                                      },
                                     MatrixHandlerMock(1000))
         # 10% noise
-        self.assertItemsEqual( myFilter.check_noise_level(ClusteringMock(number_of_clusters = 10, number_of_elements = 900)), [])
+        self.assertCountEqual( myFilter.check_noise_level(ClusteringMock(number_of_clusters = 10, number_of_elements = 900)), [])
         
         # 15% noise
-        self.assertItemsEqual( myFilter.check_noise_level(ClusteringMock(number_of_clusters = 10, number_of_elements = 850)), [])
+        self.assertCountEqual( myFilter.check_noise_level(ClusteringMock(number_of_clusters = 10, number_of_elements = 850)), [])
         
         # 20% noise
-        self.assertItemsEqual( myFilter.check_noise_level(ClusteringMock(number_of_clusters = 10, number_of_elements = 800)),
+        self.assertCountEqual( myFilter.check_noise_level(ClusteringMock(number_of_clusters = 10, number_of_elements = 800)),
                                [
                                 {
                                  'reason': 'TOO_MUCH_NOISE', 
@@ -93,9 +93,9 @@ class TestFiltering(unittest.TestCase):
                                      },
                                     MatrixHandlerMock(1000))
         
-        self.assertItemsEqual( myFilter.check_clustering(ClusteringMock(number_of_clusters = 25, number_of_elements = 900)),[])
+        self.assertCountEqual( myFilter.check_clustering(ClusteringMock(number_of_clusters = 25, number_of_elements = 900)),[])
         
-        self.assertItemsEqual( myFilter.check_clustering(ClusteringMock(number_of_clusters = 50, number_of_elements = 800)),
+        self.assertCountEqual( myFilter.check_clustering(ClusteringMock(number_of_clusters = 50, number_of_elements = 800)),
                                 [
                                  {
                                   'reason': 'TOO_MUCH_CLUSTERS', 
@@ -127,8 +127,8 @@ class TestFiltering(unittest.TestCase):
 
         myFilter = ClusteringFilter({},MatrixHandlerMock(1000))
         sel, not_sel = myFilter.filter_repeated(clustering_info,{})
-        self.assertItemsEqual(list(sel.keys()),["clustering 1","clustering 3"])
-        self.assertItemsEqual(list(not_sel.keys()),["clustering 2"])
+        self.assertCountEqual(list(sel.keys()),["clustering 1","clustering 3"])
+        self.assertCountEqual(list(not_sel.keys()),["clustering 2"])
         self.assertDictEqual(not_sel["clustering 2"]["reasons"][0],
                              {'reason': 'EQUAL_TO_OTHER_CLUSTERING', 'data': {'id': 'clustering 3'}})
         
@@ -157,8 +157,8 @@ class TestFiltering(unittest.TestCase):
         
         selected, not_selected =  myFilter.filter(clustering_info)
         self.assertTrue(len(selected) == 1 and len(not_selected) == 3)
-        self.assertItemsEqual(list(selected.keys()) ,      [ "clustering 3"])
-        self.assertItemsEqual(list(not_selected.keys()) ,  ["clustering 1","clustering 2","clustering 4",])
+        self.assertCountEqual(list(selected.keys()) ,      [ "clustering 3"])
+        self.assertCountEqual(list(not_selected.keys()) ,  ["clustering 1","clustering 2","clustering 4",])
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

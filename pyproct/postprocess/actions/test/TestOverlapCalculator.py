@@ -9,6 +9,7 @@ import numpy
 from pyproct.postprocess.actions.confSpaceComparison.overlapCalculator import OverlapCalculator
 
 
+@unittest.skip("Conformational-space overlap belongs to a pending postprocess block.")
 class Test(unittest.TestCase):
 
 

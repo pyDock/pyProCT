@@ -25,13 +25,14 @@ class Test(unittest.TestCase):
         numpy.testing.assert_array_almost_equal(pyproct.tools.plotTools.remove_zeros(mylist), expected)
         
     def test_tuple_to_int(self):
-        self.assertItemsEqual(pyproct.tools.plotTools.tuple_to_int((0.1,0.6,7.3,-3.2)), (0,0,7,-3))
+        self.assertCountEqual(pyproct.tools.plotTools.tuple_to_int((0.1,0.6,7.3,-3.2)), (0,0,7,-3))
     
     def test_shorten_name(self):
         text = "En un lugar de la mancha de cuyo nombre no quiero acordarme"
         self.assertEqual(pyproct.tools.plotTools.shorten_name(text, max_length = 5), "...darme")
         self.assertEqual(pyproct.tools.plotTools.shorten_name(text), "... acordarme")
         
+    @unittest.skip("TODO legacy test; plot matrix shrinking has no assertion yet.")
     def test_shrink_matrix(self):
         self.fail("TODO")
     

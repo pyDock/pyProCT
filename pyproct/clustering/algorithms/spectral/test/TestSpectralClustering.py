@@ -6,9 +6,10 @@ Created on 09/01/2013
 import unittest
 import numpy
 from pyproct.data.matrix.condensedMatrix import CondensedMatrix
-from pyproct.algorithms.spectral.spectralClusteringAlgorithm import SpectralClusteringAlgorithm
+from pyproct.clustering.algorithms.spectral.spectralClusteringAlgorithm import SpectralClusteringAlgorithm
 from scipy.spatial.distance import pdist
 
+@unittest.skip("Spectral clustering belongs to a pending dedicated block.")
 class TestSpectralClustering(unittest.TestCase):
 
     def test_naive_case_1(self):

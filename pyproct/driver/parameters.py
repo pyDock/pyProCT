@@ -45,7 +45,8 @@ class ProtocolParameters():
 
     @classmethod
     def get_default_params(cls, source):
-        return ProtocolParameters.get_params_from_json(open(source,"r").read())
+        with open(source, "r") as handler:
+            return ProtocolParameters.get_params_from_json(handler.read())
 
     @classmethod
     def empty(cls):
@@ -65,7 +66,6 @@ class ProtocolParameters():
             else:
                 new_dic[k] = proParam[k]
         return new_dic
-
 
 
 

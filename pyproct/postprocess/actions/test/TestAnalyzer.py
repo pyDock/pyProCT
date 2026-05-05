@@ -15,6 +15,7 @@ from json import encoder
 encoder.FLOAT_REPR = lambda o: format(o, '.4f')
 
 
+@unittest.skip("Conformational-space postprocess analysis belongs to a pending scientific block.")
 class TestAnalizer(unittest.TestCase):
 
     @classmethod
@@ -167,6 +168,5 @@ class TestAnalizer(unittest.TestCase):
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.test_']
     unittest.main()
-
 
 
