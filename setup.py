@@ -23,6 +23,7 @@ if __name__ == '__main__': # Compatibility with sphynx
           license = 'LICENSE.txt',
           long_description = read('README.rst'),
           packages=[
+                    'pyRMSD',
                     'pyproct',
                     'pyproct.clustering',
                     'pyproct.clustering.algorithms',

@@ -67,7 +67,7 @@ class ProteinEnsembleDataLoader(DataLoader):
                 except ValueError as e:
                     print("[EROR] It was impossible to add the coodinates")
                     print(e)
-                    exit()
+                    raise
         return merged_ensemble
 
     def load_data_from_source(self, source):

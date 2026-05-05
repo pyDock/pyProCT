@@ -20,10 +20,11 @@ class RmsfPostAction(object):
         rmsf_per_cluster = calculate_RMSF(clustering, data_handler)
 
         rmsf_file_path = os.path.join(workspaceHandler["results"], "CA_displacements.json")
-        open(rmsf_file_path,"w").write(json.dumps(rmsf_per_cluster,
-                                              sort_keys=False,
-                                              indent=4,
-                                              separators=(',', ': ')))
+        with open(rmsf_file_path, "w") as handler:
+            handler.write(json.dumps(rmsf_per_cluster,
+                                     sort_keys=False,
+                                     indent=4,
+                                     separators=(',', ': ')))
         
         generatedFiles.append({
                                 "description":"Alpha Carbon mean square displacements",

@@ -5,8 +5,8 @@ Created on 27/06/2014
 """
 import numpy
 import itertools
-#import pyRMSD.RMSDCalculator
-#import pyRMSD.condensedMatrix
+import pyRMSD.RMSDCalculator
+import pyRMSD.condensedMatrix
 
 
 def combopermutations( elements_list, prefix = []):
@@ -178,4 +178,3 @@ class ChainMappingBuilder:
             matrix_data.extend(min_rmsd)
 #         perm_file.close()
         return pyRMSD.condensedMatrix.CondensedMatrix(numpy.array(matrix_data))
-

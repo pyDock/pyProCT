@@ -4,7 +4,7 @@ Created on 08/07/2014
 @author: victor
 """
 import numpy
-#from pyproct.data.matrix.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 import pyproct.tools.mathTools as mathTools 
 
 class DihedralRMSDBuilder(object):
@@ -21,7 +21,10 @@ class DihedralRMSDBuilder(object):
     def build(cls, structure_data):
         print("Calculating dihedral RMSD matrix.  This may take some time ...")
         all_dihedrals = []
-        num_conformations = structure_data.get_num_elements()
+        if hasattr(structure_data, "get_number_of_elements"):
+            num_conformations = structure_data.get_number_of_elements()
+        else:
+            num_conformations = structure_data.get_num_elements()
         for i in range(num_conformations):
             all_dihedrals.append(structure_data.get_dihedrals_for_conformation(i))
 
@@ -32,4 +35,3 @@ class DihedralRMSDBuilder(object):
             for j in range(i+1, num_conformations):
                 data.append(mathTools.angular_rmsd(dihedrals_i,all_dihedrals[j]))
         return CondensedMatrix(numpy.array(data))
-

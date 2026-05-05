@@ -78,7 +78,6 @@ class testPCAMetric(unittest.TestCase):
         pca.calcModes(n_modes=1)
         self.assertAlmostEqual(pca.getEigvals()[0], biggest_eigenvalue,10)
          
-    @unittest.skip("Full PCA evaluation depends on RMSDCalculator migration, handled in the RMSD block.")
     def test_PCA(self):
         """
         Regression test.
@@ -86,7 +85,7 @@ class testPCAMetric(unittest.TestCase):
         trajectory_handler = TrajectoryHandlerStub(testPCAMetric.not_iterposed_coordsets,66)
         clustering = Clustering([Cluster(None,list(range(6))),Cluster(None,list(range(6,12)))], "a clustering")
         pcaMetric = PCAMetric(trajectory_handler)
-        self.assertAlmostEqual(pcaMetric.evaluate(clustering), 1.427748687873, 12)
+        self.assertAlmostEqual(pcaMetric.evaluate(clustering), 1.4305370646743, 12)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

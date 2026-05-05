@@ -19,7 +19,8 @@ class TestRMSF(unittest.TestCase):
     def setUpClass(cls):
         # Generate and read the pdb
         cls.pdb_path = "tmp_pdb.pdb"
-        open(cls.pdb_path,"w").write(amber_short_ca_contents);
+        with open(cls.pdb_path, "w") as handler:
+            handler.write(amber_short_ca_contents)
         cls.pdb = prody.parsePDB(cls.pdb_path)
         os.system("rm %s"%cls.pdb_path)
 

@@ -4,7 +4,8 @@ Created on 28/03/2013
 @author: victor
 """
 import unittest
-from pyproct.driver.handlers.matrix.euclideanDistanceMatrixBuilder import EuclideanDistanceMatrixBuilder
+from pyproct.data.matrix.protein.cases.euclidean.cartesiansCase import euclideanDistanceBuilder
+from prody.measure import calcCenter
 import numpy
 
 class TestEuclidean(unittest.TestCase):
@@ -27,8 +28,9 @@ class TestEuclidean(unittest.TestCase):
                      ])
         
         expected = [30.41381265, 11.18033989,  31.6227766]
-        matrix = EuclideanDistanceMatrixBuilder.calculate_geom_center(coordsets)
-        numpy.testing.assert_array_almost_equal(expected, matrix.get_data())
+        centers = calcCenter(coordsets)
+        distances = euclideanDistanceBuilder.calc_distances(centers)
+        numpy.testing.assert_array_almost_equal(expected, distances)
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

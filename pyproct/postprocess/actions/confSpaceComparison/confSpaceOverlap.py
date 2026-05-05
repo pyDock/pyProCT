@@ -12,9 +12,11 @@ from numpy.linalg import norm
 import numpy
 
 import matplotlib.pyplot as plt
-import seaborn as sns
- 
-sns.set_style("whitegrid")
+try:
+    import seaborn as sns
+    sns.set_style("whitegrid")
+except ImportError:
+    pass
 
 class ConfSpaceOverlapPostAction(object):
     KEYWORD = "conformational_space_overlap"
@@ -22,25 +24,25 @@ class ConfSpaceOverlapPostAction(object):
     def __init__(self):
         pass
 
-    def run( self, clustering, postprocessing_parameters, trajectoryHandler, workspaceHandler, 
+    def run( self, clustering, postprocessing_parameters, trajectoryHandler, workspaceHandler,
             matrixHandler, generatedFiles):
-        
+
         comparison = conformational_space_overlap(clustering, trajectoryHandler,  matrixHandler)
-        
+
         file_name = postprocessing_parameters.get_value("file", default_value = "conf_space_overlap") + ".json"
-        
-        result_file_path = os.path.join(workspaceHandler["results"], 
+
+        result_file_path = os.path.join(workspaceHandler["results"],
                                             file_name)
         open(result_file_path, "w").write(
             json.dumps(comparison, sort_keys = False, indent = 4, separators = (',', ': '))
         )
-        
+
         generatedFiles.append({
                                "description":"Conformational Space Overlap",
                                "path":os.path.abspath(result_file_path),
                                "type":"text"
         })
-        
+
 def conformational_space_overlap(clustering, trajectoryHandler,  matrixHandler):
     current = 0
     traj_ranges = {}
@@ -55,7 +57,7 @@ def conformational_space_overlap(clustering, trajectoryHandler,  matrixHandler):
         current = current + num_confs
 
     decomposed_clusters = Separator.decompose(clustering.clusters, traj_ranges)
-    
+
     # Get population percents for each cluster
     all_traj_ids = list(total_populations.keys())
     relative_populations = []
@@ -69,7 +71,7 @@ def conformational_space_overlap(clustering, trajectoryHandler,  matrixHandler):
                 relative_population.append(0.)
         relative_population.append(cluster_id)
         relative_populations.append(tuple(relative_population))
-    
+
     # Sort by first traj (to 'prettify' it a bit)
     relative_populations.sort()
     cluster_ids = [rp[-1] for rp in relative_populations]
@@ -91,7 +93,7 @@ def conformational_space_overlap(clustering, trajectoryHandler,  matrixHandler):
         for traj_b in all_traj_ids:
             jsds[traj_a][traj_b] = JSD(sm_rel_pop_per_id[traj_a],
                                        sm_rel_pop_per_id[traj_b])
-            
+
     # Compile results
     results = {
                "id_to_path":traj_to_file,
@@ -99,18 +101,18 @@ def conformational_space_overlap(clustering, trajectoryHandler,  matrixHandler):
                "JSD": jsds,
                "cluster_ids": cluster_ids
     }
-    
+
     return results
-    
+
 def smoothed(distribution, small_value = 1.0e-8):
     """
     Applies a smoothing process to the distribution.
     See http://mathoverflow.net/questions/72668/how-to-compute-kl-divergence-when-pmf-contains-0s
     for an explanation about the problem and the solution.
-     
+
     @param distribution: distribution to be smoothed
     @param small_value: value to be set to those bins with 0 probability
-     
+
     @return: The smoothed distribution.
     """
     total_number_of_samples = len(distribution)
@@ -136,5 +138,5 @@ def JSD(P, Q):
     _Q = Q / norm(Q, ord=1)
     _M = 0.5 * (_P + _Q)
     return math.sqrt(0.5 * (entropy(_P, _M) + entropy(_Q, _M)))
-    
-    
+
+

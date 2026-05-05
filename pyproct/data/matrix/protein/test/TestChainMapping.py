@@ -7,9 +7,9 @@ import unittest
 import prody
 import io
 import numpy
-from pyproct.driver.handlers.matrix.test.data.pdb_data import pdb_data,\
+from pyproct.data.matrix.protein.test.data.pdb_data import pdb_data,\
     chain_padding_proto_3
-from pyproct.driver.handlers.matrix.autoChainMappingRMSDMatrixBuilder import ChainMappingRMSDMatrixCalculator,\
+from pyproct.data.matrix.protein.cases.rmsd.autoChainMappingCase import ChainMappingBuilder,\
     combopermutations
 
 class Test(unittest.TestCase):
@@ -23,7 +23,7 @@ class Test(unittest.TestCase):
 
         input = io.StringIO(pdb_data)
         pdb_structure = prody.parsePDBStream(input)
-        result =  ChainMappingRMSDMatrixCalculator.getStructureChains(pdb_structure,"all")
+        result =  ChainMappingBuilder.getStructureChains(pdb_structure,"all")
         for i in range(len(expected)):
             numpy.testing.assert_array_equal(expected[i]['A'], result[i]['A'])
             numpy.testing.assert_array_equal(expected[i]['X'], result[i]['X'])
@@ -32,13 +32,13 @@ class Test(unittest.TestCase):
         chain = {'A': numpy.array([[ 1.,  2.,  3.]]), 'X': numpy.array([[-33.115,   1.294,  -1.163]])}
         chain_map = {"A":"X", "X":"A"}
         numpy.testing.assert_array_equal( [[-33.115,   1.294,  -1.163], [  1., 2., 3.]],
-                                          ChainMappingRMSDMatrixCalculator.reorderCoordinates(chain, ["X","A"]))
+                                          ChainMappingBuilder.reorderCoordinates(chain, ["X","A"]))
 
     def test_reorderAllCoordinatesByChainLen(self):
         input = io.StringIO(chain_padding_proto_3)
         structure = prody.parsePDBStream(input)
         group_lens = {1: ['A'], 2: ['B', 'D'], 3: ['C', 'E']}
-        result =  ChainMappingRMSDMatrixCalculator.getReorderedCoordinatesByLenGroups(structure, "all", group_lens)
+        result =  ChainMappingBuilder.getReorderedCoordinatesByLenGroups(structure, "all", group_lens)
         expected =[[[1.0, 2.0, 3.0],
                     [4.0, 5.0, 6.0],
                     [7.0, 8.0, 9.0],
@@ -67,7 +67,7 @@ class Test(unittest.TestCase):
         input = io.StringIO(chain_padding_proto_3)
         structure = prody.parsePDBStream(input)
         self.assertDictEqual({'A': 1, 'C': 3, 'B': 2, 'E': 3, 'D': 2},
-                              ChainMappingRMSDMatrixCalculator.getChainLengths(structure, "all"))
+                              ChainMappingBuilder.getChainLengths(structure, "all"))
 
     def test_mult_permutation(self):
         result = [ perm for perm in combopermutations([[1,2], [3,4,5]])]
@@ -77,8 +77,8 @@ class Test(unittest.TestCase):
     def test_chain_len_groups(self):
         chain_len_map = {'A': 1, 'C': 3, 'B': 2, 'E': 3, 'D': 2}
         expected = {1: ['A'], 2: ['B', 'D'], 3: ['C', 'E']}
-        self.assertDictEqual(expected, ChainMappingRMSDMatrixCalculator.getChainLenGroups(chain_len_map))
-        self.assertItemsEqual([['A'], ['B', 'D'], ['C', 'E']], ChainMappingRMSDMatrixCalculator.getPermGroups(ChainMappingRMSDMatrixCalculator.getChainLenGroups(chain_len_map)))
+        self.assertDictEqual(expected, ChainMappingBuilder.getChainLenGroups(chain_len_map))
+        self.assertCountEqual([['A'], ['B', 'D'], ['C', 'E']], ChainMappingBuilder.getPermGroups(ChainMappingBuilder.getChainLenGroups(chain_len_map)))
 
 #     def test(self):
 #         """
