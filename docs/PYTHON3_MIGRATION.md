@@ -7,29 +7,43 @@ scientific workflow.
 
 ## Reference Environments
 
-Python 2.7 original:
+Python 2.7 original interpreter:
 
 ```bash
-/home/luis/Programs/mambaforge/envs/pyproct2.7/bin/python
+<PYPROCT_PY2_ENV>/bin/python
 ```
 
-Python 3 migrated environment:
+Python 3 migrated interpreter:
 
 ```bash
-/home/luis/Programs/mambaforge/envs/pyproct/bin/python
+<PYPROCT_PY3_ENV>/bin/python
 ```
 
 Original Python 2.7 source inspected:
 
 ```text
-/home/luis/Programs/pyProCT/pyProCT-python2.7/pyproct
+<PYPROCT_PY2_SOURCE>
 ```
 
 Python 3 source:
 
 ```text
-/home/luis/Programs/pyProCT/pyProCT/pyproct
+<PYPROCT_PY3_SOURCE>
 ```
+
+Replace the placeholders above with the local paths used in your installation.
+The placeholders used in this document are:
+
+- `<PYPROCT_PY2_ENV>`: root of the Python 2.7 environment, for example
+  `/path/to/conda/envs/pyproct2.7`
+- `<PYPROCT_PY3_ENV>`: root of the Python 3 environment, for example
+  `/path/to/conda/envs/pyproct`
+- `<PYPROCT_PY2_SOURCE>`: original Python 2.7 package source, for example
+  `/path/to/pyProCT-python2.7/pyproct`
+- `<PYPROCT_REPO>`: root of the migrated Python 3 repository, for example
+  `/path/to/pyProCT`
+- `<PYPROCT_PY3_SOURCE>`: migrated Python 3 package source, usually
+  `<PYPROCT_REPO>/pyproct`
 
 ## Current Python 3 Status
 
@@ -62,26 +76,29 @@ a72bc8b Finalize Python 3 migration validation
 Install editable:
 
 ```bash
-/home/luis/Programs/mambaforge/envs/pyproct/bin/python -m pip install -e .
+cd <PYPROCT_REPO>
+<PYPROCT_PY3_ENV>/bin/python -m pip install -e .
 ```
 
 Check imports:
 
 ```bash
-/home/luis/Programs/mambaforge/envs/pyproct/bin/python -c "import pyproct; import pyRMSD; print('imports OK')"
-/home/luis/Programs/mambaforge/envs/pyproct/bin/python -c "from pyRMSD.RMSDCalculator import RMSDCalculator; print(RMSDCalculator)"
+<PYPROCT_PY3_ENV>/bin/python -c "import pyproct; import pyRMSD; print('imports OK')"
+<PYPROCT_PY3_ENV>/bin/python -c "from pyRMSD.RMSDCalculator import RMSDCalculator; print(RMSDCalculator)"
 ```
 
 Compile Python sources:
 
 ```bash
-/home/luis/Programs/mambaforge/envs/pyproct/bin/python -m compileall -q pyproct pyRMSD
+cd <PYPROCT_REPO>
+<PYPROCT_PY3_ENV>/bin/python -m compileall -q pyproct pyRMSD
 ```
 
 Run the test suite:
 
 ```bash
-/home/luis/Programs/mambaforge/envs/pyproct/bin/python -m unittest discover pyproct -p 'Test*.py'
+cd <PYPROCT_REPO>
+<PYPROCT_PY3_ENV>/bin/python -m unittest discover pyproct -p 'Test*.py'
 ```
 
 Expected current result:
@@ -106,13 +123,16 @@ temporary files.
 Example:
 
 ```bash
+cd <PYPROCT_REPO>
 tmpdir=$(mktemp -d /tmp/pyproct_validation_py3.XXXXXX)
 cp -a validation "$tmpdir/"
 cd "$tmpdir/validation/bidimensional"
-PYTHONPATH="$tmpdir:/home/luis/Programs/pyProCT/pyProCT" \
-  /home/luis/Programs/mambaforge/envs/pyproct/bin/python create_fake_pdb.py
-PYTHONPATH="$tmpdir:/home/luis/Programs/pyProCT/pyProCT" \
-  /home/luis/Programs/mambaforge/envs/pyproct/bin/python validation_main.py
+
+PYTHONPATH="$tmpdir:<PYPROCT_REPO>" \
+  <PYPROCT_PY3_ENV>/bin/python create_fake_pdb.py
+
+PYTHONPATH="$tmpdir:<PYPROCT_REPO>" \
+  <PYPROCT_PY3_ENV>/bin/python validation_main.py
 ```
 
 Current Python 3 result for `concentric_circles`:
