@@ -3,7 +3,7 @@ Created on 13/02/2013
 
 @author: victor
 """
-#from pyproct.data.matrix.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.data.matrix.protein.cases.euclidean.dihedralsCase import DihedralEuclideanDistanceBuilder
 from pyproct.data.matrix.protein.cases.euclidean.cartesiansCase import euclideanDistanceBuilder
 

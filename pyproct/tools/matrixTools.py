@@ -27,7 +27,7 @@ def get_submatrix( old_matrix, elements):
 #             new_matrix[i, j] = old_matrix[e_i, e_j]
 #     return new_matrix
     N = len(elements)
-    inner_data = numpy.zeros((N*(N-1))/2)
+    inner_data = numpy.zeros((N*(N-1))//2)
     k = 0
     for i in range(len(elements)-1):
         e_i = elements[i]

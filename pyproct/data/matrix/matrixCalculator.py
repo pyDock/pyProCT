@@ -4,7 +4,6 @@ Created on 2/9/2014
 @author: victor
 """
 from pyproct.data.matrix.matrixHandler import MatrixHandler
-from pyproct.tools.plugins import PluginHandler
 import traceback
 
 
@@ -37,27 +36,33 @@ class MatrixCalculator(object):
     @classmethod
     def get_calculator(cls, matrix_params):
         """
-        Python 3 static registry replacement.
-        The original plugin system is disabled, so we manually register calculators.
-        """
-        # Import here to avoid circular imports
-        from pyproct.data.matrix.protein.rmsdMatrixCalculator import RMSDMatrixCalculator
-        from pyproct.data.matrix.protein.euclideanMatrixCalculator import EuclideanMatrixCalculator
-        from pyproct.data.matrix.loaderMatrixCalculator import LoaderMatrixCalculator
+        Gets the calculator class for the requested matrix calculation method.
 
-        STATIC_CALCULATORS = {
+        This registry mirrors the matrix calculators present in the original
+        Python 2 source. Dynamic plugin discovery is restored separately.
+        """
+        from pyproct.data.matrix.combination.combinationMatrixCalculator import combinationMatrixCalculator
+        from pyproct.data.matrix.featurearray.euclideanMatrixCalculator import EuclideanMatrixCalculator as ArrayEuclideanMatrixCalculator
+        from pyproct.data.matrix.loaderMatrixCalculator import LoaderMatrixCalculator
+        from pyproct.data.matrix.protein.euclideanMatrixCalculator import EuclideanMatrixCalculator
+        from pyproct.data.matrix.protein.rmsdMatrixCalculator import RMSDMatrixCalculator
+
+        static_calculators = {
+            "load": LoaderMatrixCalculator,
+            "matrix::load": LoaderMatrixCalculator,
+            "matrix::combination": combinationMatrixCalculator,
+            "array::euclidean": ArrayEuclideanMatrixCalculator,
             "rmsd::ensemble": RMSDMatrixCalculator,
-            "rmsd::load": LoaderMatrixCalculator,
             "euclidean_distance::ensemble": EuclideanMatrixCalculator,
         }
 
         calculation_method = matrix_params["method"]
 
-        if calculation_method not in STATIC_CALCULATORS:
+        if calculation_method not in static_calculators:
             print(f"[ERROR][MatrixCalculator::calculate] '{calculation_method}' is not a registered matrix calculation method.")
             exit()
 
-        return STATIC_CALCULATORS[calculation_method]
+        return static_calculators[calculation_method]
 
 # @classmethod
    # def get_calculator(cls, matrix_params):

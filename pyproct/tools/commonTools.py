@@ -48,22 +48,24 @@ def print_and_flush(this_string, handler = sys.stdout):
     handler.write(this_string)
     handler.flush()
 
-#def convert_to_utf8(my_input):
-#    """
-#    Recursively encodes all strings of an input dictionary as UTF-8. Useful to eliminate unicode strings.
-#
-#    @param my_input: A dictionary object.
-#
-#    @return: Encoded dictionary.
-#    """
-#    if isinstance(my_input, dict):
-#        return {convert_to_utf8(key): convert_to_utf8(value) for key, value in my_input.items()}
-#    elif isinstance(my_input, list):
-#        return [convert_to_utf8(element) for element in my_input]
-#    elif isinstance(my_input, str):
-#        return my_input.encode('utf-8')
-#    else:
-#        return my_input
+def convert_to_utf8(my_input):
+    """
+    Python 3 compatibility version of the original unicode normalizer.
+
+    Python 2 used this to turn unicode JSON keys and values into UTF-8 byte
+    strings. In Python 3, normal text should remain str; only bytes are decoded.
+    """
+    if isinstance(my_input, dict):
+        return {convert_to_utf8(key): convert_to_utf8(value)
+                for key, value in my_input.items()}
+    elif isinstance(my_input, list):
+        return [convert_to_utf8(element) for element in my_input]
+    elif isinstance(my_input, tuple):
+        return tuple(convert_to_utf8(element) for element in my_input)
+    elif isinstance(my_input, bytes):
+        return my_input.decode('utf-8')
+    else:
+        return my_input
 
 def get_parameter_value(key_description, param_dict, default_value):
     """

@@ -3,7 +3,7 @@ Created on 27/11/2014
  
 @author: victor
 """
-#from pyproct.data.matrix.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 from pyproct.data.matrix.matrixCalculator import MatrixCalculator
  
 class combinationMatrixCalculator(object):
@@ -71,7 +71,7 @@ class combinationMatrixCalculator(object):
         for matrix_id in matrices_descr:
             print("Calculating %s"%(matrix_id))
             matrices[matrix_id] = MatrixCalculator.calculate(data_handler, 
-                                                             matrices_descr[matrix_id])
+                                                             matrices_descr[matrix_id]).distance_matrix
              
         # Do the combination
         return combine(operations, matrices)

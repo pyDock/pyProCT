@@ -3,7 +3,7 @@ Created on 2/9/2014
 
 @author: victor
 """
-#from pyproct.data.matrix.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 import scipy.spatial.distance 
 
 class EuclideanMatrixCalculator(object):

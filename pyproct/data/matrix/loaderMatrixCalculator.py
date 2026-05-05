@@ -3,7 +3,7 @@ Created on 2/9/2014
 
 @author: victor
 """
-#from pyRMSD.matrixHandler import MatrixHandler as pyRMSD_MatrixHandler
+from pyproct.data.matrix.matrixHandler import MatrixHandler
 
 class LoaderMatrixCalculator(object):
     
@@ -40,4 +40,4 @@ class LoaderMatrixCalculator(object):
         :return: A CondensedMatrix.
         """
         
-        return pyRMSD_MatrixHandler.load_matrix(matrix_params["path"])
+        return MatrixHandler.load_matrix(matrix_params["path"])
