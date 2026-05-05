@@ -73,7 +73,6 @@ cd pyProCT
 ```
 
 ### Compile Cython extensions
-
 ### DBSCAN
 ```bash
 python pyproct/clustering/algorithms/dbscan/cython/setup.py build_ext --inplace
@@ -82,11 +81,17 @@ python pyproct/clustering/algorithms/dbscan/cython/setup.py build_ext --inplace
 ```bash
 python pyproct/clustering/algorithms/spectral/cython/setup.py build_ext --inplace
 ```
+### METRICTS
+```bash
+python pyproct/clustering/evaluation/metrics/cython/setup.py build_ext --inplace
+```
 Verify:
 
 ```bash
 python -c "import pyproct.clustering.algorithms.dbscan.cython.cythonDbscanTools"
 python -c "import pyproct.clustering.algorithms.spectral.cython.spectralTools"
+python -c "import pyproct.clustering.evaluation.metrics.cython.cohesion"
+python -c "import pyproct.clustering.evaluation.metrics.cython.silhouette"
 ```
 ### Install the pyProCT and ProDy dependencies
 ```bash
