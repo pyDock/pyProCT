@@ -39,15 +39,6 @@ class MPIDriver(Driver):
                                                                             self.workspaceHandler,
                                                                             Driver.timer,
                                                                             self.generatedFiles)
-                # === DEBUG: distance matrix stats ===
-                dm = self.matrix_handler.distance_matrix
-                import numpy as np
-                data = dm.get_data()
-                print("[DEBUG][DM] min =", np.min(data),
-                "median =", np.median(data),
-                "p95 =", np.percentile(data, 95),
-                "max =", np.max(data))
-
                 self.comm.Barrier()
                 
                 if "clustering" in parameters:

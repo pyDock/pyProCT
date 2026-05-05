@@ -34,14 +34,6 @@ class Driver(Observable):
                                                                         Driver.timer,
                                                                         self.generatedFiles)
 
-                # === DEBUG: distance matrix stats ===
-                dm = self.matrix_handler.distance_matrix
-                import numpy as np
-                data = dm.get_data()
-                print("[DEBUG][DM] min =", np.min(data),
-                "median =", np.median(data),
-                "p95 =", np.percentile(data, 95),
-                "max =", np.max(data))
                 if "clustering" in parameters:
                     clustering_results = self.clustering_section(parameters)
                     self.postprocess(parameters, clustering_results)
@@ -60,7 +52,8 @@ class Driver(Observable):
 
     def save_parameters_file(self, parameters):
         parameters_file_path = os.path.join(self.workspaceHandler["results"], "parameters.json")
-        open(parameters_file_path, "w").write(str(parameters))
+        with open(parameters_file_path, "w") as handler:
+            handler.write(str(parameters))
         self.generatedFiles = [{"description":"Parameters file",
                                 "path":os.path.abspath(parameters_file_path),
                                 "type":"text"}]
@@ -135,7 +128,8 @@ class Driver(Observable):
                                                             self.generatedFiles)
 
         # Results are first added and saved later to avoid metareferences :D
-        open(results_path, "w").write(json_results)
+        with open(results_path, "w") as handler:
+            handler.write(json_results)
 
     def show_summary(self, parameters, clustering_results):
         """

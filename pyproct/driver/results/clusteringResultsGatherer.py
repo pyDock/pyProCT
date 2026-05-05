@@ -34,7 +34,11 @@ def sort_clustering_results(c_results):
                 return a[1]["parameters"]["k"] - b[1]["parameters"]["k"]
             return 0
         else:
-            return cmp(a[1]["type"], b[1]["type"])
+            if a[1]["type"] > b[1]["type"]:
+                return 1
+            elif a[1]["type"] < b[1]["type"]:
+                return -1
+            return 0
     return sorted([(cid, c_results[cid]) for cid in c_results] , key=cmp_to_key(compare_func))
 
 class ClusteringResultsGatherer(object):

@@ -1,7 +1,3 @@
-import importlib
-import traceback
-
-
 class WorkerError:
     """Wrapper for an error raised inside a worker."""
     def __init__(self, message, trace):
@@ -14,22 +10,17 @@ class WorkerError:
 
 class Task:
     """
-    Generic serializable task used by the new scheduler.
-    Stores module, class and method names so workers can import dynamically.
+    Generic task compatible with the original pyscheduler Task contract.
     """
 
-    def __init__(self, module_name, class_name, method_name, args=None, kwargs=None, task_info=None):
-        self.module_name = module_name
-        self.class_name = class_name
-        self.method_name = method_name
-        self.args = args or []
+    def __init__(self, name, description, function, kwargs=None):
+        self.name = name
+        self.description = description
+        self.function = function
         self.kwargs = kwargs or {}
-        self.task_info = task_info or {}
+        self.result = None
 
     def run(self):
-        """Executed inside workers."""
-        module = importlib.import_module(self.module_name)
-        cls = getattr(module, self.class_name)
-        method = getattr(cls, self.method_name)
-        return method(*self.args, **self.kwargs)
-
+        """Executes the task target function."""
+        self.result = self.function(**self.kwargs)
+        return self.result

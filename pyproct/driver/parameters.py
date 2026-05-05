@@ -4,7 +4,7 @@ Created on 04/06/2012
 @author: victor
 """
 import json
-from pyproct.tools.commonTools import get_parameter_value #convert_to_utf8
+from pyproct.tools.commonTools import convert_to_utf8, get_parameter_value
 
 class ProtocolParameters():
     """
@@ -41,7 +41,7 @@ class ProtocolParameters():
 
     @classmethod
     def get_params_from_json(cls, json_string):
-        return ProtocolParameters(json.loads(json_string))
+        return ProtocolParameters(convert_to_utf8(json.loads(json_string)))
 
     @classmethod
     def get_default_params(cls, source):
@@ -65,7 +65,6 @@ class ProtocolParameters():
             else:
                 new_dic[k] = proParam[k]
         return new_dic
-
 
 
 
