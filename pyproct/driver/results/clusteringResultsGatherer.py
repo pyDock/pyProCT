@@ -4,6 +4,7 @@ Created on 29/04/2013
 @author: victor
 """
 import json
+import numpy
 from pyproct.clustering.cluster import Cluster
 from pyproct.clustering.clustering import Clustering
 from functools import cmp_to_key
@@ -25,6 +26,12 @@ class SerializerRegistry(object):
             return dct
 
     def default(self, obj):
+        if isinstance(obj, numpy.integer):
+            return int(obj)
+        if isinstance(obj, numpy.floating):
+            return float(obj)
+        if isinstance(obj, numpy.ndarray):
+            return obj.tolist()
         return obj.to_dic()
 
 def sort_clustering_results(c_results):

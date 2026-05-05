@@ -3,9 +3,9 @@ Created on 27/05/2013
 
 @author: victor
 """
-#import pyproct.clustering.algorithms.dbscan.cython.cythonDbscanTools as dbscanTools
-#from pyproct.clustering.algorithms.dbscan.cython.cythonDbscanTools import k_scale_gen,\
-#    k_dist, zhou_adaptative_determination
+import pyproct.clustering.algorithms.dbscan.cython.cythonDbscanTools as dbscanTools
+from pyproct.clustering.algorithms.dbscan.cython.cythonDbscanTools import k_scale_gen,\
+    k_dist, zhou_adaptative_determination
 import numpy
 import math
 
@@ -67,4 +67,3 @@ class ParametersGenerator(object):
             run_parameters.append(run_parameter)
 
         return run_parameters, []
-
