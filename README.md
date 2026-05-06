@@ -69,15 +69,8 @@ conda env create -f environment-pyproct.yml
 conda activate pyproct
 ```
 
-Compile the Cython extensions:
-
-```bash
-python pyproct/clustering/algorithms/dbscan/cython/setup.py build_ext --inplace
-python pyproct/clustering/algorithms/spectral/cython/setup.py build_ext --inplace
-python pyproct/clustering/evaluation/metrics/cython/setup.py build_ext --inplace
-```
-
-Install pyProCT in editable mode and run the test suite:
+Install pyProCT in editable mode and run the test suite. The editable install
+builds the DBSCAN, spectral and metric Cython extensions.
 
 ```bash
 python -m pip install -e .
@@ -105,15 +98,8 @@ conda env create -f environment-pydock4-pyproct.yml
 conda activate pydock4-pyproct
 ```
 
-Compile the Cython extensions:
-
-```bash
-python pyproct/clustering/algorithms/dbscan/cython/setup.py build_ext --inplace
-python pyproct/clustering/algorithms/spectral/cython/setup.py build_ext --inplace
-python pyproct/clustering/evaluation/metrics/cython/setup.py build_ext --inplace
-```
-
-Install pyProCT in editable mode and run the test suite:
+Install pyProCT in editable mode and run the test suite. The editable install
+builds the DBSCAN, spectral and metric Cython extensions.
 
 ```bash
 python -m pip install -e .

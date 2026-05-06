@@ -5,13 +5,68 @@ Created on 25/02/2013
 """
 
 if __name__ == '__main__': # Compatibility with sphynx
-    from distutils.core import setup, Extension
+    from setuptools import setup, Extension
+    from Cython.Build import cythonize
     import numpy
     import distutils.sysconfig
     import os
 
     def read(fname):
         return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+    include_dirs = [numpy.get_include(),
+                    distutils.sysconfig.get_python_inc()]
+
+    cython_extensions = [
+        Extension(
+            'pyproct.clustering.algorithms.dbscan.cython.cythonDbscanTools',
+            ['pyproct/clustering/algorithms/dbscan/cython/cythonDbscanTools.pyx'],
+            include_dirs=include_dirs,
+            extra_compile_args=["-O3", "-ffast-math"]
+        ),
+        Extension(
+            'pyproct.clustering.algorithms.spectral.cython.spectralTools',
+            ['pyproct/clustering/algorithms/spectral/cython/spectralTools.pyx'],
+            include_dirs=include_dirs,
+            extra_compile_args=["-O3", "-ffast-math"]
+        ),
+        Extension(
+            'pyproct.clustering.evaluation.metrics.cython.cohesion',
+            ['pyproct/clustering/evaluation/metrics/cython/cohesion.pyx'],
+            include_dirs=include_dirs,
+            extra_compile_args=["-O3", "-ffast-math"]
+        ),
+        Extension(
+            'pyproct.clustering.evaluation.metrics.cython.silhouette',
+            ['pyproct/clustering/evaluation/metrics/cython/silhouette.pyx'],
+            include_dirs=include_dirs,
+            extra_compile_args=["-O3", "-ffast-math"]
+        ),
+        Extension(
+            'pyproct.clustering.evaluation.metrics.cython.graph.tools',
+            ['pyproct/clustering/evaluation/metrics/cython/graph/tools.pyx'],
+            include_dirs=include_dirs,
+            extra_compile_args=["-O3", "-ffast-math"]
+        ),
+        Extension(
+            'pyproct.clustering.evaluation.metrics.cython.graph.ratioCut',
+            ['pyproct/clustering/evaluation/metrics/cython/graph/ratioCut.pyx'],
+            include_dirs=include_dirs,
+            extra_compile_args=["-O3", "-ffast-math"]
+        ),
+        Extension(
+            'pyproct.clustering.evaluation.metrics.cython.graph.minMaxCut',
+            ['pyproct/clustering/evaluation/metrics/cython/graph/minMaxCut.pyx'],
+            include_dirs=include_dirs,
+            extra_compile_args=["-O3", "-ffast-math"]
+        ),
+        Extension(
+            'pyproct.clustering.evaluation.metrics.cython.graph.nCut',
+            ['pyproct/clustering/evaluation/metrics/cython/graph/nCut.pyx'],
+            include_dirs=include_dirs,
+            extra_compile_args=["-O3", "-ffast-math"]
+        )
+    ]
 
     setup(
           name='pyProCT',
@@ -69,39 +124,9 @@ if __name__ == '__main__': # Compatibility with sphynx
                     
           ],
 
-          include_dirs = [numpy.get_include(),
-                          distutils.sysconfig.get_python_inc()],
-         # ext_modules=[
-         #              # Graph metrics
-         #              Extension('pyproct.clustering.evaluation.metrics.cython.graph.nCut',[
-         #                           'pyproct/clustering/evaluation/metrics/cython/graph/nCut.c'
-         #              ], extra_compile_args=["-O3","-ffast-math"]),
-         #              Extension('pyproct.clustering.evaluation.metrics.cython.graph.ratioCut',[
-         #                           'pyproct/clustering/evaluation/metrics/cython/graph/ratioCut.c'
-         #              ], extra_compile_args=["-O3","-ffast-math"]),
-         #              Extension('pyproct.clustering.evaluation.metrics.cython.graph.minMaxCut',[
-         #                           'pyproct/clustering/evaluation/metrics/cython/graph/minMaxCut.c'
-         #              ], extra_compile_args=["-O3","-ffast-math"]),
-         #              Extension('pyproct.clustering.evaluation.metrics.cython.graph.tools',[
-         #                           'pyproct/clustering/evaluation/metrics/cython/graph/tools.c'
-         #              ], extra_compile_args=["-O3","-ffast-math"]),
-         #              
-         #              # Other metrics
-         #              Extension('pyproct.clustering.evaluation.metrics.cython.cohesion', [
-         #                           'pyproct/clustering/evaluation/metrics/cython/cohesion.c'
-         #              ], extra_compile_args=["-O3","-ffast-math"]),
-         #              Extension('pyproct.clustering.evaluation.metrics.cython.silhouette',[
-         #                           'pyproct/clustering/evaluation/metrics/cython/silhouette.c'
-         #              ], extra_compile_args=["-O3","-ffast-math"]),
-         #              
-         #              # Algorithm tools
-         #              Extension("pyproct.clustering.algorithms.dbscan.cython.cythonDbscanTools", [
-         #                           'pyproct/clustering/algorithms/dbscan/cython/cythonDbscanTools.c'
-         #              ],extra_compile_args=["-O3","-ffast-math"]),
-         #              Extension("pyproct.clustering.algorithms.spectral.cython.spectralTools", [
-         #                           'pyproct/clustering/algorithms/spectral/cython/spectralTools.c'
-         #              ],extra_compile_args=["-O3","-ffast-math"])
-         # ],
+          include_dirs = include_dirs,
+          ext_modules=cythonize(cython_extensions,
+                                compiler_directives={"language_level": "3"}),
 
           install_requires=[
             #"pyRMSD>=4.0.0",
