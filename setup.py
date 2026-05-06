@@ -76,7 +76,8 @@ if __name__ == '__main__': # Compatibility with sphynx
           author_email='victor.gil.sepulveda@gmail.com',
           url='https://github.com/victor-gil-sepulveda/pyProCT',
           license = 'LICENSE.txt',
-          long_description = read('README.rst'),
+          long_description = read('README.md'),
+          long_description_content_type='text/markdown',
           packages=[
                     'pyRMSD',
                     'pyproct',

@@ -74,8 +74,7 @@ builds the DBSCAN, spectral and metric Cython extensions.
 
 ```bash
 python -m pip install -e .
-PYTHONNOUSERSITE=1 MPLCONFIGDIR=/tmp/pyproct_mpl_check \
-  python -m unittest discover pyproct -p 'Test*.py'
+python -m unittest discover pyproct -p 'Test*.py'
 ```
 
 `PYTHONNOUSERSITE=1` is also defined in the YAML to avoid importing packages
@@ -103,8 +102,7 @@ builds the DBSCAN, spectral and metric Cython extensions.
 
 ```bash
 python -m pip install -e .
-PYTHONNOUSERSITE=1 MPLCONFIGDIR=/tmp/pyproct_mpl_check \
-  python -m unittest discover pyproct -p 'Test*.py'
+python -m unittest discover pyproct -p 'Test*.py'
 ```
 
 The combined environment keeps these PyDock4 pins:
