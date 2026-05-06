@@ -1,0 +1,32 @@
+name: pydock4-pyproct
+channels:
+  - conda-forge
+dependencies:
+  # PyDock4 base pins, validated with pyProCT.
+  - python=3.10.20
+  - numpy=1.23.5
+  - scipy=1.15.2
+  - pandas=1.5.3
+  - biopython=1.85
+  - cython=3.1.2
+  - pytest=7.4.4
+  - setuptools=59.8.0
+  - fortran-compiler=1.11.0
+  - pip=26.1.1
+  - wheel=0.47.0
+
+  # pyProCT additions.
+  # Keep fastcluster below 1.3.0 while PyDock4 pins numpy=1.23.5;
+  # conda-forge fastcluster 1.3.0 is packaged for NumPy 2.
+  - fastcluster=1.2.6
+  - prody=2.6.1
+  - scikit-learn=1.7.2
+  - pillow=12.2.0
+  - matplotlib=3.10.9
+  - mpi4py=4.1.1
+  - seaborn=0.13.2
+  - networkx=3.4
+
+variables:
+  PYTHONUSERBASE: intentionally-disabled
+  PYTHONNOUSERSITE: "1"

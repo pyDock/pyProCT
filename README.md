@@ -51,52 +51,102 @@ The goal of this fork is **functionality and reproducibility**, not feature expa
 
 ## 3. Installation (Python 3)
 
-### Requirements
-
-* Python ≥ 3.9
-* NumPy
-* SciPy
-* Cython
-* matplotlib (optional, for plots)
-
-```bash
-conda create -n pyproct python=3.10
-conda activate pyproct
-pip install psutil numpy pandas scipy cython matplotlib ProDy ipython pyyaml nbconvert plotly scikit-learn fastcluster mpi4py
-```
-
-Clone the repository:
+Clone the repository first:
 
 ```bash
 git clone https://github.com/pyDock/pyProCT.git
 cd pyProCT
 ```
 
-### Compile Cython extensions
-### DBSCAN
-```bash
-python pyproct/clustering/algorithms/dbscan/cython/setup.py build_ext --inplace
-```
-### Spectral
-```bash
-python pyproct/clustering/algorithms/spectral/cython/setup.py build_ext --inplace
-```
-### METRICTS
-```bash
-python pyproct/clustering/evaluation/metrics/cython/setup.py build_ext --inplace
-```
-Verify:
+### Installing pyProCT only
+
+This environment targets pyProCT alone. It pins the packages validated in the
+standalone Python 3 migration environment; some scientific packages are
+installed from PyPI wheels to reproduce those exact versions.
 
 ```bash
-python -c "import pyproct.clustering.algorithms.dbscan.cython.cythonDbscanTools"
-python -c "import pyproct.clustering.algorithms.spectral.cython.spectralTools"
-python -c "import pyproct.clustering.evaluation.metrics.cython.cohesion"
-python -c "import pyproct.clustering.evaluation.metrics.cython.silhouette"
+conda env create -f environment-pyproct.yml
+conda activate pyproct
 ```
-### Install the pyProCT and ProDy dependencies
+
+Compile the Cython extensions:
+
 ```bash
-pip install -e .
+python pyproct/clustering/algorithms/dbscan/cython/setup.py build_ext --inplace
+python pyproct/clustering/algorithms/spectral/cython/setup.py build_ext --inplace
+python pyproct/clustering/evaluation/metrics/cython/setup.py build_ext --inplace
 ```
+
+Install pyProCT in editable mode and run the test suite:
+
+```bash
+python -m pip install -e .
+PYTHONNOUSERSITE=1 MPLCONFIGDIR=/tmp/pyproct_mpl_check \
+  python -m unittest discover pyproct -p 'Test*.py'
+```
+
+`PYTHONNOUSERSITE=1` is also defined in the YAML to avoid importing packages
+from `~/.local`.
+
+Expected result:
+
+```text
+Ran 232 tests
+OK (skipped=32)
+```
+
+### Installing the combined PyDock4 + pyProCT environment
+
+This environment preserves the PyDock4 scientific pins while adding the
+dependencies needed by pyProCT.
+
+```bash
+conda env create -f environment-pydock4-pyproct.yml
+conda activate pydock4-pyproct
+```
+
+Compile the Cython extensions:
+
+```bash
+python pyproct/clustering/algorithms/dbscan/cython/setup.py build_ext --inplace
+python pyproct/clustering/algorithms/spectral/cython/setup.py build_ext --inplace
+python pyproct/clustering/evaluation/metrics/cython/setup.py build_ext --inplace
+```
+
+Install pyProCT in editable mode and run the test suite:
+
+```bash
+python -m pip install -e .
+PYTHONNOUSERSITE=1 MPLCONFIGDIR=/tmp/pyproct_mpl_check \
+  python -m unittest discover pyproct -p 'Test*.py'
+```
+
+The combined environment keeps these PyDock4 pins:
+
+```text
+numpy=1.23.5
+scipy=1.15.2
+pandas=1.5.3
+biopython=1.85
+cython=3.1.2
+setuptools=59.8.0
+```
+
+`fastcluster=1.2.6` is pinned intentionally to avoid NumPy 2 builds that are
+incompatible with the PyDock4 `numpy=1.23.5` pin. The combined environment was
+validated with the pyProCT test suite and `validation/bidimensional`.
+
+Expected result:
+
+```text
+Ran 232 tests
+OK (skipped=32)
+```
+
+Run `validation/bidimensional` only from a temporary copy, not from the original
+`validation` folder. See [`docs/PYTHON3_MIGRATION.md`](docs/PYTHON3_MIGRATION.md)
+for the full validation workflow and baseline values.
+
 ---
 
 ## 4. Quick start
