@@ -1,7 +1,12 @@
 *.pyc
-build
+*.pyo
+__pycache__/
+build/
+dist/
+*.egg-info/
+.eggs/
 .project
 .pydevproject
 *.so
 *~
-docs/
+docs/_build/
