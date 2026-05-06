@@ -12,11 +12,8 @@ from numpy.linalg import norm
 import numpy
 
 import matplotlib.pyplot as plt
-try:
-    import seaborn as sns
-    sns.set_style("whitegrid")
-except ImportError:
-    pass
+# seaborn only affects plot styling. Keep it out of module import time so plugin
+# discovery and numerical postprocessing do not depend on optional plotting extras.
 
 class ConfSpaceOverlapPostAction(object):
     KEYWORD = "conformational_space_overlap"
@@ -138,5 +135,4 @@ def JSD(P, Q):
     _Q = Q / norm(Q, ord=1)
     _M = 0.5 * (_P + _Q)
     return math.sqrt(0.5 * (entropy(_P, _M) + entropy(_Q, _M)))
-
 

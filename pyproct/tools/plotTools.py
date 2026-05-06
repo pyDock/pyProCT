@@ -9,8 +9,20 @@ import PIL.ImageDraw as ImageDraw
 import matplotlib.pyplot as plt
 import pylab
 import PIL.ImageFont as ImageFont
-#from pyproct.data.matrix.condensedMatrix import CondensedMatrix
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 import math
+
+def _load_font(font_path, size):
+    try:
+        return ImageFont.truetype(font_path, size)
+    except OSError:
+        return ImageFont.load_default()
+
+def _text_size(draw, text, font=None):
+    if hasattr(draw, "textbbox"):
+        bbox = draw.textbbox((0, 0), text, font=font)
+        return bbox[2] - bbox[0], bbox[3] - bbox[1]
+    return draw.textsize(text, font=font)
 
 def shrink_matrix(this_matrix, to_have_this_size):
     """
@@ -34,7 +46,7 @@ def shrink_matrix(this_matrix, to_have_this_size):
     print("* Producing reduced matrix image (from %d pixels to %d pixels)."%(row_dim, to_have_this_size))
     print("* Box_size: %d pixels"%box_size)
 
-    tmp_condensed = CondensedMatrix(numpy.zeros(int((number_of_boxes*(number_of_boxes-1))/2.), dtype=numpy.float))
+    tmp_condensed = CondensedMatrix(numpy.zeros(int((number_of_boxes*(number_of_boxes-1))/2.), dtype=float))
 
     for k in range(0, max_dim, box_size):
         for l in range(0, max_dim, box_size):
@@ -73,7 +85,7 @@ def matrixToImage(condensed_distance_matrix, matrix_image_file, max_dim = 1000, 
     else:
         matrix = condensed_distance_matrix
 
-    complete = numpy.zeros([ matrix.row_length]*2, dtype=numpy.float)
+    complete = numpy.zeros([ matrix.row_length]*2, dtype=float)
 
     # fill diagonal if needed
     if diagonal_value != 0:
@@ -160,8 +172,8 @@ def barGraphCreation(A_sizes, B_sizes, cluster_sizes, types, total_size, colors,
             B_values[i] = cluster_sizes[i]*100./total_size
 
     x = numpy.array(list(range(len(A_values))))
-    ax.bar(left = x,width = 1.0, height = A_values, color = colors['A'])
-    ax.bar(left = x, width = 1.0, bottom = A_values, height = B_values, color = colors['B'])
+    ax.bar(x, A_values, width = 1.0, color = colors['A'])
+    ax.bar(x, B_values, width = 1.0, bottom = A_values, color = colors['B'])
     ax.set_ylabel('%')
 
     pylab.yticks(fontsize=8)
@@ -333,11 +345,13 @@ def writeTagPlusStringValue(canvas, position, string_tag, string_value):
     @param string_value: The string we want to write.
     """
     draw = ImageDraw.Draw(canvas)
-    width, height = draw.textsize(string_tag) #@UnusedVariable
+    tag_font = _load_font("/usr/share/fonts/truetype/msttcorefonts/georgiab.ttf", 11)
+    value_font = _load_font("/usr/share/fonts/truetype/msttcorefonts/cour.ttf", 11)
+    width, height = _text_size(draw, string_tag, tag_font) #@UnusedVariable
     tag_position = position
     value_position  = (position[0]+width+10,position[1])
-    draw.text(tag_position, string_tag, fill = (50,50,50), font = ImageFont.truetype("/usr/share/fonts/truetype/msttcorefonts/georgiab.ttf", 11))
-    draw.text(value_position, string_value, fill = (0,0,0), font = ImageFont.truetype("/usr/share/fonts/truetype/msttcorefonts/cour.ttf", 11))
+    draw.text(tag_position, string_tag, fill = (50,50,50), font = tag_font)
+    draw.text(value_position, string_value, fill = (0,0,0), font = value_font)
 
 def plotDataCards(image, size, number_of_cards, max_radius, h_ball_separation, v_ball_separation, data, key_exceptions):
     """
@@ -371,7 +385,7 @@ def plotDataCards(image, size, number_of_cards, max_radius, h_ball_separation, v
                         desc = datum[0]
                         value = datum[1][k]
                         text_to_draw = desc+" %.3f"%value
-                        width, height = draw.textsize(text_to_draw) #@UnusedVariable
+                        width, height = _text_size(draw, text_to_draw) #@UnusedVariable
                         offset += height + 3
                         position = (j*(max_radius+h_ball_separation), i*(max_radius+v_ball_separation)+max_radius+offset)
                         writeTagPlusValue(image, position, desc, value)
@@ -424,7 +438,7 @@ def plotSummaryTable(size, clustering_statistics_dic, per_cluster_statistics, to
     for l in lines:
         position = (initial_pos[0],initial_pos[1]+offset)
         writeTagPlusStringValue(canvas, position, l[0], l[1])
-        offset += draw.textsize(l[1])[1]+5
+        offset += _text_size(draw, l[1])[1]+5
     return canvas
 
 def fig2data (fig):
@@ -440,8 +454,8 @@ def fig2data (fig):
 
     # Get the RGBA buffer from the figure
     w,h = fig.canvas.get_width_height()
-    buf = numpy.fromstring ( fig.canvas.tostring_argb(), dtype=numpy.uint8 )
-    buf.shape = ( w, h, 4 )
+    buf = numpy.frombuffer ( fig.canvas.tostring_argb(), dtype=numpy.uint8 )
+    buf.shape = ( h, w, 4 )
 
     # canvas.tostring_argb give pixmap in ARGB mode. Roll the ALPHA channel to have it in RGBA mode
     buf = numpy.roll ( buf, 3, axis = 2 )
@@ -457,8 +471,8 @@ def fig2img (fig):
     """
     # put the figure pixmap into a numpy array
     buf = fig2data ( fig )
-    w, h, d = buf.shape #@UnusedVariable
-    return Image.fromstring( "RGBA", ( w ,h ), buf.tostring( ) )
+    height, width, depth = buf.shape #@UnusedVariable
+    return Image.frombytes( "RGBA", ( width ,height ), buf.tobytes( ) )
 
 def normalize(mylist, max_value):
     """
@@ -532,4 +546,3 @@ def shorten_name(name, max_length = 10):
         return  "..."+name[-max_length:]
     else:
         return name
-

@@ -3,14 +3,26 @@ Created on 16/05/2012
 
 @author: victor
 """
-from pygraph.classes.digraph import digraph #@UnresolvedImport
-from pygraph.readwrite.dot import write #@UnresolvedImport
+try:
+    from pygraph.classes.digraph import digraph #@UnresolvedImport
+    from pygraph.readwrite.dot import write #@UnresolvedImport
+    _PYGRAPH_IMPORT_ERROR = None
+except ImportError as import_error:
+    digraph = None
+    write = None
+    _PYGRAPH_IMPORT_ERROR = import_error
 import pyproct.clustering.cluster as clusTools
 import pyproct.tools.commonTools as common
 import os
 from pyproct.clustering.cluster import Cluster
 from pyproct.tools.distributionTools import get_distance_std_dev_for_elems
 from pyproct.clustering.clustering import Clustering
+
+def _require_pygraph():
+    if digraph is None or write is None:
+        raise ImportError(
+            "State graph plotting requires the optional 'pygraph' package."
+        ) from _PYGRAPH_IMPORT_ERROR
 
 def gen_color(num_elems,max_elems):
     """
@@ -79,6 +91,7 @@ def add_graph_edges(graph,labels,clustering,prob_matrix):
 def do_graph(clustering,num_elems_of_traj_2,std_deviations,filename):
     """
     """
+    _require_pygraph()
     graph = digraph()
     labels = populate_nodes_with_labels(clustering, num_elems_of_traj_2,std_deviations, graph)
     prob_matrix = calculate_probability_matrix(clustering)

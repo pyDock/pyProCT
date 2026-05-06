@@ -3,9 +3,14 @@ Created on 13/12/2012
 
 @author: victor
 """
+import os
+import tempfile
+os.environ.setdefault("MPLBACKEND", "Agg")
+os.environ.setdefault("MPLCONFIGDIR", tempfile.mkdtemp(prefix="pyproct_mpl_"))
 import unittest
 import numpy
 import pyproct.tools.plotTools
+from pyproct.data.matrix.condensedMatrix import CondensedMatrix
 
 class Test(unittest.TestCase):
 
@@ -31,6 +36,24 @@ class Test(unittest.TestCase):
         text = "En un lugar de la mancha de cuyo nombre no quiero acordarme"
         self.assertEqual(pyproct.tools.plotTools.shorten_name(text, max_length = 5), "...darme")
         self.assertEqual(pyproct.tools.plotTools.shorten_name(text), "... acordarme")
+
+    def test_matrix_to_image_creates_file(self):
+        matrix = CondensedMatrix(numpy.array([1., 2., 3.]))
+        with tempfile.TemporaryDirectory(prefix="pyproct_plot_") as tmpdir:
+            output_path = os.path.join(tmpdir, "matrix.png")
+            pyproct.tools.plotTools.matrixToImage(matrix, output_path)
+            self.assertTrue(os.path.exists(output_path))
+            self.assertGreater(os.path.getsize(output_path), 0)
+
+    def test_pie_chart_creation_returns_image(self):
+        image = pyproct.tools.plotTools.pieChartCreation(
+            (240, 160),
+            [1, 2, 3],
+            "Trajectory A",
+            "Trajectory B",
+            {"A": "#ff0000", "B": "#00ff00", "M": "#0000ff"}
+        )
+        self.assertEqual(image.size, (200, 100))
         
     @unittest.skip("TODO legacy test; plot matrix shrinking has no assertion yet.")
     def test_shrink_matrix(self):

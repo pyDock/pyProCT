@@ -5,6 +5,18 @@ Created on 16/05/2012
 """
 import unittest
 
+class TestStateGraphToolsImport(unittest.TestCase):
+
+    def test_import_and_non_graph_helper(self):
+        from pyproct.tools import stateGraphTools
+        self.assertEqual(stateGraphTools.gen_color(5, 10), "0.000 0.500 1.000")
+
+    def test_missing_pygraph_error_is_explicit(self):
+        from pyproct.tools import stateGraphTools
+        if stateGraphTools.digraph is None:
+            with self.assertRaisesRegex(ImportError, "pygraph"):
+                stateGraphTools._require_pygraph()
+
 
 @unittest.skip("State graph tests are legacy TODO placeholders.")
 class Test(unittest.TestCase):

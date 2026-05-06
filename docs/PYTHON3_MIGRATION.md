@@ -228,6 +228,16 @@ Compiled extension modules (`*.so`) are required at runtime in this local setup,
 but regenerated C sources should be kept out of ordinary migration commits
 unless a dedicated Cython build/update block is being performed.
 
+## Optional Plotting Dependencies
+
+Plotting and report-generation helpers may require `matplotlib`, `Pillow`, and
+Graphviz-related tooling for specific image outputs. The legacy state graph
+helper also depends on the optional `pygraph` package; if it is missing, only
+state graph rendering is unavailable. `seaborn` is treated as optional and only
+affects plot styling; it is not imported during plugin discovery.
+
+Scientific validation does not depend on pixel-by-pixel image comparisons.
+
 ## Residual Risks
 
 - The `pyRMSD` compatibility layer is intentionally minimal.
