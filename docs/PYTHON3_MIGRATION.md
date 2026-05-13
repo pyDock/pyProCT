@@ -214,20 +214,6 @@ extension. RMSD fitting and condensed matrix behavior have been validated on
 small deterministic cases, but advanced symmetry and accelerator-specific
 behavior remain residual risks.
 
-## Generated Artifacts
-
-Do not include generated artifacts in migration commits:
-
-- `pyProCT.egg-info/*`
-- generated Cython `.c` files
-- `.pyc`
-- `__pycache__`
-- validation outputs under temporary workspaces
-
-Compiled extension modules (`*.so`) are required at runtime in this local setup,
-but regenerated C sources should be kept out of ordinary migration commits
-unless a dedicated Cython build/update block is being performed.
-
 ## Optional Plotting Dependencies
 
 Plotting and report-generation helpers may require `matplotlib`, `Pillow`, and
